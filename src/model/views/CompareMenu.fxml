@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.CompareMenuController">
+   <children>
+      <VBox prefHeight="500.0" prefWidth="800.0">
+         <children>
+            <GridPane prefHeight="110.0" prefWidth="800.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-bold" text="Compare" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                     <font>
+                         <Font name="Ubuntu" size="40.0" />
+                     </font>
+                  </Text>
+                   <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="←" translateX="15.0" translateY="15.0" GridPane.valignment="TOP" />
+                   <Button fx:id="continueBtn" mnemonicParsing="false" onAction="#continueBtnPressed" prefHeight="40.0" prefWidth="120.0" text="Continue →" translateX="-15.0" translateY="15.0" translateZ="5.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP" />
+               </children>
+            </GridPane>
+            <GridPane prefHeight="395.0" prefWidth="763.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="394.0" minWidth="10.0" prefWidth="387.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="413.0" minWidth="10.0" prefWidth="413.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="355.0" minHeight="10.0" prefHeight="34.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="355.0" minHeight="0.0" prefHeight="322.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ListView fx:id="recordingsList" maxHeight="273.0" maxWidth="274.0" minHeight="100.0" minWidth="100.0" prefWidth="274.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                  <Label text="Existing Recordings" GridPane.halignment="CENTER" />
+                  <Label text="Your Recording" translateY="80.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                  <StackPane prefHeight="150.0" prefWidth="200.0" translateX="-28.0" translateY="-20.0" GridPane.rowIndex="2">
+                     <children>
+                        <ProgressBar fx:id="existProgressBar" prefHeight="32.0" prefWidth="220.0" progress="0.0" />
+                        <Button fx:id="playExistingBtn" mnemonicParsing="false" onAction="#playExistingBtnPressed" prefHeight="32.0" prefWidth="220.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="sadFaceButton" mnemonicParsing="false" onMouseClicked="#sadFaceButtonClicked" text="★" translateX="144.0">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                           <contextMenu>
+                              <ContextMenu>
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#badRecordingsPressed" text="Audio Ratings" />
+                                </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </Button>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="56.0" prefWidth="364.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <ProgressBar fx:id="progressBar" prefHeight="56.0" prefWidth="329.0" progress="0.0" translateY="-20.0" />
+                        <Button fx:id="playPauseButton" mnemonicParsing="false" onMouseClicked="#playPauseButtonClicked" prefHeight="56.0" prefWidth="329.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍" translateY="-20.0">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </StackPane>
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
