@@ -11,91 +11,52 @@ public class SetUp {
     private static SetUp setUp;
 
     //Initialise controllers to allow for data to be passed between scenes
-    DatabaseMenuController dbMenuController;
-    DeleteMenuController deleteMenuController;
     PracticeMenuController practiceMenuController;
-    RecordMenuController recordMenuController;
     AudioRatingsController audioRatingsController;
-    NameDetailsController nameDetailsController;
     CompareMenuController compareMenuController;
-    CreateMenuController createMenuController;
-    RecordCreationMenuController recordCreationMenuController;
-
+    StartMenuController startMenuController;
 
     //Scenes to load the fxml files to
+    public Scene startMenu;
     Scene compareMenu;
-    Scene createMenu;
-    Scene databaseMenu;
-    Scene deleteMenu;
     Scene databaseSelectMenu;
     Scene practiceMenu;
-    Scene recordMenu;
-    public Scene startMenu;
     Scene instructionsMenu;
-    Scene badRecordingsMenu;
-    Scene nameDetailsMenu;
+    Scene audioRatingsMenu;
     Scene exitPracticeMenu;
-    Scene recordCreationMenu;
+    Scene trophiesMenu;
 
     private SetUp() throws IOException {
 
         //Load menus to be used throughout the program
-        //compareMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/CompareMenu.fxml")));
         compareMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/CompareMenu.fxml")));
-        //createMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/CreateMenu.fxml")));
-        createMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/CreateMenu.fxml")));
-        //databaseMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/DatabaseMenu.fxml")));
-        databaseMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/DatabaseMenu.fxml")));
-        //deleteMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/DeleteMenu.fxml")));
-        deleteMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/DeleteMenu.fxml")));
-        //databaseSelectMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/DatabaseSelectMenu.fxml")));
         databaseSelectMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/DatabaseSelectMenu.fxml")));
-        //practiceMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/PracticeMenu.fxml")));
         practiceMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/PracticeMenu.fxml")));
-        //recordMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/RecordMenu.fxml")));
-        recordMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/RecordMenu.fxml")));
-        //startMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/StartMenu.fxml")));
         startMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/StartMenu.fxml")));
-        //badRecordingsMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/AudioRatings.fxml")));
-        badRecordingsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/AudioRatings.fxml")));
-        //instructionsMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/InstructionsMenu.fxml")));
+        audioRatingsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/AudioRatings.fxml")));
         instructionsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/InstructionsMenu.fxml")));
-        //nameDetailsMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/NameDetailsMenu.fxml")));
-        nameDetailsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/NameDetailsMenu.fxml")));
-        //exitPracticeMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/ExitPracticeMenu.fxml")));
         exitPracticeMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/ExitPracticeMenu.fxml")));
-        //recordCreationMenu = new Scene(FXMLLoader.load(getClass().getResource("../views/RecordCreationMenu.fxml")));
-        recordCreationMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/RecordCreationMenu.fxml")));
+        trophiesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/TrophiesMenu.fxml")));
 
         //Load load menu
         startMenuLoader();
-        databaseMenuLoader();
-        deleteMenuLoader();
         mainMenuLoader();
         practiceMenuLoader();
-        recordMenuLoader();
         badRecordingsMenuLoader();
         instructionsMenuLoader();
-        nameDetailsMenuLoader();
         exitPracticeMenuLoader();
         compareMenuLoader();
-        createMenuLoader();
-        recordCreationMenuLoader();
+        trophiesMenuLoader();
 
         //Add Theme.css to all scenes
         compareMenu.getStylesheets().add("/model/resources/Theme.css");
-        createMenu.getStylesheets().add("/model/resources/Theme.css");
-        databaseMenu.getStylesheets().add("/model/resources/Theme.css");
-        deleteMenu.getStylesheets().add("/model/resources/Theme.css");
         databaseSelectMenu.getStylesheets().add("/model/resources/Theme.css");
         practiceMenu.getStylesheets().add("/model/resources/Theme.css");
-        recordMenu.getStylesheets().add("/model/resources/Theme.css");
         startMenu.getStylesheets().add("/model/resources/Theme.css");
-        badRecordingsMenu.getStylesheets().add("/model/resources/Theme.css");
+        audioRatingsMenu.getStylesheets().add("/model/resources/Theme.css");
         instructionsMenu.getStylesheets().add("/model/resources/Theme.css");
-        nameDetailsMenu.getStylesheets().add("/model/resources/Theme.css");
         exitPracticeMenu.getStylesheets().add("/model/resources/Theme.css");
-        recordCreationMenu.getStylesheets().add("/model/resources/Theme.css");
+        trophiesMenu.getStylesheets().add("/model/resources/Theme.css");
 
     }
 
@@ -113,14 +74,13 @@ public class SetUp {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/StartMenu.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/StartMenu.fxml"));
         startMenu = new Scene(loader.load());
-        StartMenuController startMenuController = loader.getController();
+        startMenuController = loader.getController();
     }
 
-    private void recordMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/RecordMenu.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/RecordMenu.fxml"));
-        recordMenu = new Scene(loader.load());
-        recordMenuController = loader.getController();
+    private void trophiesMenuLoader() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/TrophiesMenu.fxml"));
+        trophiesMenu = new Scene(loader.load());
+       TrophiesController trophiesController = loader.getController();
     }
 
     private void practiceMenuLoader() throws IOException {
@@ -137,24 +97,10 @@ public class SetUp {
         DatabaseSelectMenuController databaseSelectMenuController = loader.getController();
     }
 
-    private void deleteMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/DeleteMenu.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/DeleteMenu.fxml"));
-        deleteMenu = new Scene(loader.load());
-        deleteMenuController = loader.getController();
-    }
-
-    private void databaseMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/DatabaseMenu.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/DatabaseMenu.fxml"));
-        databaseMenu = new Scene(loader.load());
-        dbMenuController = loader.getController();
-    }
-
     private void badRecordingsMenuLoader() throws IOException {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AudioRatings.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/AudioRatings.fxml"));
-        badRecordingsMenu = new Scene(loader.load());
+        audioRatingsMenu = new Scene(loader.load());
         audioRatingsController = loader.getController();
     }
 
@@ -165,32 +111,11 @@ public class SetUp {
         InstructionsMenuController instructionsMenuController = loader.getController();
     }
 
-    private void nameDetailsMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/NameDetailsMenu.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/NameDetailsMenu.fxml"));
-        nameDetailsMenu = new Scene(loader.load());
-        nameDetailsController = loader.getController();
-    }
-
     private void exitPracticeMenuLoader() throws IOException {
         //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ExitPracticeMenu.fxml"));
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/ExitPracticeMenu.fxml"));
         exitPracticeMenu = new Scene(loader.load());
         ExitPracticeMenuController exitPracticeMenuController = loader.getController();
-    }
-
-    private void createMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/CreateMenu.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/CreateMenu.fxml"));
-        createMenu = new Scene(loader.load());
-        createMenuController = loader.getController();
-    }
-
-    private void recordCreationMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/RecordCreationMenu.fxml"));
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/RecordCreationMenu.fxml"));
-        recordCreationMenu = new Scene(loader.load());
-        recordCreationMenuController = loader.getController();
     }
 
     private void compareMenuLoader() throws IOException {
