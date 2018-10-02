@@ -47,6 +47,7 @@ public class StartMenuController {
 
     @FXML
     void ratingsButtonClicked(MouseEvent event) throws IOException {
+        SetUp.getInstance().audioRatingsController.setPreviousScene("startMenu");
         Scene scene = SetUp.getInstance().audioRatingsMenu;
         Stage window = (Stage) ratingsButton.getScene().getWindow();
         window.setScene(scene);

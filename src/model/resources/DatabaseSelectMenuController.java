@@ -48,7 +48,7 @@ public class DatabaseSelectMenuController {
         //dbPref.clear();
     }
 
-    public void namesBtnPressed() {
+    public void namesBtnPressed() throws IOException {
         DatabaseProcessor dbProcessor = new DatabaseProcessor(dbListView.getSelectionModel().getSelectedItem());
         dbProcessor.processDB();
         //TODO: add progress bar for process db

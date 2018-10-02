@@ -75,7 +75,7 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Button>
-                                    <TextField maxWidth="638.0" minWidth="80.0" prefHeight="36.0" prefWidth="638.0" />
+                                    <TextField fx:id="textField" editable="false" maxWidth="638.0" minWidth="80.0" prefHeight="36.0" prefWidth="638.0" />
                                  </children>
                               </HBox>
                               <ListView fx:id="practiceNamesListView" maxWidth="685.0" prefHeight="337.0" prefWidth="685.0">
