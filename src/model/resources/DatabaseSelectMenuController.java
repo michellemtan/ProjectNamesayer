@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import model.DatabaseProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,7 +48,10 @@ public class DatabaseSelectMenuController {
         //dbPref.clear();
     }
 
-    public void namesBtnPressed() throws IOException {
+    public void namesBtnPressed() {
+        DatabaseProcessor dbProcessor = new DatabaseProcessor(dbListView.getSelectionModel().getSelectedItem());
+        dbProcessor.processDB();
+        //TODO: add progress bar for process db
         Scene scene = SetUp.getInstance().enterNamesMenu;
         Stage window = (Stage) namesBtn.getScene().getWindow();
         window.setScene(scene);
@@ -67,6 +71,7 @@ public class DatabaseSelectMenuController {
     }
 
     public void addBtnPressed() {
+        //Create directory chooser to select database and add to preferences
         DirectoryChooser dc = new DirectoryChooser();
         dc.setTitle("Choose database folder");
         Stage dcStage = new Stage();
