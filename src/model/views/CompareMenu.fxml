@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.CompareMenuController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.CompareMenuController">
    <children>
       <VBox prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -56,11 +56,6 @@
                   <StackPane prefHeight="150.0" prefWidth="200.0" translateX="-28.0" translateY="-20.0" GridPane.rowIndex="2">
                      <children>
                         <ProgressBar fx:id="existProgressBar" prefHeight="32.0" prefWidth="220.0" progress="0.0" />
-                        <Button fx:id="playExistingBtn" mnemonicParsing="false" onAction="#playExistingBtnPressed" prefHeight="32.0" prefWidth="220.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
                         <Button fx:id="sadFaceButton" mnemonicParsing="false" onMouseClicked="#sadFaceButtonClicked" text="★" translateX="144.0">
                            <font>
                               <Font size="17.0" />
@@ -73,9 +68,14 @@
                               </ContextMenu>
                            </contextMenu>
                         </Button>
+                        <Button fx:id="playExistingBtn" maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onAction="#playExistingBtnPressed" prefHeight="32.0" prefWidth="220.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="56.0" prefWidth="364.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <StackPane fx:id="twoReplayButton" onMouseClicked="#twoReplayButtonClicked" prefHeight="56.0" prefWidth="364.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <ProgressBar fx:id="progressBar" prefHeight="56.0" prefWidth="329.0" progress="0.0" translateY="-20.0" />
                         <Button fx:id="playPauseButton" mnemonicParsing="false" onMouseClicked="#playPauseButtonClicked" prefHeight="56.0" prefWidth="329.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍" translateY="-20.0">
@@ -83,6 +83,10 @@
                               <Font size="24.0" />
                            </font>
                         </Button>
+                        <Button fx:id="oneReplayButton" mnemonicParsing="false" onMouseClicked="#oneReplayButtonClicked" prefHeight="35.0" prefWidth="41.0" text="1x" translateX="20.0" translateY="150.0" />
+                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="41.0" text="2x" translateX="80.0" translateY="150.0" />
+                        <Button fx:id="threeReplayButton" mnemonicParsing="false" onMouseClicked="#threeReplayButtonClicked" prefHeight="35.0" prefWidth="41.0" text="3x" translateX="140.0" translateY="150.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Repeat:" translateX="-50.0" translateY="150.0" />
                      </children>
                   </StackPane>
                </children>

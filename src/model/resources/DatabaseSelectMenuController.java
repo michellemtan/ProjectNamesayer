@@ -51,10 +51,16 @@ public class DatabaseSelectMenuController {
     public void namesBtnPressed() {
         DatabaseProcessor dbProcessor = new DatabaseProcessor(dbListView.getSelectionModel().getSelectedItem());
         dbProcessor.processDB();
+        //TODO: add progress bar for process db
+        Scene scene = SetUp.getInstance().enterNamesMenu;
+        Stage window = (Stage) namesBtn.getScene().getWindow();
+        window.setScene(scene);
     }
 
-    public void loadBtnPressed() {
-        System.out.println("load");
+    public void loadBtnPressed() throws IOException {
+        Scene scene = SetUp.getInstance().loadFilesMenu;
+        Stage window = (Stage) loadBtn.getScene().getWindow();
+        window.setScene(scene);
     }
 
     @FXML
