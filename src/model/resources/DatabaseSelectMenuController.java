@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.DatabaseProcessor;
@@ -25,6 +27,7 @@ public class DatabaseSelectMenuController {
     private TaskService service = new TaskService();
     private Scene scene;
     private Stage window;
+    private Stage progressStage;
 
     public void initialize() {
         //Create list of keys and add to list view if valid
@@ -50,8 +53,24 @@ public class DatabaseSelectMenuController {
             }
         });
 
+        //Create progress bar for processing database
+        ProgressBar progressBar = new ProgressBar();
+        progressBar.progressProperty().bind(service.progressProperty());
+        progressBar.setPrefSize(200, 50);
+
+        //Create new stage for progress bar
+        progressStage = new Stage();
+        progressStage.setTitle("Processing Database");
+        Scene sceneP = new Scene(new StackPane(progressBar), 400, 150);
+        sceneP.getStylesheets().add("/model/resources/Theme.css");
+        progressStage.setScene(sceneP);
+        progressStage.setAlwaysOnTop(true);
+
+        //Set service to show progress bar while loading
+        service.setOnScheduled(e -> progressStage.show());
         //Set service to change scene upon completion
         service.setOnSucceeded(e -> {
+            progressStage.hide();
             window.setScene(scene);
         });
 
