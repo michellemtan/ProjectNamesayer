@@ -121,3 +121,8 @@
 .list-cell:selected{
     -fx-background-color: #009688;
 }
+
+.split-pane > .split-pane-divider {
+    -fx-padding: 0 1em 0 1em;
+
+}

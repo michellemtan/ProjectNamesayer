@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,6 +33,15 @@ public class LoadFilesController {
     private Button practiceButton;
 
     @FXML
+    private Button expandButton;
+
+    @FXML
+    private Button hideButton;
+
+    @FXML
+    SplitPane splitPane;
+
+    @FXML
     void addButtonClicked(MouseEvent event) {
 
     }
@@ -55,6 +65,16 @@ public class LoadFilesController {
     @FXML
     void searchButtonClicked(MouseEvent event) {
 
+    }
+
+    @FXML
+    void expandButtonClicked(MouseEvent event) {
+        splitPane.setDividerPositions(1);
+    }
+
+    @FXML
+    void hideButtonClicked(MouseEvent event) {
+        splitPane.setDividerPositions(0.005);
     }
 
 }

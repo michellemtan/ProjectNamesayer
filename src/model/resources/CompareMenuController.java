@@ -18,9 +18,6 @@ public class CompareMenuController {
     private Button backButton;
 
     @FXML
-    private Button continueBtn;
-
-    @FXML
     private ListView<?> recordingsList;
 
     @FXML
@@ -57,11 +54,6 @@ public class CompareMenuController {
 
     @FXML
     void badRecordingsPressed(ActionEvent event) {
-
-    }
-
-    @FXML
-    void continueBtnPressed(ActionEvent event) {
 
     }
 

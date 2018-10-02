@@ -35,7 +35,6 @@
                      </font>
                   </Text>
                    <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="←" translateX="15.0" translateY="15.0" GridPane.valignment="TOP" />
-                   <Button fx:id="continueBtn" mnemonicParsing="false" onAction="#continueBtnPressed" prefHeight="40.0" prefWidth="120.0" text="Continue →" translateX="-15.0" translateY="15.0" translateZ="5.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="TOP" />
                </children>
             </GridPane>
             <GridPane prefHeight="395.0" prefWidth="763.0">
