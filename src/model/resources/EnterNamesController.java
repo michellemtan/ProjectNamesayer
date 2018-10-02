@@ -36,14 +36,23 @@ public class EnterNamesController {
         collapsed.bind(splitPane.getDividers().get(0).positionProperty().isEqualTo(0.0, 0.01));
 
         expandButton.textProperty().bind(Bindings.when(collapsed).then("Expand ▶").otherwise("Collapse ◀"));
+        hideButton.textProperty().bind(Bindings.when(collapsed).then("Expand ▶").otherwise("Collapse ◀"));
 
         expandButton.setOnAction(e -> {
-            //System.out.println(splitPane.getDividers().get(0).positionProperty());
-            double target = collapsed.get() ? 0.5 : 0.0 ;
+            double target = collapsed.get() ? 1.0 : 0.0 ;
             KeyValue keyValue = new KeyValue(splitPane.getDividers().get(0).positionProperty(), target);
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), keyValue));
             timeline.play();
         });
+
+        hideButton.setOnAction(e -> {
+            double target = collapsed.get() ? 1.0 : 0.0 ;
+            KeyValue keyValue = new KeyValue(splitPane.getDividers().get(0).positionProperty(), target);
+            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), keyValue));
+            timeline.play();
+        });
+
+
     }
 
     @FXML
