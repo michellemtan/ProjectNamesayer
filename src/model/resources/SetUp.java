@@ -2,7 +2,7 @@ package model.resources;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import model.views.EnterNamesController;
+import model.resources.EnterNamesController;
 import model.views.LoadFilesController;
 
 import java.io.IOException;

@@ -89,5 +89,5 @@ public class DatabaseProcessor {
         } catch (IOException ignored) {
         }
     }
-    //ffmpeg -y -i path/to/in.wav -af silenceremove=1:0:-35dB path/to/out.wav for removing silence
+    //ffmpeg -y -i path/to/in.wav -af silenceremove=0:0:0:-1:0.5:-35dB path/to/out.wav for removing all silence
 }
