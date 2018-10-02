@@ -2,6 +2,8 @@ package model.resources;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import model.views.EnterNamesController;
+import model.views.LoadFilesController;
 
 import java.io.IOException;
 
@@ -19,16 +21,20 @@ public class SetUp {
     ExitPracticeMenuController exitPracticeMenuController;
     InstructionsMenuController instructionsMenuController;
     TrophiesController trophiesController;
+    LoadFilesController loadFilesController;
+    EnterNamesController enterNamesController;
 
     //Scenes to load the fxml files to
     public Scene startMenu;
-    Scene compareMenu;
-    Scene databaseSelectMenu;
-    Scene practiceMenu;
+    public Scene compareMenu;
+    public Scene databaseSelectMenu;
+    public Scene practiceMenu;
     Scene instructionsMenu;
     Scene audioRatingsMenu;
     Scene exitPracticeMenu;
     Scene trophiesMenu;
+    public Scene enterNamesMenu;
+    public Scene loadFilesMenu;
 
     private SetUp() throws IOException {
 
@@ -41,6 +47,8 @@ public class SetUp {
         instructionsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/InstructionsMenu.fxml")));
         exitPracticeMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/ExitPracticeMenu.fxml")));
         trophiesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/TrophiesMenu.fxml")));
+        enterNamesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml")));
+        loadFilesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/LoadFilesMenu.fxml")));
 
         //Load load menu
         startMenuLoader();
@@ -51,6 +59,8 @@ public class SetUp {
         exitPracticeMenuLoader();
         compareMenuLoader();
         trophiesMenuLoader();
+        enterNamesLoader();
+        loadFilesLoader();
 
         //Add Theme.css to all scenes
         compareMenu.getStylesheets().add("/model/resources/Theme.css");
@@ -61,7 +71,8 @@ public class SetUp {
         instructionsMenu.getStylesheets().add("/model/resources/Theme.css");
         exitPracticeMenu.getStylesheets().add("/model/resources/Theme.css");
         trophiesMenu.getStylesheets().add("/model/resources/Theme.css");
-
+        enterNamesMenu.getStylesheets().add("/model/resources/Theme.css");
+        loadFilesMenu.getStylesheets().add("/model/resources/Theme.css");
     }
 
     //Constructor implementing Singleton pattern to create one instance of SetUp class where different scenes are created
@@ -127,5 +138,17 @@ public class SetUp {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/CompareMenu.fxml"));
         compareMenu = new Scene(loader.load());
         compareMenuController = loader.getController();
+    }
+
+    private void loadFilesLoader() throws  IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/LoadFilesMenu.fxml"));
+        loadFilesMenu = new Scene(loader.load());
+        loadFilesController = loader.getController();
+    }
+
+    private void enterNamesLoader() throws  IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml"));
+        enterNamesMenu = new Scene(loader.load());
+        enterNamesController = loader.getController();
     }
 }

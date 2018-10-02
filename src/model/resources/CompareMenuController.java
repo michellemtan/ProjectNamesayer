@@ -2,10 +2,15 @@ package model.resources;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class CompareMenuController {
 
@@ -22,10 +27,13 @@ public class CompareMenuController {
     private ProgressBar existProgressBar;
 
     @FXML
+    private Button sadFaceButton;
+
+    @FXML
     private Button playExistingBtn;
 
     @FXML
-    private Button sadFaceButton;
+    private StackPane twoReplayButton;
 
     @FXML
     private ProgressBar progressBar;
@@ -34,7 +42,16 @@ public class CompareMenuController {
     private Button playPauseButton;
 
     @FXML
-    void backButtonClicked(MouseEvent event) {
+    private Button oneReplayButton;
+
+    @FXML
+    private Button threeReplayButton;
+
+    @FXML
+    void backButtonClicked(MouseEvent event) throws IOException {
+        Scene scene = SetUp.getInstance().practiceMenu;
+        Stage window = (Stage) backButton.getScene().getWindow();
+        window.setScene(scene);
 
     }
 
@@ -45,6 +62,11 @@ public class CompareMenuController {
 
     @FXML
     void continueBtnPressed(ActionEvent event) {
+
+    }
+
+    @FXML
+    void oneReplayButtonClicked(MouseEvent event) {
 
     }
 
@@ -60,6 +82,16 @@ public class CompareMenuController {
 
     @FXML
     void sadFaceButtonClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void threeReplayButtonClicked(MouseEvent event) {
+
+    }
+
+    @FXML
+    void twoReplayButtonClicked(MouseEvent event) {
 
     }
 

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.PracticeMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.PracticeMenuController">
    <left>
       <Region prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
    </left>
@@ -26,11 +26,10 @@
    <bottom>
        <ButtonBar prefHeight="70.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <buttons>
-             <Button fx:id="playPauseButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playButtonClicked" text="List  ▶ ▍▍" translateX="-230.0" />
-            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playSingleButtonClicked" text="Play  ►" translateX="-190.0" />
-            <Button fx:id="detailsButton" mnemonicParsing="false" onMouseClicked="#detailsButtonClicked" text="Details" translateX="-150.0" />
-            <Button fx:id="shuffleButton" mnemonicParsing="false" onMouseClicked="#shuffleButtonClicked" text="Shuffle" translateX="-110.0" />
-            <Button fx:id="recordButton" mnemonicParsing="false" onMouseClicked="#recordButtonClicked" text="Record" translateX="-70.0" />
+             <Button fx:id="playPauseButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playButtonClicked" text="List  ▶ ▍▍" translateX="-270.0" />
+            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playSingleButtonClicked" text="Play  ►" translateX="-230.0" />
+            <Button fx:id="shuffleButton" mnemonicParsing="false" onMouseClicked="#shuffleButtonClicked" text="Shuffle" translateX="-190.0" />
+            <Button fx:id="compareButton" mnemonicParsing="false" onMouseClicked="#compareButtonClicked" text="Compare" translateX="-150.0" />
          </buttons>
          <BorderPane.margin>
             <Insets />
@@ -64,14 +63,14 @@
                </font>
             </Label>
              <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="←" translateX="15.0" translateY="15.0" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-            <Button fx:id="sadFaceButton" mnemonicParsing="false" onMouseClicked="#sadFaceButtonClicked" text="★" translateX="70.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="ratingsButton" mnemonicParsing="false" onMouseClicked="#ratingsButtonClicked" text="★" translateX="70.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
                <contextMenu>
-                   <ContextMenu fx:id="sadContext">
+                   <ContextMenu fx:id="ratingsContext">
                     <items>
-                        <MenuItem fx:id="badRecordings" mnemonicParsing="false" onAction="#badRecordingsPressed" text="Audio Ratings" />
+                        <MenuItem fx:id="audioRecordings" mnemonicParsing="false" onAction="#audioRatingsPressed" text="Audio Ratings" />
                     </items>
                   </ContextMenu>
                </contextMenu>

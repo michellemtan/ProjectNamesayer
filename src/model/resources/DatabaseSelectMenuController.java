@@ -47,12 +47,16 @@ public class DatabaseSelectMenuController {
         //dbPref.clear();
     }
 
-    public void namesBtnPressed() {
-        System.out.println("names");
+    public void namesBtnPressed() throws IOException {
+        Scene scene = SetUp.getInstance().enterNamesMenu;
+        Stage window = (Stage) namesBtn.getScene().getWindow();
+        window.setScene(scene);
     }
 
-    public void loadBtnPressed() {
-        System.out.println("load");
+    public void loadBtnPressed() throws IOException {
+        Scene scene = SetUp.getInstance().loadFilesMenu;
+        Stage window = (Stage) loadBtn.getScene().getWindow();
+        window.setScene(scene);
     }
 
     @FXML

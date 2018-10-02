@@ -2,6 +2,7 @@ package model.resources;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
@@ -9,6 +10,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class PracticeMenuController {
 
@@ -19,13 +23,10 @@ public class PracticeMenuController {
     private Button playSingleButton;
 
     @FXML
-    private Button detailsButton;
-
-    @FXML
     private Button shuffleButton;
 
     @FXML
-    private Button recordButton;
+    private Button compareButton;
 
     @FXML
     private ProgressBar progressBar;
@@ -40,26 +41,25 @@ public class PracticeMenuController {
     private Button backButton;
 
     @FXML
-    private Button sadFaceButton;
+    private Button ratingsButton;
 
     @FXML
-    private ContextMenu sadContext;
+    private ContextMenu ratingsContext;
 
     @FXML
-    private MenuItem badRecordings;
+    private MenuItem audioRatings;
 
     @FXML
-    void backButtonClicked(MouseEvent event) {
+    void backButtonClicked(MouseEvent event) throws IOException {
+        //TODO: CHANGE THIS TO GO BACK TO RELEVANT MENU
+        Scene scene = SetUp.getInstance().databaseSelectMenu;
+        Stage window = (Stage) backButton.getScene().getWindow();
+        window.setScene(scene);
 
     }
 
     @FXML
-    void badRecordingsPressed(ActionEvent event) {
-
-    }
-
-    @FXML
-    void detailsButtonClicked(MouseEvent event) {
+    void ratingsButtonClicked(ActionEvent event) {
 
     }
 
@@ -74,12 +74,10 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void recordButtonClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    void sadFaceButtonClicked(MouseEvent event) {
+    void compareButtonClicked(MouseEvent event) throws IOException {
+        Scene scene = SetUp.getInstance().compareMenu;
+        Stage window = (Stage) compareButton.getScene().getWindow();
+        window.setScene(scene);
 
     }
 
@@ -88,4 +86,8 @@ public class PracticeMenuController {
 
     }
 
+    @FXML
+    void audioRatingsPressed(ActionEvent event){
+
+    }
 }
