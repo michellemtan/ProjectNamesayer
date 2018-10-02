@@ -1,5 +1,7 @@
 package model.resources;
 
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +22,9 @@ public class DatabaseSelectMenuController {
     @FXML private Button namesBtn;
     @FXML private Button loadBtn;
     private Preferences dbPref = Preferences.userRoot();
+    private TaskService service = new TaskService();
+    private Scene scene;
+    private Stage window;
 
     public void initialize() {
         //Create list of keys and add to list view if valid
@@ -45,16 +50,17 @@ public class DatabaseSelectMenuController {
             }
         });
 
+        //Set service to change scene upon completion
+        service.setOnSucceeded(e -> {
+            window.setScene(scene);
+        });
+
         //dbPref.clear();
     }
 
-    public void namesBtnPressed() throws IOException {
-        DatabaseProcessor dbProcessor = new DatabaseProcessor(dbListView.getSelectionModel().getSelectedItem());
-        dbProcessor.processDB();
-        //TODO: add progress bar for process db
-        Scene scene = SetUp.getInstance().enterNamesMenu;
-        Stage window = (Stage) namesBtn.getScene().getWindow();
-        window.setScene(scene);
+    //TODO: make multiple databases supported
+    public void namesBtnPressed() {
+        service.restart();
     }
 
     public void loadBtnPressed() throws IOException {
@@ -81,6 +87,27 @@ public class DatabaseSelectMenuController {
             //Add selected file to preferences to be saved
             dbListView.getItems().add(selectedDirectory.getPath());
             dbPref.put(selectedDirectory.getPath(), selectedDirectory.getPath());
+        }
+    }
+
+    /**
+     * Class that creates/runs the task to process the database in the background
+     */
+    private class TaskService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws IOException {
+                    //Instantiate database processor and start processing
+                    DatabaseProcessor processor = new DatabaseProcessor(dbListView.getSelectionModel().getSelectedItem());
+                    processor.processDB();
+
+                    scene = SetUp.getInstance().enterNamesMenu;
+                    window = (Stage) namesBtn.getScene().getWindow();
+                    return null;
+                }
+            };
         }
     }
 }

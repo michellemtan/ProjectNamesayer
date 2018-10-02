@@ -23,10 +23,11 @@ public class DatabaseProcessor {
                 if(!file.isDirectory()) {
                     //Get name from file name
                     String name = file.getName().substring(file.getName().lastIndexOf("_")+1, file.getName().length()-4);
+                    String upcased = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
                     //Create folder of name
-                    new File(pathToDB + "/" + name).mkdir();
+                    new File(pathToDB + "/" + upcased).mkdir();
                     //Trim audio into newly created folder
-                    String command = "ffmpeg -y -i " + file.getPath() + " -af silenceremove=1:0:-35dB " + pathToDB + "/" + name + "/" + file.getName();
+                    String command = "ffmpeg -y -i " + file.getPath() + " -af silenceremove=0:0:0:-1:0.5:-35dB " + pathToDB + "/" + upcased + "/" + file.getName();
                     trimAudio(command);
                     file.renameTo(new File(pathToDB + "/uncut_files/" + file.getName()));
                 }
