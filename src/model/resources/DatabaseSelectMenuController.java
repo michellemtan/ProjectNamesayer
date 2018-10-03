@@ -14,6 +14,8 @@ import model.DatabaseProcessor;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -28,6 +30,7 @@ public class DatabaseSelectMenuController {
     private Scene scene;
     private Stage window;
     private Stage progressStage;
+    private String pathToDB;
 
     public void initialize() {
         //Create list of keys and add to list view if valid
@@ -105,8 +108,21 @@ public class DatabaseSelectMenuController {
         if (selectedDirectory != null) {
             //Add selected file to preferences to be saved
             dbListView.getItems().add(selectedDirectory.getPath());
+            pathToDB = selectedDirectory.getPath();
             dbPref.put(selectedDirectory.getPath(), selectedDirectory.getPath());
         }
+    }
+
+    private List<String> getListNames() {
+        File dir = new File(dbListView.getSelectionModel().getSelectedItem());
+        //Code to deal with same names, case insensitive (chen = Chen)
+        File[] namesListing = dir.listFiles();
+        List<String> names = new ArrayList<>();
+        //Create list of strings of names
+        for(File file : namesListing) {
+            names.add(file.getName());
+        }
+        return names;
     }
 
     /**
@@ -124,6 +140,7 @@ public class DatabaseSelectMenuController {
 
                     scene = SetUp.getInstance().enterNamesMenu;
                     window = (Stage) namesBtn.getScene().getWindow();
+                    SetUp.getInstance().enterNamesController.setUpList(getListNames());
                     return null;
                 }
             };
