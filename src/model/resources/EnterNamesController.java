@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class EnterNamesController {
 
@@ -39,14 +40,14 @@ public class EnterNamesController {
         hideButton.textProperty().bind(Bindings.when(collapsed).then("Expand ▶").otherwise("Collapse ◀"));
 
         expandButton.setOnAction(e -> {
-            double target = collapsed.get() ? 1.0 : 0.0 ;
+            double target = collapsed.get() ? 0.3 : 0.0 ;
             KeyValue keyValue = new KeyValue(splitPane.getDividers().get(0).positionProperty(), target);
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), keyValue));
             timeline.play();
         });
 
         hideButton.setOnAction(e -> {
-            double target = collapsed.get() ? 1.0 : 0.0 ;
+            double target = collapsed.get() ? 0.3 : 0.0 ;
             KeyValue keyValue = new KeyValue(splitPane.getDividers().get(0).positionProperty(), target);
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), keyValue));
             timeline.play();
@@ -81,6 +82,7 @@ public class EnterNamesController {
 
     @FXML
     void practiceButtonClicked() throws IOException {
+        SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);

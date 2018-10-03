@@ -1,4 +1,4 @@
-package model.views;
+package model.resources;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -93,6 +93,7 @@ public class LoadFilesController {
 
     @FXML
     void practiceButtonClicked(MouseEvent event) throws IOException {
+        SetUp.getInstance().exitPracticeMenuController.setPreviousScene("loadFilesMenu");
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) practiceButton.getScene().getWindow();
         window.setScene(scene);
