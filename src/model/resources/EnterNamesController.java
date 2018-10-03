@@ -6,7 +6,6 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -49,7 +48,6 @@ public class EnterNamesController {
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), keyValue));
             timeline.play();
         });
-
         practiceNamesListView.prefWidthProperty().bind(namesAnchor.widthProperty());
     }
 
@@ -91,6 +89,7 @@ public class EnterNamesController {
 
     @FXML
     void practiceButtonClicked() throws IOException {
+        SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);

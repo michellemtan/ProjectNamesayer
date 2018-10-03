@@ -51,8 +51,7 @@ public class PracticeMenuController {
 
     @FXML
     void backButtonClicked(MouseEvent event) throws IOException {
-        //TODO: CHANGE THIS TO GO BACK TO RELEVANT MENU
-        Scene scene = SetUp.getInstance().databaseSelectMenu;
+        Scene scene = SetUp.getInstance().exitPracticeMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
 

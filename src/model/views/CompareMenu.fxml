@@ -3,9 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -31,7 +31,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-bold" text="Compare" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
-                         <Font name="Ubuntu" size="40.0" />
+                         <Font name="Ubuntu Bold" size="40.0" />
                      </font>
                   </Text>
                    <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="←" translateX="15.0" translateY="15.0" GridPane.valignment="TOP" />
@@ -49,15 +49,26 @@
                   <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ListView fx:id="recordingsList" maxHeight="273.0" maxWidth="274.0" minHeight="100.0" minWidth="100.0" prefWidth="274.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <Label text="Existing Recordings" GridPane.halignment="CENTER" />
+                  <Label text="Existing Recordings" translateY="95.0" GridPane.halignment="CENTER" />
                   <Label text="Your Recording" translateY="80.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <StackPane prefHeight="150.0" prefWidth="200.0" translateX="-28.0" translateY="-20.0" GridPane.rowIndex="2">
+                  <StackPane maxHeight="200.0" minHeight="200.0" prefHeight="150.0" prefWidth="200.0" translateY="-20.0" GridPane.rowIndex="1">
                      <children>
-                        <ProgressBar fx:id="existProgressBar" prefHeight="32.0" prefWidth="220.0" progress="0.0" />
-                        <Button fx:id="sadFaceButton" mnemonicParsing="false" onMouseClicked="#sadFaceButtonClicked" text="★" translateX="144.0">
+                        <ProgressBar prefHeight="56.0" prefWidth="200.0" progress="0.0" />
+                        <Button fx:id="sadFaceButton1" maxHeight="56.0" minHeight="56.0" mnemonicParsing="false" onMouseClicked="#sadFaceButtonClicked" prefHeight="56.0" prefWidth="56.0" text="☰" translateX="-134.0">
                            <font>
-                              <Font size="17.0" />
+                              <Font size="30.0" />
+                           </font>
+                           <contextMenu>
+                              <ContextMenu>
+                                 <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#badRecordingsPressed" text="Audio Ratings" />
+                                 </items>
+                              </ContextMenu>
+                           </contextMenu>
+                        </Button>
+                        <Button fx:id="sadFaceButton" maxHeight="56.0" minHeight="56.0" mnemonicParsing="false" onMouseClicked="#sadFaceButtonClicked" prefHeight="56.0" prefWidth="56.0" text="★" translateX="135.0">
+                           <font>
+                              <Font size="30.0" />
                            </font>
                            <contextMenu>
                               <ContextMenu>
@@ -67,14 +78,24 @@
                               </ContextMenu>
                            </contextMenu>
                         </Button>
-                        <Button fx:id="playExistingBtn" maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onAction="#playExistingBtnPressed" prefHeight="32.0" prefWidth="220.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍">
+                        <Button fx:id="playPauseButton1" mnemonicParsing="false" onMouseClicked="#playPauseButtonClicked" prefHeight="56.0" prefWidth="200.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </StackPane>
+                  <StackPane maxWidth="200.0" minWidth="200.0" prefHeight="150.0" prefWidth="200.0" translateX="290.0" translateY="-20.0" GridPane.rowIndex="2">
+                     <children>
+                        <ProgressBar fx:id="existProgressBar" prefHeight="32.0" prefWidth="220.0" progress="0.0" />
+                        <Button fx:id="playExistingBtn" maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onAction="#playExistingBtnPressed" prefHeight="32.0" prefWidth="220.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="Record">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Button>
                      </children>
                   </StackPane>
-                  <StackPane fx:id="twoReplayButton" onMouseClicked="#twoReplayButtonClicked" prefHeight="56.0" prefWidth="364.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <StackPane fx:id="twoReplayButton" maxHeight="200.0" minHeight="200.0" onMouseClicked="#twoReplayButtonClicked" prefHeight="200.0" prefWidth="364.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <ProgressBar fx:id="progressBar" prefHeight="56.0" prefWidth="329.0" progress="0.0" translateY="-20.0" />
                         <Button fx:id="playPauseButton" mnemonicParsing="false" onMouseClicked="#playPauseButtonClicked" prefHeight="56.0" prefWidth="329.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ▍▍" translateY="-20.0">
@@ -82,12 +103,10 @@
                               <Font size="24.0" />
                            </font>
                         </Button>
-                        <Button fx:id="oneReplayButton" mnemonicParsing="false" onMouseClicked="#oneReplayButtonClicked" prefHeight="35.0" prefWidth="41.0" text="1x" translateX="20.0" translateY="150.0" />
-                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="41.0" text="2x" translateX="80.0" translateY="150.0" />
-                        <Button fx:id="threeReplayButton" mnemonicParsing="false" onMouseClicked="#threeReplayButtonClicked" prefHeight="35.0" prefWidth="41.0" text="3x" translateX="140.0" translateY="150.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Repeat:" translateX="-50.0" translateY="150.0" />
                      </children>
                   </StackPane>
+                  <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="84.0" text="Repeat ↺" translateX="-53.0" translateY="-20.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <TextField maxWidth="39.0" minHeight="18.0" minWidth="10.0" prefHeight="35.0" prefWidth="39.0" promptText="3x" translateX="-15.0" translateY="-20.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>
