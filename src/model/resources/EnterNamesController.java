@@ -24,6 +24,8 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 public class EnterNamesController {
@@ -105,16 +107,20 @@ public class EnterNamesController {
     void addButtonClicked() {
         String input = nameInput.getText();
         if(input != null && !input.isEmpty()) {
-            //Add input to list view
-            practiceNamesListView.getItems().add(input);
             //Check if added name is available
             String[] split = input.split("[-\\s]");
-            for(String string : split) {
-                if(!allNames.contains(string)) {
-                    practiceNamesListView.getSelectionModel().select(0);
-                    System.out.println("M8 no u cannae");
+            for(int i=0; i<split.length; i++) {
+                if(!allNames.contains(split[i])) {
+                    split[i] = "*" + split[i] + "*";
                 }
             }
+            //Add string to list view
+            StringBuilder builder = new StringBuilder();
+            for(String s : split) {
+                builder.append(s + " ");
+            }
+            String str = builder.toString();
+            practiceNamesListView.getItems().add(str);
             //Clear textfield
             nameInput.clear();
         }
