@@ -48,7 +48,7 @@ public class SetUp {
         exitPracticeMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/ExitPracticeMenu.fxml")));
         trophiesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/TrophiesMenu.fxml")));
         enterNamesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml")));
-        loadFilesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/LoadFilesMenu.fxml")));
+        loadFilesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/LoadFileMenu.fxml")));
         microphoneMenu =  new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/MicrophoneMenu.fxml")));
 
         //Load load menu
@@ -144,7 +144,7 @@ public class SetUp {
     }
 
     private void loadFilesLoader() throws  IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/LoadFilesMenu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/LoadFileMenu.fxml"));
         loadFilesMenu = new Scene(loader.load());
         loadFilesController = loader.getController();
     }

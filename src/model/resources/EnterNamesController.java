@@ -24,8 +24,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.List;
 
 public class EnterNamesController {
@@ -41,10 +39,10 @@ public class EnterNamesController {
     @FXML private Button practiceButton;
     @FXML private Label dbName;
     @FXML private TextField nameInput;
+    @FXML private ListView<String> transparentListView;
     private List<String> allNames;
 
 
-    //Got code from https://stackoverflow.com/questions/44358394/animate-splitpane-divider
     public void initialize() {
         splitPane.setDividerPositions(0);
         BooleanProperty collapsed = new SimpleBooleanProperty();
@@ -114,7 +112,7 @@ public class EnterNamesController {
                     split[i] = "*" + split[i] + "*";
                 }
             }
-            //Add string to list view
+            //Add string to list view //TODO: re-add hyphen if present
             StringBuilder builder = new StringBuilder();
             for(String s : split) {
                 builder.append(s + " ");
@@ -126,7 +124,7 @@ public class EnterNamesController {
         }
     }
 
-    //Call addButtonClicked if user pressed enter from add name text field
+    //Call addButtonClicked if user presses enter from add name text field
     @FXML
     private void enterName(KeyEvent e) {
         if(e.getCode() == KeyCode.ENTER) {
