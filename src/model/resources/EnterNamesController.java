@@ -14,10 +14,10 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -37,6 +37,9 @@ public class EnterNamesController {
     @FXML private TextField filteredInput;
     @FXML private Button expandButton;
     @FXML private Button practiceButton;
+    @FXML private Label dbName;
+    @FXML private TextField nameInput;
+    private List<String> allNames;
 
 
     //Got code from https://stackoverflow.com/questions/44358394/animate-splitpane-divider
@@ -52,13 +55,20 @@ public class EnterNamesController {
             Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), keyValue));
             timeline.play();
         });
-        practiceNamesListView.prefWidthProperty().bind(namesAnchor.widthProperty());
+
+        practiceNamesListView.addEventFilter(MouseEvent.MOUSE_PRESSED, Event::consume);
+
     }
 
-    void setUpList(List<String> listNames) {
+    void setUpList(List<String> listNames, String name) {
+        //Assign names field
+        allNames = listNames;
+        //Clear then fill & sort list
         databaseNamesListView.getItems().clear();
         databaseNamesListView.getItems().addAll(listNames);
         databaseNamesListView.getItems().sort(String.CASE_INSENSITIVE_ORDER);
+        //Set label to reflect current database
+        dbName.setText(name);
 
         //Apply layout
         splitPane.requestLayout();
@@ -82,7 +92,7 @@ public class EnterNamesController {
                 filteredData.setPredicate(s -> s.contains(filter));
             }
         });
-
+        //TODO: Make search work case insensitive
         //Update list view with filtered data if there is any
         filteredData.addListener((ListChangeListener<String>) c -> {
             databaseNamesListView.getItems().clear();
@@ -93,6 +103,29 @@ public class EnterNamesController {
 
     @FXML
     void addButtonClicked() {
+        String input = nameInput.getText();
+        if(input != null && !input.isEmpty()) {
+            //Add input to list view
+            practiceNamesListView.getItems().add(input);
+            //Check if added name is available
+            String[] split = input.split("[-\\s]");
+            for(String string : split) {
+                if(!allNames.contains(string)) {
+                    practiceNamesListView.getSelectionModel().select(0);
+                    System.out.println("M8 no u cannae");
+                }
+            }
+            //Clear textfield
+            nameInput.clear();
+        }
+    }
+
+    //Call addButtonClicked if user pressed enter from add name text field
+    @FXML
+    private void enterName(KeyEvent e) {
+        if(e.getCode() == KeyCode.ENTER) {
+            addButtonClicked();
+        }
     }
 
     @FXML
@@ -114,5 +147,13 @@ public class EnterNamesController {
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
+    }
+
+    //Clear textfield if escape key pressed
+    @FXML
+    private void clearTextField(KeyEvent e) {
+        if(e.getCode() == KeyCode.ESCAPE) {
+            filteredInput.clear();
+        }
     }
 }

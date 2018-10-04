@@ -122,6 +122,7 @@ public class DatabaseSelectMenuController {
         for(File file : namesListing) {
             names.add(file.getName());
         }
+        names.remove("uncut_files");
         return names;
     }
 
@@ -140,7 +141,8 @@ public class DatabaseSelectMenuController {
 
                     scene = SetUp.getInstance().enterNamesMenu;
                     window = (Stage) namesBtn.getScene().getWindow();
-                    SetUp.getInstance().enterNamesController.setUpList(getListNames());
+                    String dbName = dbListView.getSelectionModel().getSelectedItem().substring(dbListView.getSelectionModel().getSelectedItem().lastIndexOf("/") +1);
+                    SetUp.getInstance().enterNamesController.setUpList(getListNames(), dbName);
                     return null;
                 }
             };

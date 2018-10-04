@@ -44,9 +44,9 @@
               <items>
                 <AnchorPane maxWidth="800.0" minHeight="0.0" minWidth="0.0" prefWidth="421.0">
                      <children>
-                        <TextField fx:id="filteredInput" layoutX="35.0" layoutY="46.0" prefHeight="26.0" prefWidth="223.0" promptText="Search..." />
+                        <TextField fx:id="filteredInput" layoutX="35.0" layoutY="46.0" onKeyPressed="#clearTextField" prefHeight="26.0" prefWidth="223.0" promptText="Search..." />
                         <ListView fx:id="databaseNamesListView" layoutX="35.0" layoutY="72.0" prefHeight="321.0" prefWidth="223.0" />
-                        <Label layoutX="35.0" layoutY="22.0" text="names_db">
+                        <Label fx:id="dbName" layoutX="35.0" layoutY="22.0" text="names_db">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -75,7 +75,7 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Button>
-                                    <TextField maxWidth="638.0" minWidth="80.0" prefHeight="36.0" prefWidth="638.0" />
+                                    <TextField fx:id="nameInput" maxWidth="638.0" minWidth="80.0" onKeyPressed="#enterName" prefHeight="36.0" prefWidth="638.0" promptText="eg 'Mike Palmer'" />
                                  </children>
                               </HBox>
                               <ListView fx:id="practiceNamesListView">
