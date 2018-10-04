@@ -6,6 +6,10 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -29,10 +34,9 @@ public class EnterNamesController {
     @FXML private Button addButton;
     @FXML private AnchorPane namesAnchor;
     @FXML private ListView<String> practiceNamesListView;
+    @FXML private TextField filteredInput;
     @FXML private Button expandButton;
     @FXML private Button practiceButton;
-    @FXML private AnchorPane mainAnchor;
-    private boolean mouseDragOnDivider = false;
 
 
     //Got code from https://stackoverflow.com/questions/44358394/animate-splitpane-divider
@@ -62,6 +66,29 @@ public class EnterNamesController {
         //Consume mouse dragged event to disable divider
         Node divider = splitPane.lookup(".split-pane-divider");
         divider.setOnMouseDragged(Event::consume);
+
+        //Create observable list of data
+        listNames.sort(String.CASE_INSENSITIVE_ORDER);
+        ObservableList<String> data = FXCollections.observableArrayList(listNames);
+
+        FilteredList<String> filteredData = new FilteredList<>(data, s -> true);
+
+        filteredInput.textProperty().addListener(obs->{
+            String filter = filteredInput.getText();
+            if(filter == null || filter.length() == 0) {
+                filteredData.setPredicate(s -> true);
+            }
+            else {
+                filteredData.setPredicate(s -> s.contains(filter));
+            }
+        });
+
+        //Update list view with filtered data if there is any
+        filteredData.addListener((ListChangeListener<String>) c -> {
+            databaseNamesListView.getItems().clear();
+            databaseNamesListView.getItems().addAll(filteredData);
+            databaseNamesListView.getItems().sorted(String.CASE_INSENSITIVE_ORDER);
+        });
     }
 
     @FXML
@@ -78,13 +105,7 @@ public class EnterNamesController {
 
     @FXML
     void expandButtonClicked() {
-        //splitPane.setDividerPositions(1);
 
-    }
-
-    @FXML
-    void hideButtonClicked() {
-        //splitPane.setDividerPositions(0.005);
     }
 
     @FXML
@@ -94,10 +115,4 @@ public class EnterNamesController {
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
     }
-
-    @FXML
-    void searchButtonClicked() {
-
-    }
-
 }
