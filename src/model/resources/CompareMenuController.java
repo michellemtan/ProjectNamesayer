@@ -4,10 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,19 +17,22 @@ public class CompareMenuController {
     private Button backButton;
 
     @FXML
-    private ListView<?> recordingsList;
+    private ProgressBar existingProgressBar;
 
     @FXML
-    private ProgressBar existProgressBar;
+    private Button listButton;
 
     @FXML
-    private Button sadFaceButton;
+    private Button ratingButton;
 
     @FXML
-    private Button playExistingBtn;
+    private Button playExistingButton;
 
     @FXML
-    private StackPane twoReplayButton;
+    private ProgressBar recordProgressBar;
+
+    @FXML
+    private Button recordButton;
 
     @FXML
     private ProgressBar progressBar;
@@ -39,31 +41,34 @@ public class CompareMenuController {
     private Button playPauseButton;
 
     @FXML
-    private Button oneReplayButton;
+    private Button repeatButton;
 
     @FXML
-    private Button threeReplayButton;
+    private TextField textField;
+
+    @FXML
+    private Button micButton;
 
     @FXML
     void backButtonClicked(MouseEvent event) throws IOException {
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
-
     }
+
 
     @FXML
     void badRecordingsPressed(ActionEvent event) {
+    //TODO: FIND WHERE THIS IS FROM??
+    }
+
+    @FXML
+    void listButtonClicked(MouseEvent event) {
 
     }
 
     @FXML
-    void oneReplayButtonClicked(MouseEvent event) {
-
-    }
-
-    @FXML
-    void playExistingBtnPressed(ActionEvent event) {
+    void playExistingButtonClicked(MouseEvent event) {
 
     }
 
@@ -73,18 +78,31 @@ public class CompareMenuController {
     }
 
     @FXML
-    void sadFaceButtonClicked(MouseEvent event) {
+    void ratingButtonClicked(MouseEvent event) throws IOException {
+        //TODO: CHANGE THIS SO RATING THE NAME APPEARS, AND CLICKING ON CONTEXT MENU DOES THIS
+        SetUp.getInstance().audioRatingsController.setPreviousScene("compareMenu");
+        Scene scene = SetUp.getInstance().audioRatingsMenu;
+        Stage window = (Stage) ratingButton.getScene().getWindow();
+        window.setScene(scene);
 
     }
 
     @FXML
-    void threeReplayButtonClicked(MouseEvent event) {
+    void recordButtonClicked(MouseEvent event) {
 
     }
 
     @FXML
-    void twoReplayButtonClicked(MouseEvent event) {
+    void repeatButtonClicked(MouseEvent event) {
 
+    }
+
+    @FXML
+    void micButtonClicked(MouseEvent event) throws IOException {
+        SetUp.getInstance().microphoneController.setPreviousScene("compareMenu");
+        Scene scene = SetUp.getInstance().microphoneMenu;
+        Stage window = (Stage) micButton.getScene().getWindow();
+        window.setScene(scene);
     }
 
 }

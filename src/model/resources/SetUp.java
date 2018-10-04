@@ -21,6 +21,7 @@ public class SetUp {
     TrophiesController trophiesController;
     LoadFilesController loadFilesController;
     EnterNamesController enterNamesController;
+    MicrophoneController microphoneController;
 
     //Scenes to load the fxml files to
     public Scene startMenu;
@@ -33,6 +34,7 @@ public class SetUp {
     Scene trophiesMenu;
     public Scene enterNamesMenu;
     public Scene loadFilesMenu;
+    public Scene microphoneMenu;
 
     private SetUp() throws IOException {
 
@@ -47,6 +49,7 @@ public class SetUp {
         trophiesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/TrophiesMenu.fxml")));
         enterNamesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml")));
         loadFilesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/LoadFilesMenu.fxml")));
+        microphoneMenu =  new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/MicrophoneMenu.fxml")));
 
         //Load load menu
         startMenuLoader();
@@ -59,6 +62,7 @@ public class SetUp {
         trophiesMenuLoader();
         enterNamesLoader();
         loadFilesLoader();
+        microphoneMenuLoader();
 
         //Add Theme.css to all scenes
         compareMenu.getStylesheets().add("/model/resources/Theme.css");
@@ -71,6 +75,7 @@ public class SetUp {
         trophiesMenu.getStylesheets().add("/model/resources/Theme.css");
         enterNamesMenu.getStylesheets().add("/model/resources/Theme.css");
         loadFilesMenu.getStylesheets().add("/model/resources/Theme.css");
+        microphoneMenu.getStylesheets().add("/model/resources/Theme.css");
     }
 
     //Constructor implementing Singleton pattern to create one instance of SetUp class where different scenes are created
@@ -148,5 +153,11 @@ public class SetUp {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml"));
         enterNamesMenu = new Scene(loader.load());
         enterNamesController = loader.getController();
+    }
+
+    private void microphoneMenuLoader() throws  IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/MicrophoneMenu.fxml"));
+        microphoneMenu = new Scene(loader.load());
+        microphoneController = loader.getController();
     }
 }

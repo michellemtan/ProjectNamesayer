@@ -63,7 +63,7 @@
                </font>
             </Label>
              <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="←" translateX="15.0" translateY="15.0" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-            <Button fx:id="ratingsButton" mnemonicParsing="false" onMouseClicked="#ratingsButtonClicked" text="★" translateX="70.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="ratingsButton" mnemonicParsing="false" onAction="#ratingsButtonClicked" text="★" translateX="70.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
