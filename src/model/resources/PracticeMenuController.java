@@ -58,7 +58,12 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void ratingsButtonClicked(ActionEvent event) {
+    void ratingsButtonClicked(ActionEvent event) throws IOException {
+        //TODO: CHANGE THIS SO RATING THE NAME APPEARS, AND CLICKING ON CONTEXT MENU DOES THIS
+        SetUp.getInstance().audioRatingsController.setPreviousScene("practiceMenu");
+        Scene scene = SetUp.getInstance().audioRatingsMenu;
+        Stage window = (Stage) ratingsButton.getScene().getWindow();
+        window.setScene(scene);
 
     }
 

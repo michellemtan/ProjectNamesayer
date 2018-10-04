@@ -24,8 +24,9 @@ public class MicrophoneController {
 
     @FXML
     void backButtonClicked(ActionEvent event) throws IOException {
-        if (previousScene.equals("practiceMenu")) {
-            Scene scene = SetUp.getInstance().practiceMenu;
+
+        if (previousScene.equals("compareMenu")) {
+            Scene scene = SetUp.getInstance().compareMenu;
             Stage window = (Stage) backButton.getScene().getWindow();
             window.setScene(scene);
         } else if (previousScene.equals("startMenu")) {
