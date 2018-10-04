@@ -122,6 +122,11 @@ public class LoadFilesController {
     }
 
     @FXML
+    private void consumeTextEvent(KeyEvent e) {
+        e.consume();
+    }
+
+    @FXML
     void backButtonClicked() throws IOException {
         Scene scene = SetUp.getInstance().databaseSelectMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
