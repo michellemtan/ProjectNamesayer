@@ -27,7 +27,7 @@ public class DatabaseProcessor {
                     //Create folder of name
                     new File(pathToDB + "/" + upcased).mkdir();
                     //Trim audio into newly created folder
-                    String command = "ffmpeg -y -i " + file.getPath() + " -af silenceremove=0:0:0:-1:0.5:-35dB " + pathToDB + "/" + upcased + "/" + file.getName();
+                    String command = "ffmpeg -y -i " + bashify(file.getPath()) + " -af silenceremove=0:0:0:-1:0.5:-35dB " + bashify(pathToDB) + "/" + upcased + "/" + file.getName();
                     trimAudio(command);
                     file.renameTo(new File(pathToDB + "/uncut_files/" + file.getName()));
                 }
@@ -88,6 +88,30 @@ public class DatabaseProcessor {
             }
         } catch (IOException ignored) {
         }
+    }
+
+    //Changes these commands to have backslash before so bash works
+    public String bashify(String name) {
+        //Characters that break the bash command
+        char invalids[] = "$%\\ ,()@".toCharArray();
+        boolean found = false;
+        String bashed = "";
+        char[] chars = name.toCharArray();
+        for(char cha : chars) {
+            for(char invalid : invalids) {
+                if(cha == invalid) {
+                    bashed += "\\" + cha;
+                    found = true;
+                    break;
+                } else {
+                    found = false;
+                }
+            }
+            if(!found) {
+                bashed += cha;
+            }
+        }
+        return bashed;
     }
     //ffmpeg -y -i path/to/in.wav -af silenceremove=0:0:0:-1:0.5:-35dB path/to/out.wav for removing all silence
 }

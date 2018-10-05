@@ -25,39 +25,17 @@ import java.util.Optional;
 
 public class PracticeMenuController {
 
-    @FXML
-    private Button playPauseButton;
-
-    @FXML
-    private Button playSingleButton;
-
-    @FXML
-    private Button shuffleButton;
-
-    @FXML
-    private Button compareButton;
-
-    @FXML
-    private ProgressBar progressBar;
-
-    @FXML
-    private ListView<String> creationsListView;
-
-    @FXML
-    private Label creationName;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private Button ratingsButton;
-
-    @FXML
-    private ContextMenu ratingsContext;
-
-    @FXML
-    private MenuItem audioRatings;
-
+    @FXML private Button playPauseButton;
+    @FXML private Button playSingleButton;
+    @FXML private Button shuffleButton;
+    @FXML private Button compareButton;
+    @FXML private ProgressBar progressBar;
+    @FXML private ListView<String> creationsListView;
+    @FXML private Label creationName;
+    @FXML private Button backButton;
+    @FXML private Button ratingsButton;
+    @FXML private ContextMenu ratingsContext;
+    @FXML private MenuItem audioRatings;
 
     private List<String> creationList;
 
@@ -74,7 +52,7 @@ public class PracticeMenuController {
     private String selectedName;
 
     @FXML
-    void backButtonClicked(MouseEvent event) throws IOException {
+    void backButtonClicked() throws IOException {
         // Load the new scene - confirm if the user wants to exit practice
         Scene scene = SetUp.getInstance().exitPracticeMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
@@ -83,7 +61,7 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void ratingsButtonClicked(MouseEvent event) throws IOException {
+    void ratingsButtonClicked(MouseEvent event)  {
         String selectedName = creationsListView.getSelectionModel().getSelectedItem() + ".wav";
 
         if (event.getButton() == MouseButton.PRIMARY) {
@@ -125,7 +103,7 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void playButtonClicked(MouseEvent event) throws IOException {
+    void playButtonClicked() throws IOException {
         if (isFinished) {
             mediaPlayerCreator();
         } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
@@ -211,7 +189,7 @@ public class PracticeMenuController {
 
 
     @FXML
-    public void playSingleButtonClicked() throws IOException {
+    public void playSingleButtonClicked() {
 
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
@@ -222,7 +200,7 @@ public class PracticeMenuController {
         creationName.setText(selectedName);
 
         //Get folder name and find files within
-        String folderName = pathToDB + "/" + selectedName + "/";
+        String folderName = pathToDB + "/" + selectedName;
         File[] listFiles = new File(folderName).listFiles();
         Media media = new Media(listFiles[0].toURI().toString());
         audioPlayer = new MediaPlayer(media);

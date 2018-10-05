@@ -154,6 +154,7 @@ public class DatabaseSelectMenuController {
                     scene2 = SetUp.getInstance().loadFilesMenu;
                     window = (Stage) namesBtn.getScene().getWindow();
                     String dbName = dbListView.getSelectionModel().getSelectedItem().substring(dbListView.getSelectionModel().getSelectedItem().lastIndexOf("/") +1);
+                    pathToDB = dbListView.getSelectionModel().getSelectedItem();
                     SetUp.getInstance().enterNamesController.setUpList(getListNames(), dbName);
                     SetUp.getInstance().loadFilesController.setUpList(getListNames(), dbName);
                     return null;
