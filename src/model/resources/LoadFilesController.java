@@ -167,7 +167,7 @@ public class LoadFilesController {
 
         //Send names to practice menu
         List<String> practiceNames = practiceNamesListView.getItems();
-        List<String> tempNames = new ArrayList<String>();
+        List<String> tempNames = new ArrayList<>();
 
         if (practiceNamesListView.getItems().size()>0) {
 
