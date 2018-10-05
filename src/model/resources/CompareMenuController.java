@@ -2,7 +2,10 @@ package model.resources;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -66,7 +69,9 @@ public class CompareMenuController {
 
     private Timeline timeline;
 
-    String pathToDB;
+    private String pathToDB;
+
+    private int audioRecorded;
 
     @FXML
     void backButtonClicked(MouseEvent event) throws IOException {
@@ -89,8 +94,17 @@ public class CompareMenuController {
 
     @FXML
     void playPauseButtonClicked(MouseEvent event) {
+        if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            audioPlayer.stop();
+        }
 
-
+        //Create a new media player instance and set the event handlers to create a thread that listens for when the audio is playing
+        Media media = new Media(new File("audio.wav").toURI().toString());
+        audioPlayer = new MediaPlayer(media);
+        audioPlayer.setOnPlaying(new AudioRunnable(false));
+        audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
+        progressBar();
+        audioPlayer.play();
     }
 
     @FXML
@@ -209,7 +223,79 @@ public class CompareMenuController {
 
     @FXML
     void recordButtonClicked(MouseEvent event) {
+        if (audioRecorded==0) {
+            record();
+        } else {
+            //Confirm if the user wants to overwrite existing recording
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to overwrite your recording?", ButtonType.NO, ButtonType.YES);
+            alert.setHeaderText(null);
+            alert.setGraphic(null);
+            alert.setTitle("Overwrite Recording?");
+            alert.showAndWait();
 
+            if (alert.getResult() == ButtonType.YES) {
+                record();
+            } else {
+                alert.close();
+            }
+        }
+        backButton.setDisable(true);
+
+    }
+
+    private void record() {
+        //Use a background thread to record audio files to prevent the GUI from freezing
+        RecordAudioService service = new RecordAudioService();
+        service.setOnSucceeded(e -> {
+            audioRecorded++;
+        });
+
+        service.start();
+    }
+
+    private class RecordAudioService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() {
+                    //Disable buttons and start progress bar
+                    progressBar();
+                    recordButton.setDisable(true);
+                    micButton.setDisable(true);
+                    backButton.setDisable(true);
+
+                    try {
+                        //Record audio for five seconds
+                        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -y -f alsa -i default -t 7 ./audio.wav");
+                        Process audio = builder.start();
+
+                        PauseTransition delay = new PauseTransition(Duration.seconds(5));
+                        delay.play();
+                        delay.setOnFinished(event -> {
+                            //Enable buttons after recording has finished
+                            recordButton.setDisable(false);
+                            micButton.setDisable(false);
+                            backButton.setDisable(false);
+                        });
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            };
+        }
+    }
+
+    //Private method that sets the progress bar
+    private void progressBar() {
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                new KeyFrame(Duration.seconds(5), new KeyValue(progressBar.progressProperty(), 1))
+        );
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     @FXML
