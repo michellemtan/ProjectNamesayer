@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -60,7 +61,11 @@ public class LoadFilesController {
         //Set label to reflect current database
         dbName.setText(name);
 
+        //Create a list of all the names in the database to check loaded names against
         allNames = listNames;
+
+        //Disable the practice button until a list has been loaded with items inside
+        practiceButton.setDisable(true);
 
         //Apply layout
         splitPane.requestLayout();
@@ -93,6 +98,12 @@ public class LoadFilesController {
 
     @FXML
     void addButtonClicked() {
+
+        //Clear previous settings
+        practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems());
+        practiceNamesListView.refresh();
+        practiceButton.setDisable(true);
+
         FileChooser fc = new FileChooser();
         fc.setTitle("Select text file");
         Stage fcStage = new Stage();
@@ -123,7 +134,11 @@ public class LoadFilesController {
                             builder.append(s + " ");
                         }
                         String str = builder.toString();
+                        str = str.trim();
                         namesList.add(str);
+
+                //Disable the practice button when names are read
+                practiceButton.setDisable(false);
                 }
 
                 //Add text from file to list view
@@ -136,11 +151,6 @@ public class LoadFilesController {
     }
 
     @FXML
-    private void consumeTextEvent(KeyEvent e) {
-        e.consume();
-    }
-
-    @FXML
     void backButtonClicked() throws IOException {
         Scene scene = SetUp.getInstance().databaseSelectMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
@@ -149,11 +159,26 @@ public class LoadFilesController {
     }
 
     @FXML
-    void practiceButtonClicked() throws IOException {
-        SetUp.getInstance().exitPracticeMenuController.setPreviousScene("loadFilesMenu");
-        Scene scene = SetUp.getInstance().practiceMenu;
-        Stage window = (Stage) practiceButton.getScene().getWindow();
-        window.setScene(scene);
+    void practiceButtonClicked(MouseEvent e) throws IOException {
+
+        //Send names to practice menu
+        List<String> practiceNames = practiceNamesListView.getItems();
+        List<String> tempNames = new ArrayList<String>();
+
+        if (practiceNamesListView.getItems().size()>0) {
+
+            for (String name : practiceNames) {
+                if (!name.contains("*")) {
+                    tempNames.add(name);
+                }
+            }
+
+            SetUp.getInstance().practiceMenuController.setUpList(tempNames);
+            SetUp.getInstance().exitPracticeMenuController.setPreviousScene("loadFilesMenu");
+            Scene scene = SetUp.getInstance().practiceMenu;
+            Stage window = (Stage) practiceButton.getScene().getWindow();
+            window.setScene(scene);
+        }
     }
 
     //Clear textfield if escape key pressed

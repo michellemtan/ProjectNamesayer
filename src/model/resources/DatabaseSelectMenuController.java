@@ -161,4 +161,8 @@ public class DatabaseSelectMenuController {
             };
         }
     }
+
+    public String getPathToDB() {
+        return pathToDB;
+    }
 }
