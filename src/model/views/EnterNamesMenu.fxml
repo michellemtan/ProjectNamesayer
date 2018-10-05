@@ -76,7 +76,7 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Button>
-                                    <TextField fx:id="nameInput" maxWidth="638.0" minWidth="80.0" onKeyPressed="#enterName" prefHeight="36.0" prefWidth="638.0" promptText="eg 'Mike Palmer'" />
+                                    <TextField fx:id="nameInput" maxWidth="638.0" minWidth="80.0" onKeyPressed="#enterName" prefHeight="36.0" prefWidth="638.0" promptText="e.g. 'Bruce Li'" />
                                  </children>
                               </HBox>
                               <HBox translateY="280.0">

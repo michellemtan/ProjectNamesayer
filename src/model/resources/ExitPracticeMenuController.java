@@ -33,7 +33,7 @@ public class ExitPracticeMenuController {
             Stage window = (Stage) confirmButton.getScene().getWindow();
             window.setScene(scene);
         } else if (previousScene.equals("loadFilesMenu")) {
-            Scene scene = SetUp.getInstance().enterNamesMenu;
+            Scene scene = SetUp.getInstance().loadFilesMenu;
             Stage window = (Stage) confirmButton.getScene().getWindow();
             window.setScene(scene);
         }

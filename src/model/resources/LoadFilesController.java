@@ -37,6 +37,7 @@ public class LoadFilesController {
     @FXML private Label dbName;
     @FXML private TextField filteredInput;
     @FXML private TextField textField;
+    private List<String> allNames;
 
     public void initialize() {
         splitPane.setDividerPositions(0);
@@ -59,6 +60,8 @@ public class LoadFilesController {
         //Set label to reflect current database
         dbName.setText(name);
 
+        allNames = listNames;
+
         //Apply layout
         splitPane.requestLayout();
         splitPane.applyCss();
@@ -66,8 +69,6 @@ public class LoadFilesController {
         Node divider = splitPane.lookup(".split-pane-divider");
         divider.setOnMouseDragged(Event::consume);
 
-        //Create observable list of data
-        listNames.sort(String.CASE_INSENSITIVE_ORDER);
         ObservableList<String> data = FXCollections.observableArrayList(listNames);
 
         FilteredList<String> filteredData = new FilteredList<>(data, s -> true);
@@ -109,7 +110,20 @@ public class LoadFilesController {
                 StringBuilder fieldContent = new StringBuilder();
 
                 while ((line = reader.readLine()) != null) {
-                    namesList.add(line);
+                        //Check if added name is available
+                        String[] split = line.split("[-\\s]");
+                        for(int i=0; i<split.length; i++) {
+                            if(!allNames.contains(split[i])) {
+                                split[i] = "*" + split[i] + "*";
+                            }
+                        }
+                        //Add string to list view //TODO: re-add hyphen if present
+                        StringBuilder builder = new StringBuilder();
+                        for(String s : split) {
+                            builder.append(s + " ");
+                        }
+                        String str = builder.toString();
+                        namesList.add(str);
                 }
 
                 //Add text from file to list view
