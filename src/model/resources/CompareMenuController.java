@@ -132,6 +132,8 @@ public class CompareMenuController {
                 playPauseButton.setDisable(false);
                 listButton.setDisable(false);
                 recordButton.setDisable(false);
+                micButton.setDisable(false);
+                repeatButton.setDisable(false);
                 existingProgressBar.setProgress(0.0);
                 audioPlayer.dispose();
                 //When the media player is playing the audio file, the buttons will be disabled to prevent the user from navigating away
@@ -140,6 +142,8 @@ public class CompareMenuController {
                 playPauseButton.setDisable(true);
                 listButton.setDisable(true);
                 recordButton.setDisable(true);
+                micButton.setDisable(true);
+                repeatButton.setDisable(true);
             }
         }
     }
