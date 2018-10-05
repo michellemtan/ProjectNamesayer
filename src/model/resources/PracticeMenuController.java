@@ -1,15 +1,25 @@
 package model.resources;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,8 +63,19 @@ public class PracticeMenuController {
 
     private String pathToDB;
 
+    private MediaPlayer audioPlayer;
+
+    private boolean isFinished;
+
+    private Timeline timeline;
+
+    private ObservableList<Media> mediaList;
+
+    private String selectedName;
+
     @FXML
     void backButtonClicked(MouseEvent event) throws IOException {
+        // Load the new scene - confirm if the user wants to exit practice
         Scene scene = SetUp.getInstance().exitPracticeMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
@@ -104,17 +125,148 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void playButtonClicked(MouseEvent event) {
+    void playButtonClicked(MouseEvent event) throws IOException {
+        if (isFinished) {
+            mediaPlayerCreator();
+        } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            shuffleButton.setDisable(false);
+            playPauseButton.setDisable(false);
+            backButton.setDisable(false);
+            playSingleButton.setDisable(false);
+            audioPlayer.pause();
+            timeline.pause();
+        } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
+            audioPlayer.play();
+            timeline.play();
+        } else {
+            mediaPlayerCreator();
+        }
 
     }
 
-    @FXML
-    void playSingleButtonClicked(MouseEvent event) {
+    private void mediaPlayerCreator() throws IOException {
 
+        List<String> audioList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
+        mediaList = FXCollections.observableArrayList();
+        String databasePath = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+
+        //System.out.println("Creation list size: " + audioList.size());
+
+        for (String creation : audioList) {
+            //Set up the file to be played
+            selectedName = creation;
+            String defaultName = selectedName.replaceAll(".wav", "");
+            Media media = new Media(new File(databasePath + "/" + selectedName + "/" + defaultName).toURI().toString() + ".wav");
+            mediaList.add(media);
+        }
+
+        playMediaTracks(mediaList, audioList);
+    }
+
+
+    private void playMediaTracks(List<Media> mediaList, List<String> audioList) {
+
+        if (mediaList.size() == 0) {
+            isFinished = true;
+            shuffleButton.setDisable(false);
+            backButton.setDisable(false);
+            playSingleButton.setDisable(false);
+            return;
+        } else {
+            isFinished = false;
+            backButton.setDisable(true);
+            shuffleButton.setDisable(true);
+            playSingleButton.setDisable(true);
+        }
+
+        creationName.setText(audioList.get(0));
+        audioList.remove(0);
+
+        Media playing = mediaList.remove(0);
+        audioPlayer = new MediaPlayer(playing);
+        audioPlayer.play();
+        audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
+        audioPlayer.setOnReady(this::progressBar);
+        audioPlayer.setOnEndOfMedia(() -> {
+            playMediaTracks(mediaList, audioList);
+        });
+    }
+
+    private void progressBar() {
+        try {
+            timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                    new KeyFrame((audioPlayer.getTotalDuration()), new KeyValue(progressBar.progressProperty(), 1))
+            );
+            timeline.setCycleCount(1);
+            timeline.play();
+        } catch (IllegalArgumentException e) {
+            //WHOOPS
+        }
+    }
+
+
+    @FXML
+    public void playSingleButtonClicked() throws IOException {
+
+        if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
+            audioPlayer.stop();
+        }
+
+        selectedName = creationsListView.getSelectionModel().getSelectedItem();
+        creationName.setText(selectedName);
+
+        String defaultName = selectedName;
+        String databasePath = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+
+        defaultName = defaultName.replace(".wav", "");
+        defaultName = defaultName.concat(".wav");
+        Media media = new Media(new File(databasePath + "/" + selectedName + "/" + defaultName).toURI().toString());
+        audioPlayer = new MediaPlayer(media);
+        audioPlayer.setOnPlaying(new AudioRunnable(false));
+        audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
+        audioPlayer.play();
+        audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
+        audioPlayer.setOnReady(this::progressBar);
+    }
+
+    //AudioRunnable is a thread that runs in the background and acts as a listener for the media player to ensure buttons are enabled/disabled correctly
+    private class AudioRunnable implements Runnable {
+
+        private boolean isFinished;
+
+        private AudioRunnable(boolean status){
+            isFinished = status;
+        }
+
+        @Override
+        public void run() {
+            //When the media player has finished, the buttons will be enabled
+            if (isFinished) {
+
+                if (creationList.size() > 1) {
+                    shuffleButton.setDisable(false);
+                    playPauseButton.setDisable(false);
+                }
+                backButton.setDisable(false);
+                playPauseButton.setDisable(false);
+                audioPlayer.dispose();
+                //When the media player is playing the audio file, the buttons will be disabled to prevent the user from navigating away
+            } else {
+                backButton.setDisable(true);
+                shuffleButton.setDisable(true);
+                playPauseButton.setDisable(true);
+            }
+        }
     }
 
     @FXML
     void compareButtonClicked(MouseEvent event) throws IOException {
+
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+        }
+
         Scene scene = SetUp.getInstance().compareMenu;
         Stage window = (Stage) compareButton.getScene().getWindow();
         window.setScene(scene);
@@ -123,11 +275,22 @@ public class PracticeMenuController {
 
     @FXML
     void shuffleButtonClicked(MouseEvent event) {
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+        }
 
+        //Shuffle list
+        Collections.shuffle(creationsListView.getItems());
+        creationList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
     }
 
     @FXML
-    void audioRatingsPressed(ActionEvent event){
+    void audioRatingsPressed(ActionEvent event) throws IOException {
+        //Pass current class through to bad recordings
+        SetUp.getInstance().audioRatingsController.setPreviousScene("practiceMenu");
+        Scene scene = SetUp.getInstance().audioRatingsMenu;
+        Stage window = (Stage) backButton.getScene().getWindow();
+        window.setScene(scene);
 
     }
 
@@ -147,9 +310,19 @@ public class PracticeMenuController {
         creationsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             creationName.setText(creationsListView.getSelectionModel().getSelectedItem());
             if(creationsListView.getSelectionModel().getSelectedItems().size() != 1) {
+                //If nothing is selected, disable the buttons
+                playSingleButton.setDisable(true);
+                playPauseButton.setDisable(true);
+                ratingsButton.setDisable(true);
+                shuffleButton.setDisable(true);
+                compareButton.setDisable(true);
 
             } else {
                 playSingleButton.setDisable(false);
+                playPauseButton.setDisable(false);
+                ratingsButton.setDisable(false);
+                shuffleButton.setDisable(false);
+                compareButton.setDisable(false);
 
             }
         });

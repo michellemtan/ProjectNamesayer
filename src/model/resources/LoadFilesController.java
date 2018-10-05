@@ -88,6 +88,7 @@ public class LoadFilesController {
             }
         });
         //TODO: Make search work case insensitive
+        //TODO: If you search a name and clear the text field, the order of names is messed up
         //Update list view with filtered data if there is any
         filteredData.addListener((ListChangeListener<String>) c -> {
             databaseNamesListView.getItems().clear();
@@ -100,9 +101,7 @@ public class LoadFilesController {
     void addButtonClicked() {
 
         //Clear previous settings
-        practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems());
-        practiceNamesListView.refresh();
-        practiceButton.setDisable(true);
+       clearListView();
 
         FileChooser fc = new FileChooser();
         fc.setTitle("Select text file");
@@ -134,6 +133,7 @@ public class LoadFilesController {
                             builder.append(s + " ");
                         }
                         String str = builder.toString();
+                        //Trim off white space otherwise results in Catherine .wav rather than Catherine.wav
                         str = str.trim();
                         namesList.add(str);
 
@@ -152,6 +152,10 @@ public class LoadFilesController {
 
     @FXML
     void backButtonClicked() throws IOException {
+
+        clearListView();
+
+        //Change back to database menu
         Scene scene = SetUp.getInstance().databaseSelectMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
@@ -167,12 +171,16 @@ public class LoadFilesController {
 
         if (practiceNamesListView.getItems().size()>0) {
 
+            //Don't play names that don't exist
             for (String name : practiceNames) {
                 if (!name.contains("*")) {
                     tempNames.add(name);
                 }
             }
 
+            //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
+
+            //Change to practice menu and set the path to have come from the load files menu
             SetUp.getInstance().practiceMenuController.setUpList(tempNames);
             SetUp.getInstance().exitPracticeMenuController.setPreviousScene("loadFilesMenu");
             Scene scene = SetUp.getInstance().practiceMenu;
@@ -187,5 +195,13 @@ public class LoadFilesController {
         if(e.getCode() == KeyCode.ESCAPE) {
             filteredInput.clear();
         }
+    }
+
+    @FXML
+    private void clearListView(){
+        //Clear previous settings
+        practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems());
+        practiceNamesListView.refresh();
+        practiceButton.setDisable(true);
     }
 }
