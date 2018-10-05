@@ -148,15 +148,17 @@ public class PracticeMenuController {
 
         List<String> audioList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
         mediaList = FXCollections.observableArrayList();
-        String databasePath = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
 
         //System.out.println("Creation list size: " + audioList.size());
 
         for (String creation : audioList) {
             //Set up the file to be played
             selectedName = creation;
-            String defaultName = selectedName.replaceAll(".wav", "");
-            Media media = new Media(new File(databasePath + "/" + selectedName + "/" + defaultName).toURI().toString() + ".wav");
+
+            //Get folder name and find files within
+            String folderName = pathToDB + "/" + selectedName + "/";
+            File[] listFiles = new File(folderName).listFiles();
+            Media media = new Media(listFiles[0].toURI().toString());
             mediaList.add(media);
         }
 
@@ -171,12 +173,14 @@ public class PracticeMenuController {
             shuffleButton.setDisable(false);
             backButton.setDisable(false);
             playSingleButton.setDisable(false);
+            compareButton.setDisable(false);
             return;
         } else {
             isFinished = false;
             backButton.setDisable(true);
             shuffleButton.setDisable(true);
             playSingleButton.setDisable(true);
+            compareButton.setDisable(true);
         }
 
         creationName.setText(audioList.get(0));
@@ -213,15 +217,14 @@ public class PracticeMenuController {
             audioPlayer.stop();
         }
 
+        //Change the label of the practice menu to the name being played
         selectedName = creationsListView.getSelectionModel().getSelectedItem();
         creationName.setText(selectedName);
 
-        String defaultName = selectedName;
-        String databasePath = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
-
-        defaultName = defaultName.replace(".wav", "");
-        defaultName = defaultName.concat(".wav");
-        Media media = new Media(new File(databasePath + "/" + selectedName + "/" + defaultName).toURI().toString());
+        //Get folder name and find files within
+        String folderName = pathToDB + "/" + selectedName + "/";
+        File[] listFiles = new File(folderName).listFiles();
+        Media media = new Media(listFiles[0].toURI().toString());
         audioPlayer = new MediaPlayer(media);
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
@@ -250,12 +253,14 @@ public class PracticeMenuController {
                 }
                 backButton.setDisable(false);
                 playPauseButton.setDisable(false);
+                compareButton.setDisable(false);
                 audioPlayer.dispose();
                 //When the media player is playing the audio file, the buttons will be disabled to prevent the user from navigating away
             } else {
                 backButton.setDisable(true);
                 shuffleButton.setDisable(true);
                 playPauseButton.setDisable(true);
+                compareButton.setDisable(true);
             }
         }
     }
@@ -267,6 +272,7 @@ public class PracticeMenuController {
             audioPlayer.stop();
         }
 
+        SetUp.getInstance().compareMenuController.setUp(creationsListView.getSelectionModel().getSelectedItem());
         Scene scene = SetUp.getInstance().compareMenu;
         Stage window = (Stage) compareButton.getScene().getWindow();
         window.setScene(scene);
@@ -305,7 +311,6 @@ public class PracticeMenuController {
         creationsListView.getItems().setAll(creationList);
         creationsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
-
 
         creationsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             creationName.setText(creationsListView.getSelectionModel().getSelectedItem());
