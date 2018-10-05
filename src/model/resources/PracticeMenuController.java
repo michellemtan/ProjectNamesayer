@@ -36,19 +36,12 @@ public class PracticeMenuController {
     @FXML private Button ratingsButton;
     @FXML private ContextMenu ratingsContext;
     @FXML private MenuItem audioRatings;
-
     private List<String> creationList;
-
     private String pathToDB;
-
     private MediaPlayer audioPlayer;
-
     private boolean isFinished;
-
     private Timeline timeline;
-
     private ObservableList<Media> mediaList;
-
     private String selectedName;
 
     @FXML

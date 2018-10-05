@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnterNamesController {
@@ -117,7 +118,7 @@ public class EnterNamesController {
             for(String s : split) {
                 builder.append(s + " ");
             }
-            String str = builder.toString();
+            String str = builder.toString().trim();
             practiceNamesListView.getItems().add(str);
             //Clear textfield
             nameInput.clear();
@@ -147,10 +148,25 @@ public class EnterNamesController {
 
     @FXML
     void practiceButtonClicked() throws IOException {
-        SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
-        Scene scene = SetUp.getInstance().practiceMenu;
-        Stage window = (Stage) backButton.getScene().getWindow();
-        window.setScene(scene);
+        //Send names to practice menu
+        List<String> practiceNames = practiceNamesListView.getItems();
+        List<String> tempNames = new ArrayList<>();
+
+        if (practiceNamesListView.getItems().size()>0) {
+
+            //Don't play names that don't exist
+            for (String name : practiceNames) {
+                if (!name.contains("*")) {
+                    tempNames.add(name);
+                }
+            }
+            //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
+            SetUp.getInstance().practiceMenuController.setUpList(tempNames);
+            SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
+            Scene scene = SetUp.getInstance().practiceMenu;
+            Stage window = (Stage) backButton.getScene().getWindow();
+            window.setScene(scene);
+        }
     }
 
     //Clear textfield if escape key pressed
