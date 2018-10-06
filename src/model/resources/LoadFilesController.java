@@ -49,6 +49,14 @@ public class LoadFilesController {
     //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
 
     public void initialize() {
+
+        practiceNamesListView.setCellFactory(lv -> {
+            ListCell<String> cell = new ListCell<>();
+            cell.getStyleClass().add("list-cell-red");
+            cell.textProperty().bind(cell.itemProperty());
+            return cell;
+        });
+
         splitPane.setDividerPositions(0);
         BooleanProperty collapsed = new SimpleBooleanProperty();
         collapsed.bind(splitPane.getDividers().get(0).positionProperty().isEqualTo(0.0, 0.01));
@@ -66,6 +74,9 @@ public class LoadFilesController {
         databaseNamesListView.getItems().clear();
         databaseNamesListView.getItems().addAll(listNames);
         databaseNamesListView.getItems().sort(String.CASE_INSENSITIVE_ORDER);
+        //Make practice names list not selectable by user, and allow all invalid names to be selected (highlighted)
+        practiceNamesListView.addEventFilter(MouseEvent.MOUSE_PRESSED, Event::consume);
+        practiceNamesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         //Set label to reflect current database
         dbName.setText(name);
 
@@ -142,8 +153,7 @@ public class LoadFilesController {
                         }
                         String str = builder.toString();
                         //Trim off white space otherwise results in Catherine .wav rather than Catherine.wav
-                        str = str.trim();
-                        namesList.add(str);
+                        namesList.add(str.trim());
 
                 //Disable the practice button when names are read
                 practiceButton.setDisable(false);
@@ -155,6 +165,12 @@ public class LoadFilesController {
             } catch (IOException ignored) {
             }
 
+        }
+        //Select invalid names
+        for(int i=0; i<practiceNamesListView.getItems().size(); i++) {
+            if(practiceNamesListView.getItems().get(i).contains("*")) {
+                practiceNamesListView.getSelectionModel().select(i);
+            }
         }
     }
 
