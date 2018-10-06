@@ -127,37 +127,14 @@ public class PracticeMenuController {
         List<String> audioList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
         mediaList = FXCollections.observableArrayList();
 
-        for (String creation : audioList) {
-            //Set up the file to be played
-            selectedName = creation;
+        String folderName = "created_names/";
 
-            //Split name up and concat audio files
-            String[] split = selectedName.split("[-\\s]");
+        File[] listFiles = new File(folderName).listFiles();
 
-            for (int i = 0; i < split.length; i++) {
-                String folderName = pathToDB + "/" + split[i] + "/";
-                File[] listFiles = new File(folderName).listFiles();
-                String concatString = listFiles[0].toURI().toString();
-                concatString = concatString.replaceAll("file:", "");
-                addToTextFile(concatString);
-            }
-
-            String newName = selectedName.replaceAll(" ","");
-            System.out.println(newName);
-
-            ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy " + newName +".wav");
-            Process p = audioBuilder.start();
-            System.out.println("Start");
-            p.waitFor();
-            System.out.println("Ended");
-
-            //Erase the file after reading
-            Media media = new Media(new File(newName).toURI().toString() + ".wav");
+        for (File f : listFiles) {
+            Media media = new Media(f.toURI().toString());
             mediaList.add(media);
-            System.out.println("Erased");
-           PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
-
-        }
+          }
             playMediaTracks(mediaList, audioList);
     }
 
@@ -215,13 +192,17 @@ public class PracticeMenuController {
 
         //Change the label of the practice menu to the name being played
         selectedName = creationsListView.getSelectionModel().getSelectedItem();
+        int selectedIndex = creationsListView.getSelectionModel().getSelectedIndex();
+
         creationName.setText(selectedName);
 
         //Get folder name and find files within
-        String folderName = pathToDB + "/" + selectedName;
+        String folderName = "created_names/";
+
         File[] listFiles = new File(folderName).listFiles();
-        Media media = new Media(listFiles[0].toURI().toString());
+        Media media = new Media(listFiles[selectedIndex].toURI().toString());
         audioPlayer = new MediaPlayer(media);
+
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
         audioPlayer.play();

@@ -18,12 +18,14 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,7 +168,13 @@ public class LoadFilesController {
     }
 
     @FXML
-    void practiceButtonClicked(MouseEvent e) throws IOException {
+    void practiceButtonClicked(MouseEvent e) throws IOException, InterruptedException {
+
+        ProcessBuilder removeBuilder = new ProcessBuilder("/bin/bash", "-c", "rm -r ./created_names");
+        Process r = removeBuilder.start();
+        r.waitFor();
+
+        int audioNumber = 0;
 
         //Send names to practice menu
         List<String> practiceNames = practiceNamesListView.getItems();
@@ -183,6 +191,38 @@ public class LoadFilesController {
 
             //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
 
+            //Concat names before loading menu
+            new File("./created_names").mkdir();
+            System.out.println("Made directory");
+
+            String pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+
+            for (String creation : tempNames) {
+
+                audioNumber++;
+                //Set up the file to be played
+                String selectedName = creation;
+
+                //Split name up and concat audio files
+                String[] split = selectedName.split("[-\\s]");
+
+                for (int i = 0; i < split.length; i++) {
+                    String folderName = pathToDB + "/" + split[i] + "/";
+                    File[] listFiles = new File(folderName).listFiles();
+                    String concatString = listFiles[0].toURI().toString();
+                    concatString = concatString.replaceAll("file:", "");
+                    addToTextFile(concatString);
+                }
+
+                String newName = selectedName.replaceAll(" ","");
+
+                ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
+                Process p = audioBuilder.start();
+                p.waitFor();
+                PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
+
+            }
+
             //Change to practice menu and set the path to have come from the load files menu
             SetUp.getInstance().practiceMenuController.setUpList(tempNames);
             SetUp.getInstance().exitPracticeMenuController.setPreviousScene("loadFilesMenu");
@@ -191,6 +231,16 @@ public class LoadFilesController {
             window.setScene(scene);
         }
     }
+
+
+    private void addToTextFile(String name) throws IOException {
+        File f = new File("ConcatNames.txt");
+        BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
+        bw.append("file '"+name+"'\n");
+        bw.flush();
+        bw.close();
+    }
+
 
     //Clear textfield if escape key pressed
     @FXML
