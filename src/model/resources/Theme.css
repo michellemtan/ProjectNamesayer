@@ -1,10 +1,10 @@
 .root{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #C5CAE9;
     -fx-font-family: 'ubuntu';
 }
 
 .button{
-    -fx-background-color: #009688;
+    -fx-background-color: #1A237E;
     -fx-text-fill: #FFFFFF;
     -fx-border-color: #000000;
     -fx-border-radius: 8px;
@@ -12,8 +12,7 @@
 }
 
 .button:hover{
-    -fx-background-color: #26A69A;
-    transition: -fx-background-color 1s;
+    -fx-background-color: #5C6BC0;
 }
 
 .label {
@@ -26,11 +25,11 @@
 }
 
 .text-field{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #E8EAF6;
     -fx-border-color: #000000;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
-    -fx-accent: #009688;
+    -fx-accent: #1A237E;
 }
 
 .text-field:selected{
@@ -38,47 +37,47 @@
 }
 
 .progress-bar{
-    -fx-accent: #009688;
+    -fx-accent: #1A237E;
     -fx-background-radius: 8px;
     -fx-border-radius: 8px;
 }
 
 .progress-bar .track{
     -fx-text-box-border: #000000;
-    -fx-control-inner-background: #B2DFDB;
+    -fx-control-inner-background: #C5CAE9;
     -fx-background-radius: 8px;
     -fx-border-radius: 8px;
 }
 
 .text-area{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #E8EAF6;
     -fx-text-fill: black;
 }
 
 .text-area .content{
-    -fx-background-color: #B2DFDB;
+    -fx-background-color: #C5CAE9;
     -fx-border-color: black;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
 }
 
 .context-menu {
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #E8EAF6;
     -fx-text-fill: black;
 }
 
 .menu-item:focused {
-    -fx-background-color: #009688;
+    -fx-background-color: #1A237E;
 }
 
 .scroll-bar{
     -fx-border-color: #000000;
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #E8EAF6;
 }
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb{
-    -fx-background-color: #009688;
+    -fx-background-color: #1A237E;
 }
 
 .scroll-bar:horizontal .track,
@@ -88,38 +87,47 @@
 
 .scroll-bar:horizontal .increment-button ,
 .scroll-bar:horizontal .decrement-button {
-    -fx-background-color :#E0F2F1;
+    -fx-background-color : #E8EAF6;
     -fx-background-radius: 8px;
 }
 
 .scroll-bar:vertical .increment-button ,
 .scroll-bar:vertical .decrement-button {
-    -fx-background-color :#E0F2F1;
+    -fx-background-color :#E8EAF6;
     -fx-background-radius: 8px;
 }
 
 .list-view{
-    -fx-background-color: #009688;
+    -fx-background-color: #1A237E;
     -fx-background-radius: 8px;
-    -fx-border-color: #009688;
+    -fx-border-color: #1A237E;
     -fx-border-radius: 8px;
 }
 
 .list-cell{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #E8EAF6;
     -fx-background-radius: 2px;
 }
 
 .list-cell:even {
-    -fx-background-color: #B2DFDB;
+    -fx-background-color: #C5CAE9;
 }
 
 .list-cell:hover {
-    -fx-background-color: #80CBC4;
+    -fx-background-color: #7986CB;
 }
 
 .list-cell:selected{
-    -fx-background-color: #009688;
+    -fx-background-color: #1A237E;
+}
+
+.split-pane{
+    -fx-background-color: #E8EAF6;
+}
+
+.split-pane-divider{
+    -fx-background-color: #C5CAE9;
+    -fx-border-color: #C5CAE9;
 }
 
 .list-cell-red{
