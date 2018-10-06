@@ -43,13 +43,19 @@ public class EnterNamesController {
     @FXML private Button practiceButton;
     @FXML private Label dbName;
     @FXML private TextField nameInput;
-    @FXML private ListView<String> transparentListView;
     private List<String> allNames;
     private List<String> tempNames;
 
     //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
 
     public void initialize() {
+
+        practiceNamesListView.setCellFactory(lv -> {
+            ListCell<String> cell = new ListCell<>();
+            cell.getStyleClass().add("list-cell-red");
+            cell.textProperty().bind(cell.itemProperty());
+            return cell;
+        });
 
         //Disable button when no name has been entered
         practiceButton.setDisable(true);
@@ -67,6 +73,7 @@ public class EnterNamesController {
         });
 
         practiceNamesListView.addEventFilter(MouseEvent.MOUSE_PRESSED, Event::consume);
+        practiceNamesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
 
@@ -115,6 +122,7 @@ public class EnterNamesController {
     void addButtonClicked() {
         String input = nameInput.getText();
         if(input != null && !input.isEmpty()) {
+
             //Check if added name is available
             String[] split = input.split("[-\\s]");
             for(int i=0; i<split.length; i++) {
@@ -129,6 +137,9 @@ public class EnterNamesController {
             }
             String str = builder.toString().trim();
             practiceNamesListView.getItems().add(str);
+            if(str.contains("*")) {
+                practiceNamesListView.getSelectionModel().select(practiceNamesListView.getItems().size() - 1);
+            }
             //Clear textfield
             nameInput.clear();
 
@@ -170,7 +181,7 @@ public class EnterNamesController {
 
         //Send names to practice menu
         List<String> practiceNames = practiceNamesListView.getItems();
-        tempNames = new ArrayList<String>();
+        tempNames = new ArrayList<>();
 
         if (practiceNamesListView.getItems().size() > 0) {
 
