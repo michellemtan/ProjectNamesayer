@@ -125,7 +125,11 @@ public class EnterNamesController {
             //Check if added name is available
             String[] split = input.replaceAll("-", " -").split("[\\s]");
             for(int i=0; i<split.length; i++) {
-                if(!allNames.contains(split[i])) {
+                if(split[i].startsWith("-")) {
+                    if(!allNames.contains(split[i].substring(1))) {
+                        split[i] = "*" + split[i] + "*";
+                    }
+                }else if(!allNames.contains(split[i])) {
                     split[i] = "*" + split[i] + "*";
                 }
             }

@@ -137,9 +137,13 @@ public class LoadFilesController {
 
                 while ((line = reader.readLine()) != null) {
                         //Check if added name is available
-                        String[] split = line.split("[-\\s]");
+                        String[] split = line.replaceAll("-", " -").split("[\\s]");
                         for(int i=0; i<split.length; i++) {
-                            if(!allNames.contains(split[i])) {
+                            if(split[i].startsWith("-")) {
+                                if(!allNames.contains(split[i].substring(1))) {
+                                    split[i] = "*" + split[i] + "*";
+                                }
+                            }else if(!allNames.contains(split[i])) {
                                 split[i] = "*" + split[i] + "*";
                             }
                         }
