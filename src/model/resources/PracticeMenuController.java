@@ -17,10 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class PracticeMenuController {
 
@@ -42,6 +39,7 @@ public class PracticeMenuController {
     private Timeline timeline;
     private ObservableList<Media> mediaList;
     private String selectedName;
+    private HashMap<String,Media> hashMap;
 
     @FXML
     void backButtonClicked() throws IOException {
@@ -114,51 +112,16 @@ public class PracticeMenuController {
 
     }
 
-    private void addToTextFile(String name) throws IOException {
-        File f = new File("ConcatNames.txt");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
-        bw.append("file '"+name+"'\n");
-        bw.flush();
-        bw.close();
-    }
-
     private void mediaPlayerCreator() throws IOException, InterruptedException {
 
         List<String> audioList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
         mediaList = FXCollections.observableArrayList();
 
-        for (String creation : audioList) {
-            //Set up the file to be played
-            selectedName = creation;
-
-            //Split name up and concat audio files
-            String[] split = selectedName.split("[-\\s]");
-
-            for (int i = 0; i < split.length; i++) {
-                String folderName = pathToDB + "/" + split[i] + "/";
-                File[] listFiles = new File(folderName).listFiles();
-                String concatString = listFiles[0].toURI().toString();
-                concatString = concatString.replaceAll("file:", "");
-                addToTextFile(concatString);
-            }
-
-            String newName = selectedName.replaceAll(" ","");
-            System.out.println(newName);
-
-            ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy " + newName +".wav");
-            Process p = audioBuilder.start();
-            System.out.println("Start");
-            p.waitFor();
-            System.out.println("Ended");
-
-            //Erase the file after reading
-            Media media = new Media(new File(newName).toURI().toString() + ".wav");
-            mediaList.add(media);
-            System.out.println("Erased");
-           PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
-
+        for (String a: audioList){
+            mediaList.add(hashMap.get(a));
         }
-            playMediaTracks(mediaList, audioList);
+
+        playMediaTracks(mediaList, audioList);
     }
 
 
@@ -215,13 +178,13 @@ public class PracticeMenuController {
 
         //Change the label of the practice menu to the name being played
         selectedName = creationsListView.getSelectionModel().getSelectedItem();
+        int selectedIndex = creationsListView.getSelectionModel().getSelectedIndex();
+
         creationName.setText(selectedName);
 
-        //Get folder name and find files within
-        String folderName = pathToDB + "/" + selectedName;
-        File[] listFiles = new File(folderName).listFiles();
-        Media media = new Media(listFiles[0].toURI().toString());
+        Media media = hashMap.get(selectedName);
         audioPlayer = new MediaPlayer(media);
+
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
         audioPlayer.play();
@@ -297,6 +260,8 @@ public class PracticeMenuController {
     }
 
     public void setUpList(List<String> list) throws IOException {
+
+        //Set up the practice list view
         creationList = list;
         pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
         playPauseButton.setDisable(false);
@@ -307,6 +272,19 @@ public class PracticeMenuController {
         creationsListView.getItems().setAll(creationList);
         creationsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+
+        //Create hashmap of audio files
+        String folderName = "created_names/";
+        File[] listFiles = new File(folderName).listFiles();
+        Arrays.sort(listFiles);
+
+        hashMap = new HashMap<>();
+
+        for (int i = 0; i < listFiles.length; i++) {
+            System.out.println(listFiles[i].toString());
+            Media media = new Media(listFiles[i].toURI().toString());
+            hashMap.put(creationsListView.getItems().get(i),media);
+        }
 
         creationsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             creationName.setText(creationsListView.getSelectionModel().getSelectedItem());

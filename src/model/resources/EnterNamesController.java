@@ -10,6 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -23,9 +25,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class EnterNamesController {
 
@@ -42,7 +45,7 @@ public class EnterNamesController {
     @FXML private TextField nameInput;
     @FXML private ListView<String> transparentListView;
     private List<String> allNames;
-
+    private List<String> tempNames;
 
     //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
 
@@ -159,13 +162,17 @@ public class EnterNamesController {
     }
 
     @FXML
-    void practiceButtonClicked() throws IOException {
+    void practiceButtonClicked() throws IOException, InterruptedException {
+
+        ProcessBuilder removeBuilder = new ProcessBuilder("/bin/bash", "-c", "rm -r ./created_names");
+        Process r = removeBuilder.start();
+        r.waitFor();
 
         //Send names to practice menu
         List<String> practiceNames = practiceNamesListView.getItems();
-        List<String> tempNames = new ArrayList<>();
+        tempNames = new ArrayList<String>();
 
-        if (practiceNamesListView.getItems().size()>0) {
+        if (practiceNamesListView.getItems().size() > 0) {
 
             //Don't play names that don't exist
             for (String name : practiceNames) {
@@ -174,14 +181,32 @@ public class EnterNamesController {
                 }
             }
 
-            //Change to practice menu and set the path to have come from the enter names menu
-            SetUp.getInstance().practiceMenuController.setUpList(tempNames);
-            SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
-            Scene scene = SetUp.getInstance().practiceMenu;
-            Stage window = (Stage) backButton.getScene().getWindow();
-            window.setScene(scene);
-        }
+            //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
+            //TODO: WHAT IF THE LIST LOADED CONTAINS A NAME TWICE E.G. CATHERINE WATSON TWICE?
+
+            //Concat names before loading menu
+            new File("./created_names").mkdir();
+
+            ConcatService service = new ConcatService();
+            service.setOnSucceeded(event -> {
+                try {
+                    //Change to practice menu and set the path to have come from the enter names menu
+                    SetUp.getInstance().practiceMenuController.setUpList(tempNames);
+                    SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
+                    Scene scene = SetUp.getInstance().practiceMenu;
+                    Stage window = (Stage) backButton.getScene().getWindow();
+                    window.setScene(scene);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            });
+
+            service.start();
+
+
+            }
     }
+
 
     //Clear textfield if escape key pressed
     @FXML
@@ -190,4 +215,64 @@ public class EnterNamesController {
             filteredInput.clear();
         }
     }
+
+
+    private class ConcatService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws IOException, InterruptedException {
+                    String pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+
+
+                    int audioNumber = 0;
+                    for (String creation : tempNames) {
+
+                        audioNumber++;
+                        //Set up the file to be played
+                        String selectedName = creation;
+
+                        //Split name up and concat audio files
+                        String[] split = selectedName.split("[-\\s]");
+
+                        String concatString;
+
+                        for (int i = 0; i < split.length; i++) {
+                            String folderName = pathToDB + "/" + split[i] + "/";
+                            File[] listFiles = new File(folderName).listFiles();
+
+                            if (listFiles.length>1) {
+                                Random randomizer = new Random();
+                                File file = listFiles[randomizer.nextInt(listFiles.length)];
+                                concatString = file.toURI().toString();
+                            } else {
+                                concatString = listFiles[0].toURI().toString();
+                            }
+                            concatString = concatString.replaceAll("file:", "");
+                            addToTextFile(concatString);
+                        }
+
+                        String newName = selectedName.replaceAll(" ","");
+
+                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
+                        Process p = audioBuilder.start();
+                        p.waitFor();
+                        PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
+
+                    }
+                    return null;
+                }
+            };
+        }
+    }
+
+    private void addToTextFile(String name) throws IOException {
+        File f = new File("ConcatNames.txt");
+        BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
+        bw.append("file '"+name+"'\n");
+        bw.flush();
+        bw.close();
+    }
 }
+
