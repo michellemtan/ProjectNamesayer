@@ -28,6 +28,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class LoadFilesController {
 
@@ -190,6 +191,7 @@ public class LoadFilesController {
             }
 
             //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
+            //TODO: PUT AUDIO PROCESSOR IN DO IN BACKGROUND??
 
             //Concat names before loading menu
             new File("./created_names").mkdir();
@@ -206,10 +208,19 @@ public class LoadFilesController {
                 //Split name up and concat audio files
                 String[] split = selectedName.split("[-\\s]");
 
+                String concatString;
+
                 for (int i = 0; i < split.length; i++) {
                     String folderName = pathToDB + "/" + split[i] + "/";
                     File[] listFiles = new File(folderName).listFiles();
-                    String concatString = listFiles[0].toURI().toString();
+
+                    if (listFiles.length>1) {
+                        Random randomizer = new Random();
+                        File file = listFiles[randomizer.nextInt(listFiles.length)];
+                        concatString = file.toURI().toString();
+                    } else {
+                        concatString = listFiles[0].toURI().toString();
+                    }
                     concatString = concatString.replaceAll("file:", "");
                     addToTextFile(concatString);
                 }
