@@ -44,6 +44,8 @@ public class EnterNamesController {
     private List<String> allNames;
 
 
+    //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
+
     public void initialize() {
 
         //Disable button when no name has been entered

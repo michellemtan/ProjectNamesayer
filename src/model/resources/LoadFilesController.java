@@ -40,6 +40,9 @@ public class LoadFilesController {
     @FXML private TextField textField;
     private List<String> allNames;
 
+
+    //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
+
     public void initialize() {
         splitPane.setDividerPositions(0);
         BooleanProperty collapsed = new SimpleBooleanProperty();
