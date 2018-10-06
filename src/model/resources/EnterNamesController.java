@@ -139,6 +139,9 @@ public class EnterNamesController {
     private void enterName(KeyEvent e) {
         if(e.getCode() == KeyCode.ENTER) {
             addButtonClicked();
+        } else if(nameInput.getText().length() >= 50) {
+            //50 character limit (of sorts)
+            nameInput.setText(nameInput.getText().substring(0, Math.min(nameInput.getText().length(), 50)));
         }
     }
 

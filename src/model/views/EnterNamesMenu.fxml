@@ -96,7 +96,7 @@
                         </VBox>
                         <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
                            <children>
-                              <ListView fx:id="practiceNamesListView" />
+                              <ListView fx:id="practiceNamesListView" stylesheets="@../resources/Theme.css" />
                            </children>
                         </StackPane>
                      </children>
