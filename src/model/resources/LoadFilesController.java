@@ -131,12 +131,9 @@ public class LoadFilesController {
         if (selectedFile != null) {
             textField.setText(selectedFile.toString());
 
-            List<String> namesList = new ArrayList<>();
-
             //Read in the file containing the list of bad quality recordings
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 String line;
-                StringBuilder fieldContent = new StringBuilder();
 
                 while ((line = reader.readLine()) != null) {
                         //Check if added name is available
@@ -152,15 +149,14 @@ public class LoadFilesController {
                             builder.append(s + " ");
                         }
                         String str = builder.toString();
-                        //Trim off white space otherwise results in Catherine .wav rather than Catherine.wav
-                        namesList.add(str.trim());
+                        //Add if not duplicate
+                        if(!practiceNamesListView.getItems().contains(str)) {
+                            practiceNamesListView.getItems().add(str);
+                        }
 
                 //Disable the practice button when names are read
                 practiceButton.setDisable(false);
                 }
-
-                //Add text from file to list view
-                practiceNamesListView.getItems().addAll(namesList);
 
             } catch (IOException ignored) {
             }

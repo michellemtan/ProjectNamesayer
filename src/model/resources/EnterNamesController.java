@@ -121,16 +121,15 @@ public class EnterNamesController {
     @FXML
     void addButtonClicked() {
         String input = nameInput.getText();
-        if(input != null && !input.isEmpty()) {
-
+        if(input != null && !input.isEmpty() && !practiceNamesListView.getItems().contains(input)) {
             //Check if added name is available
-            String[] split = input.split("[-\\s]");
+            String[] split = input.replaceAll("-", " -").split("[\\s]");
             for(int i=0; i<split.length; i++) {
                 if(!allNames.contains(split[i])) {
                     split[i] = "*" + split[i] + "*";
                 }
             }
-            //Add string to list view //TODO: re-add hyphen if present
+            //Add string to list view
             StringBuilder builder = new StringBuilder();
             for(String s : split) {
                 builder.append(s + " ");
@@ -140,12 +139,12 @@ public class EnterNamesController {
             if(str.contains("*")) {
                 practiceNamesListView.getSelectionModel().select(practiceNamesListView.getItems().size() - 1);
             }
-            //Clear textfield
-            nameInput.clear();
 
             //Enable practice button after a name has been added
             practiceButton.setDisable(false);
         }
+        //Clear textfield
+        nameInput.clear();
     }
 
     //Call addButtonClicked if user presses enter from add name text field
