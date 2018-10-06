@@ -16,8 +16,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -96,7 +95,7 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void playButtonClicked() throws IOException {
+    void playButtonClicked() throws IOException, InterruptedException {
         if (isFinished) {
             mediaPlayerCreator();
         } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
@@ -115,25 +114,51 @@ public class PracticeMenuController {
 
     }
 
-    private void mediaPlayerCreator() throws IOException {
+    private void addToTextFile(String name) throws IOException {
+        File f = new File("ConcatNames.txt");
+        BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
+        bw.append("file '"+name+"'\n");
+        bw.flush();
+        bw.close();
+    }
+
+    private void mediaPlayerCreator() throws IOException, InterruptedException {
 
         List<String> audioList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
         mediaList = FXCollections.observableArrayList();
-
-        //System.out.println("Creation list size: " + audioList.size());
 
         for (String creation : audioList) {
             //Set up the file to be played
             selectedName = creation;
 
-            //Get folder name and find files within
-            String folderName = pathToDB + "/" + selectedName + "/";
-            File[] listFiles = new File(folderName).listFiles();
-            Media media = new Media(listFiles[0].toURI().toString());
-            mediaList.add(media);
-        }
+            //Split name up and concat audio files
+            String[] split = selectedName.split("[-\\s]");
 
-        playMediaTracks(mediaList, audioList);
+            for (int i = 0; i < split.length; i++) {
+                String folderName = pathToDB + "/" + split[i] + "/";
+                File[] listFiles = new File(folderName).listFiles();
+                String concatString = listFiles[0].toURI().toString();
+                concatString = concatString.replaceAll("file:", "");
+                addToTextFile(concatString);
+            }
+
+            String newName = selectedName.replaceAll(" ","");
+            System.out.println(newName);
+
+            ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy " + newName +".wav");
+            Process p = audioBuilder.start();
+            System.out.println("Start");
+            p.waitFor();
+            System.out.println("Ended");
+
+            //Erase the file after reading
+            Media media = new Media(new File(newName).toURI().toString() + ".wav");
+            mediaList.add(media);
+            System.out.println("Erased");
+           PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
+
+        }
+            playMediaTracks(mediaList, audioList);
     }
 
 
