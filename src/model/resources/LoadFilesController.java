@@ -192,7 +192,7 @@ public class LoadFilesController {
             }
 
             //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
-            //TODO: PUT AUDIO PROCESSOR IN DO IN BACKGROUND??
+            //TODO: WHAT IF THE LIST LOADED CONTAINS A NAME TWICE E.G. CATHERINE WATSON TWICE?
 
             //Concat names before loading menu
             new File("./created_names").mkdir();
