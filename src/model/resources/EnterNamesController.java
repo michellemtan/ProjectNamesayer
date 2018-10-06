@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EnterNamesController {
@@ -44,6 +45,10 @@ public class EnterNamesController {
 
 
     public void initialize() {
+
+        //Disable button when no name has been entered
+        practiceButton.setDisable(true);
+
         splitPane.setDividerPositions(0);
         BooleanProperty collapsed = new SimpleBooleanProperty();
         collapsed.bind(splitPane.getDividers().get(0).positionProperty().isEqualTo(0.0, 0.01));
@@ -118,9 +123,13 @@ public class EnterNamesController {
                 builder.append(s + " ");
             }
             String str = builder.toString();
+            str = str.trim();
             practiceNamesListView.getItems().add(str);
             //Clear textfield
             nameInput.clear();
+
+            //Enable practice button after a name has been added
+            practiceButton.setDisable(false);
         }
     }
 
@@ -147,10 +156,27 @@ public class EnterNamesController {
 
     @FXML
     void practiceButtonClicked() throws IOException {
-        SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
-        Scene scene = SetUp.getInstance().practiceMenu;
-        Stage window = (Stage) backButton.getScene().getWindow();
-        window.setScene(scene);
+
+        //Send names to practice menu
+        List<String> practiceNames = practiceNamesListView.getItems();
+        List<String> tempNames = new ArrayList<>();
+
+        if (practiceNamesListView.getItems().size()>0) {
+
+            //Don't play names that don't exist
+            for (String name : practiceNames) {
+                if (!name.contains("*")) {
+                    tempNames.add(name);
+                }
+            }
+
+            //Change to practice menu and set the path to have come from the enter names menu
+            SetUp.getInstance().practiceMenuController.setUpList(tempNames);
+            SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
+            Scene scene = SetUp.getInstance().practiceMenu;
+            Stage window = (Stage) backButton.getScene().getWindow();
+            window.setScene(scene);
+        }
     }
 
     //Clear textfield if escape key pressed
