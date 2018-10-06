@@ -45,6 +45,10 @@ public class EnterNamesController {
 
 
     public void initialize() {
+
+        //Disable button when no name has been entered
+        practiceButton.setDisable(true);
+
         splitPane.setDividerPositions(0);
         BooleanProperty collapsed = new SimpleBooleanProperty();
         collapsed.bind(splitPane.getDividers().get(0).positionProperty().isEqualTo(0.0, 0.01));
@@ -122,6 +126,9 @@ public class EnterNamesController {
             practiceNamesListView.getItems().add(str);
             //Clear textfield
             nameInput.clear();
+
+            //Enable practice button after a name has been added
+            practiceButton.setDisable(false);
         }
     }
 
@@ -148,6 +155,7 @@ public class EnterNamesController {
 
     @FXML
     void practiceButtonClicked() throws IOException {
+
         //Send names to practice menu
         List<String> practiceNames = practiceNamesListView.getItems();
         List<String> tempNames = new ArrayList<>();
@@ -160,7 +168,8 @@ public class EnterNamesController {
                     tempNames.add(name);
                 }
             }
-            //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
+
+            //Change to practice menu and set the path to have come from the enter names menu
             SetUp.getInstance().practiceMenuController.setUpList(tempNames);
             SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
             Scene scene = SetUp.getInstance().practiceMenu;

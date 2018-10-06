@@ -34,6 +34,9 @@ public class DatabaseSelectMenuController {
     private Stage progressStage;
     private String pathToDB;
 
+    //TODO: WHAT IF THE USER LOADS A DIRECTORY BUT DELETES IT FROM A FILE EXPLORER
+    //TODO: THEN WHEN YOU CLICK ON IT, THE DATABASE PROCESSES FOREVER
+
     public void initialize() {
         //Create list of keys and add to list view if valid
         String[] prefKeys = new String[0];
