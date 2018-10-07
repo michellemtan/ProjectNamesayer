@@ -216,7 +216,12 @@ public class NamesListController {
     @FXML
     void setUp(String wholeName) throws IOException {
 
+        //TODO: SOMETIMES DOESN'T REFRESH??
         nameListView.getItems().removeAll(nameListView.getItems());
+
+        //Disable buttons
+        playButton.setDisable(true);
+        setDefaultBtn.setDisable(true);
 
         //This method sets up the combo box to display all the parts of a name
         pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
@@ -250,6 +255,17 @@ public class NamesListController {
                 playButton.setDisable(false);
             }
         });
+
+        //Add listener to combo option box
+        nameMenu.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (nameMenu.getSelectionModel().getSelectedIndex()<0){
+                playButton.setDisable(true);
+                setDefaultBtn.setDisable(true);
+            } else {
+                playButton.setDisable(false);
+                setDefaultBtn.setDisable(false);
+            }
+        });
     }
 
     @FXML
@@ -277,6 +293,10 @@ public class NamesListController {
                 defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0]);
             //If the name exists in the hash map
             } else {
+                if (!defaultFileMap.containsKey(nameMenu.getSelectionModel().getSelectedItem())) {
+                    defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0]);
+                }
+
                 defaultName = defaultFileMap.get(nameMenu.getSelectionModel().getSelectedItem()).getName();
             }
 

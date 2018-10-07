@@ -58,13 +58,6 @@
                            <font>
                               <Font size="30.0" />
                            </font>
-                           <contextMenu>
-                              <ContextMenu>
-                                 <items>
-                                    <MenuItem mnemonicParsing="false" text="Audio Ratings" />
-                                 </items>
-                              </ContextMenu>
-                           </contextMenu>
                         </Button>
                         <Button fx:id="ratingButton" maxHeight="56.0" minHeight="56.0" mnemonicParsing="false" onMouseClicked="#ratingButtonClicked" prefHeight="56.0" prefWidth="56.0" text="★" translateX="135.0">
                            <font>
