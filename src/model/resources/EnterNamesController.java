@@ -20,7 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -32,11 +31,8 @@ import java.util.Random;
 
 public class EnterNamesController {
 
-    @FXML private Text backButton;
     @FXML private SplitPane splitPane;
     @FXML private ListView<String> databaseNamesListView;
-    @FXML private Button addButton;
-    @FXML private AnchorPane namesAnchor;
     @FXML private ListView<String> practiceNamesListView;
     @FXML private TextField filteredInput;
     @FXML private Button expandButton;
@@ -49,10 +45,29 @@ public class EnterNamesController {
     //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
 
     public void initialize() {
-
+        //Cell factory to assign red CSS to selected cells in list view
         practiceNamesListView.setCellFactory(lv -> {
+            //Set red if selected
             ListCell<String> cell = new ListCell<>();
             cell.getStyleClass().add("list-cell-red");
+            ContextMenu contextMenu = new ContextMenu();
+            //Create menu item for remove
+            MenuItem editItem = new MenuItem();
+            editItem.textProperty().bind((Bindings.format("Remove name")));
+            editItem.setOnAction(event -> {
+                practiceNamesListView.getItems().remove(cell.getText());
+            });
+            //Add menu item and bind list to list view
+            contextMenu.getItems().add(editItem);
+            //If empty set accordingly
+            cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+                if (isNowEmpty) {
+                    cell.setContextMenu(null);
+                } else {
+                    cell.setContextMenu(contextMenu);
+                }
+            });
+
             cell.textProperty().bind(cell.itemProperty());
             return cell;
         });
@@ -164,8 +179,9 @@ public class EnterNamesController {
 
     @FXML
     void backButtonClicked() throws IOException {
+        practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems());
         Scene scene = SetUp.getInstance().databaseSelectMenu;
-        Stage window = (Stage) backButton.getScene().getWindow();
+        Stage window = (Stage) expandButton.getScene().getWindow();
         window.setScene(scene);
 
     }
@@ -207,14 +223,14 @@ public class EnterNamesController {
                     SetUp.getInstance().practiceMenuController.setUpList(tempNames);
                     SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
                     Scene scene = SetUp.getInstance().practiceMenu;
-                    Stage window = (Stage) backButton.getScene().getWindow();
+                    Stage window = (Stage) expandButton.getScene().getWindow();
                     window.setScene(scene);
                 } catch (IOException ignored) {
                 }
             });
-
-            service.start();
-
+            if(tempNames.size() >= 1) {
+                service.start();
+            }
 
             }
     }

@@ -173,18 +173,16 @@ public class LoadFilesController {
 
     @FXML
     void backButtonClicked() throws IOException {
-
         clearListView();
-
         //Change back to database menu
         Scene scene = SetUp.getInstance().databaseSelectMenu;
-        Stage window = (Stage) backButton.getScene().getWindow();
+        Stage window = (Stage) expandButton.getScene().getWindow();
         window.setScene(scene);
 
     }
 
     @FXML
-    void practiceButtonClicked(MouseEvent e) throws IOException, InterruptedException {
+    void practiceButtonClicked() throws IOException, InterruptedException {
 
         ProcessBuilder removeBuilder = new ProcessBuilder("/bin/bash", "-c", "rm -r ./created_names");
         Process r = removeBuilder.start();
@@ -223,8 +221,9 @@ public class LoadFilesController {
                 }
             });
 
-            service.start();
-
+            if(tempNames.size() >= 1) {
+                service.start();
+            }
         }
     }
 
