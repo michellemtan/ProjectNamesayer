@@ -266,13 +266,9 @@ public class LoadFilesController {
 
                     int audioNumber = 0;
                     for (String creation : tempNames) {
-
                         audioNumber++;
-                        //Set up the file to be played
-                        String selectedName = creation;
-
                         //Split name up and concat audio files
-                        String[] split = selectedName.split("[-\\s]");
+                        String[] split = creation.replaceAll("-", "").split("[-\\s]");
 
                         String concatString;
 
@@ -283,15 +279,14 @@ public class LoadFilesController {
                             if (listFiles.length>1) {
                                 Random randomizer = new Random();
                                 File file = listFiles[randomizer.nextInt(listFiles.length)];
-                                concatString = file.toURI().toString();
+                                concatString = file.getPath();
                             } else {
-                                concatString = listFiles[0].toURI().toString();
+                                concatString = listFiles[0].getPath();
                             }
-                            concatString = concatString.replaceAll("file:", "");
                             addToTextFile(concatString);
                         }
 
-                        String newName = selectedName.replaceAll(" ","");
+                        String newName = creation.replaceAll(" ","");
 
                         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
                         Process p = audioBuilder.start();

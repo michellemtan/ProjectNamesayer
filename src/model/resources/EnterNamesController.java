@@ -121,7 +121,7 @@ public class EnterNamesController {
     @FXML
     void addButtonClicked() {
         String input = nameInput.getText();
-        if(input != null && !input.isEmpty() && !practiceNamesListView.getItems().contains(input)) {
+        if(input != null && !input.isEmpty()) {
             //Check if added name is available
             String[] split = input.replaceAll("-", "- ").split("[\\s]");
             for(int i=0; i<split.length; i++) {
@@ -136,7 +136,10 @@ public class EnterNamesController {
                 builder.append(s + " ");
             }
             String str = builder.toString().trim();
-            practiceNamesListView.getItems().add(str);
+            //Don't add if there's already one there
+            if(!practiceNamesListView.getItems().contains(str)) {
+                practiceNamesListView.getItems().add(str);
+            }
             if(str.contains("*")) {
                 practiceNamesListView.getSelectionModel().select(practiceNamesListView.getItems().size() - 1);
             }
@@ -193,7 +196,6 @@ public class EnterNamesController {
             }
 
             //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
-            //TODO: WHAT IF THE LIST LOADED CONTAINS A NAME TWICE E.G. CATHERINE WATSON TWICE?
 
             //Concat names before loading menu
             new File("./created_names").mkdir();
@@ -207,8 +209,7 @@ public class EnterNamesController {
                     Scene scene = SetUp.getInstance().practiceMenu;
                     Stage window = (Stage) backButton.getScene().getWindow();
                     window.setScene(scene);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+                } catch (IOException ignored) {
                 }
             });
 
@@ -236,35 +237,29 @@ public class EnterNamesController {
                 protected Void call() throws IOException, InterruptedException {
                     String pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
 
-
                     int audioNumber = 0;
                     for (String creation : tempNames) {
-
                         audioNumber++;
-                        //Set up the file to be played
-                        String selectedName = creation;
-
                         //Split name up and concat audio files
-                        String[] split = selectedName.split("[-\\s]");
+                        String[] split = creation.replaceAll("-", "").split("[-\\s]");
 
                         String concatString;
 
-                        for (int i = 0; i < split.length; i++) {
-                            String folderName = pathToDB + "/" + split[i] + "/";
+                        for (String aSplit : split) {
+                            String folderName = pathToDB + "/" + aSplit + "/";
                             File[] listFiles = new File(folderName).listFiles();
 
-                            if (listFiles.length>1) {
+                            if (listFiles.length > 1) {
                                 Random randomizer = new Random();
                                 File file = listFiles[randomizer.nextInt(listFiles.length)];
-                                concatString = file.toURI().toString();
+                                concatString = file.getPath();
                             } else {
-                                concatString = listFiles[0].toURI().toString();
+                                concatString = listFiles[0].getPath();
                             }
-                            concatString = concatString.replaceAll("file:", "");
                             addToTextFile(concatString);
                         }
 
-                        String newName = selectedName.replaceAll(" ","");
+                        String newName = creation.replaceAll(" ","");
 
                         ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
                         Process p = audioBuilder.start();
