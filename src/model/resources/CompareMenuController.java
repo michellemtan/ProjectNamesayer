@@ -77,21 +77,10 @@ public class CompareMenuController {
         window.setScene(scene);
     }
 
-
-    @FXML
-    void badRecordingsPressed(ActionEvent event) {
-    //TODO: FIND WHERE THIS IS FROM??
-    }
-
     //TODO: MAKE SURE A NAME HAS TO BE SELECTED OTHERWISE COMPARE MENU THROWS AN ERROR
 
     @FXML
     void listButtonClicked(MouseEvent event) throws IOException {
-
-        String selectedName = textLabel.getText();
-        Media media = SetUp.getInstance().practiceMenuController.getDefault(selectedName);
-
-        System.out.println(textLabel.getText());
         SetUp.getInstance().namesListController.setUp(textLabel.getText());
         Scene scene = SetUp.getInstance().namesListMenu;
         Stage window = (Stage) listButton.getScene().getWindow();
@@ -122,7 +111,6 @@ public class CompareMenuController {
         }
 
         String selectedName = textLabel.getText();
-        System.out.println(selectedName);
         Media media = SetUp.getInstance().practiceMenuController.getDefault(selectedName);
 
         audioPlayer = new MediaPlayer(media);

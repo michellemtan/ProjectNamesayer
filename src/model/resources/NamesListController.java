@@ -68,10 +68,9 @@ public class NamesListController {
     @FXML
     void backBtnPressed(ActionEvent event) throws IOException, InterruptedException {
 
-        //Re-concatenate name after changing
-//        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
-//        Process p = audioBuilder.start();
-//        p.waitFor();
+        //Clear list view
+        nameListView.getItems().removeAll(nameListView.getItems());
+        nameListView.refresh();
 
         ConcatService service = new ConcatService();
         service.setOnSucceeded(concatEvent -> {
@@ -83,10 +82,6 @@ public class NamesListController {
                 File f = new File(folderName + tempName+".wav");
                 Media media = new Media(f.toURI().toString());
                 SetUp.getInstance().practiceMenuController.setDefault(fileName, media);
-                System.out.println();
-
-                //Clear list view
-                nameListView.getItems().removeAll(nameListView.getItems());
 
                 Scene scene = SetUp.getInstance().compareMenu;
                 Stage window = (Stage) backBtn.getScene().getWindow();
@@ -147,7 +142,6 @@ public class NamesListController {
         }
 
         int selectedIndex = nameListView.getSelectionModel().getSelectedIndex();
-        System.out.println(selectedIndex);
 
         String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";
         File[] listFiles = new File(folderName).listFiles();
@@ -213,9 +207,7 @@ public class NamesListController {
         String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";
         File[] listFiles = new File(folderName).listFiles();
 
-        //Set default
-        System.out.println(nameMenu.getSelectionModel().getSelectedItem());
-        System.out.println(listFiles[selectedIndex].getPath());
+        //Set default audio file
         defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[selectedIndex]);
         defaultLabel.setText("Default: " + listFiles[selectedIndex].getName());
 
@@ -223,6 +215,8 @@ public class NamesListController {
 
     @FXML
     void setUp(String wholeName) throws IOException {
+
+        nameListView.getItems().removeAll(nameListView.getItems());
 
         //This method sets up the combo box to display all the parts of a name
         pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
@@ -233,7 +227,6 @@ public class NamesListController {
 
         for(int i=0; i<split.length; i++) {
            options.add(split[i]);
-           System.out.println(split[i]);
 
             //Set up the hash map to contain the default names
             if (!defaultFileMap.containsKey(nameMenu.getSelectionModel().getSelectedItem())) {
@@ -243,6 +236,7 @@ public class NamesListController {
             }
         }
 
+        //Set the combo box with options
         nameMenu.getItems().setAll(options);
         fileName = wholeName;
 
@@ -261,7 +255,6 @@ public class NamesListController {
     @FXML
     void nameMenuAction(ActionEvent event) throws IOException {
 
-        System.out.println(nameMenu.getSelectionModel().getSelectedIndex());
         if (nameMenu.getSelectionModel().getSelectedIndex() >= 0) {
             String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";
             File[] listFiles = new File(folderName).listFiles();
@@ -282,13 +275,9 @@ public class NamesListController {
             if (listFiles.length == 1) {
                 defaultName = listFiles[0].getName();
                 defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0]);
-
             //If the name exists in the hash map
             } else {
-                defaultName = listFiles[nameMenu.getSelectionModel().getSelectedIndex()].getName();
                 defaultName = defaultFileMap.get(nameMenu.getSelectionModel().getSelectedItem()).getName();
-
-            //If the name does not exist in the hash map
             }
 
             defaultLabel.setText("Default: " + defaultName);

@@ -61,7 +61,7 @@
                            <contextMenu>
                               <ContextMenu>
                                  <items>
-                                    <MenuItem mnemonicParsing="false" onAction="#badRecordingsPressed" text="Audio Ratings" />
+                                    <MenuItem mnemonicParsing="false" text="Audio Ratings" />
                                  </items>
                               </ContextMenu>
                            </contextMenu>
@@ -71,9 +71,9 @@
                               <Font size="30.0" />
                            </font>
                            <contextMenu>
-                              <ContextMenu fx:id="audioRatings" onAction="#audioRatingsPressed">
+                              <ContextMenu>
                                 <items>
-                                  <MenuItem mnemonicParsing="false" onAction="#badRecordingsPressed" text="Audio Ratings" />
+                                  <MenuItem mnemonicParsing="false" onAction="#audioRatingsPressed" text="Audio Ratings" />
                                 </items>
                               </ContextMenu>
                            </contextMenu>
