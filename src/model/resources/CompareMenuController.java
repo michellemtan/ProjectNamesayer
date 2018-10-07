@@ -70,14 +70,14 @@ public class CompareMenuController {
 
     private int audioRecorded;
 
+    private String fileName;
+
     @FXML
     void backButtonClicked(MouseEvent event) throws IOException {
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
     }
-
-    //TODO: MAKE SURE A NAME HAS TO BE SELECTED OTHERWISE COMPARE MENU THROWS AN ERROR
 
     @FXML
     void listButtonClicked(MouseEvent event) throws IOException {
@@ -96,7 +96,7 @@ public class CompareMenuController {
         }
 
         //Create a new media player instance and set the event handlers to create a thread that listens for when the audio is playing
-        Media media = new Media(new File("audio.wav").toURI().toString());
+        Media media = new Media(new File("./recorded_names/" + fileName +".wav").toURI().toString());
         audioPlayer = new MediaPlayer(media);
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
@@ -255,13 +255,18 @@ public class CompareMenuController {
                 protected Void call() {
                     //Disable buttons and start progress bar
                     progressBar();
+
+                    new File("./recorded_names").mkdir();
+
                     recordButton.setDisable(true);
                     micButton.setDisable(true);
                     backButton.setDisable(true);
 
                     try {
                         //Record audio for five seconds
-                        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -y -f alsa -i default -t 7 ./audio.wav");
+
+                        fileName = textLabel.getText().replaceAll(" ","");
+                        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -y -f alsa -i default -t 7 ./recorded_names/" + fileName +".wav");
                         Process audio = builder.start();
 
                         PauseTransition delay = new PauseTransition(Duration.seconds(5));
@@ -271,6 +276,10 @@ public class CompareMenuController {
                             recordButton.setDisable(false);
                             micButton.setDisable(false);
                             backButton.setDisable(false);
+                            listButton.setDisable(false);
+                            playExistingButton.setDisable(false);
+                            playPauseButton.setDisable(false);
+                            ratingButton.setDisable(false);
                         });
 
                     } catch (IOException e) {
@@ -309,6 +318,15 @@ public class CompareMenuController {
     void setUp(String name) throws IOException {
         pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
         textLabel.setText(name);
+
+        audioRecorded=0;
+
+        //Disable all buttons until audio is recorded
+        listButton.setDisable(true);
+        playExistingButton.setDisable(true);
+        ratingButton.setDisable(true);
+        playPauseButton.setDisable(true);
+        repeatButton.setDisable(true);
     }
 
 }
