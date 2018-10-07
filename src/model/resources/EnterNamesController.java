@@ -249,13 +249,8 @@ public class EnterNamesController {
                             String folderName = pathToDB + "/" + aSplit + "/";
                             File[] listFiles = new File(folderName).listFiles();
 
-                            if (listFiles.length > 1) {
-                                Random randomizer = new Random();
-                                File file = listFiles[randomizer.nextInt(listFiles.length)];
-                                concatString = file.getPath();
-                            } else {
-                                concatString = listFiles[0].getPath();
-                            }
+                            concatString = listFiles[0].getPath();
+
                             addToTextFile(concatString);
                         }
 

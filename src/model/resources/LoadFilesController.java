@@ -205,7 +205,6 @@ public class LoadFilesController {
             }
 
             //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
-            //TODO: WHAT IF THE LIST LOADED CONTAINS A NAME TWICE E.G. CATHERINE WATSON TWICE?
 
             //Concat names before loading menu
             new File("./created_names").mkdir();
@@ -276,13 +275,7 @@ public class LoadFilesController {
                             String folderName = pathToDB + "/" + split[i] + "/";
                             File[] listFiles = new File(folderName).listFiles();
 
-                            if (listFiles.length>1) {
-                                Random randomizer = new Random();
-                                File file = listFiles[randomizer.nextInt(listFiles.length)];
-                                concatString = file.getPath();
-                            } else {
-                                concatString = listFiles[0].getPath();
-                            }
+                            concatString = listFiles[0].getPath();
                             addToTextFile(concatString);
                         }
 
