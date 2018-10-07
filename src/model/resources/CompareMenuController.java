@@ -87,7 +87,12 @@ public class CompareMenuController {
     }
 
     @FXML
-    void listButtonClicked(MouseEvent event) {
+    void listButtonClicked(MouseEvent event) throws IOException {
+        System.out.println(textLabel.getText());
+        SetUp.getInstance().namesListController.setUp(textLabel.getText());
+        Scene scene = SetUp.getInstance().namesListMenu;
+        Stage window = (Stage) listButton.getScene().getWindow();
+        window.setScene(scene);
 
     }
 
