@@ -56,7 +56,7 @@ public class NamesListController {
 
     private String pathToDB;
 
-    private HashMap<String,String> defaultFileMap;
+    private HashMap<String,String> defaultFileMap = new HashMap<>();
 
     private String fileName;
 
@@ -77,7 +77,13 @@ public class NamesListController {
         service.setOnSucceeded(concatEvent -> {
             //Change to practice menu and set the path to have come from the load files menu
             try {
-                // SetUp.getInstance().practiceMenuController.setDefault(nameMenu.getSelectionModel().getSelectedItem(), media);
+
+                String folderName = "created_names/";
+                String tempName = fileName.replaceAll(" ", "");
+                File f = new File(folderName + tempName+".wav");
+                Media media = new Media(f.toURI().toString());
+                SetUp.getInstance().practiceMenuController.setDefault(fileName, media);
+                System.out.println();
                 Scene scene = SetUp.getInstance().compareMenu;
                 Stage window = (Stage) backBtn.getScene().getWindow();
                 window.setScene(scene);
@@ -100,17 +106,15 @@ public class NamesListController {
                         String concatString;
 
                         for (int i = 0; i < nameMenu.getItems().size(); i++) {
-                            String folderName = pathToDB + "/" + nameMenu.getItems().get(i) + "/";
-                            File[] listFiles = new File(folderName).listFiles();
-
                             concatString = defaultFileMap.get(nameMenu.getItems().get(i));
                             addToTextFile(concatString);
                         }
 
-                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + fileName);
+                        String tempName = fileName.replaceAll(" ","");
+                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -y -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + tempName+".wav");
                         Process p = audioBuilder.start();
                         p.waitFor();
-                      //  PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
+                        PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
 
                     return null;
                     }
@@ -206,13 +210,15 @@ public class NamesListController {
         File[] listFiles = new File(folderName).listFiles();
 
         //Set default
+        System.out.println(nameMenu.getSelectionModel().getSelectedItem());
+        System.out.println(listFiles[selectedIndex].getPath());
         defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[selectedIndex].getPath());
         defaultLabel.setText("Default: " + listFiles[selectedIndex].getName());
 
     }
 
     @FXML
-    void setUp(String wholeName, String file) throws IOException {
+    void setUp(String wholeName) throws IOException {
 
         //This method sets up the combo box to display all the parts of a name
         pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
@@ -224,21 +230,24 @@ public class NamesListController {
         for(int i=0; i<split.length; i++) {
            options.add(split[i]);
            System.out.println(split[i]);
+
+            //Set up the hash map to contain the default names
+            if (!defaultFileMap.containsKey(nameMenu.getSelectionModel().getSelectedItem())) {
+                String folderName = pathToDB + "/" + split[i] + "/";
+                File[] listFiles = new File(folderName).listFiles();
+                defaultFileMap.put(split[i], listFiles[0].getPath());
+            }
         }
 
         nameMenu.getItems().setAll(options);
-
-        //Set up the hash map to contain the default names
-        defaultFileMap = new HashMap<>();
-
-        fileName = file;
-
+        fileName = wholeName;
     }
 
     @FXML
     void nameMenuAction(ActionEvent event) throws IOException {
 
-        if (nameMenu.getSelectionModel().getSelectedIndex() > 0) {
+        System.out.println(nameMenu.getSelectionModel().getSelectedIndex());
+        if (nameMenu.getSelectionModel().getSelectedIndex() >= 0) {
             String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";
             File[] listFiles = new File(folderName).listFiles();
 

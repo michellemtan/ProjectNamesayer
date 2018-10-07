@@ -19,10 +19,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class CompareMenuController {
 
@@ -86,12 +83,16 @@ public class CompareMenuController {
     //TODO: FIND WHERE THIS IS FROM??
     }
 
+    //TODO: MAKE SURE A NAME HAS TO BE SELECTED OTHERWISE COMPARE MENU THROWS AN ERROR
+
     @FXML
     void listButtonClicked(MouseEvent event) throws IOException {
 
-        String fileName = "temp";
+        String selectedName = textLabel.getText();
+        Media media = SetUp.getInstance().practiceMenuController.getDefault(selectedName);
+
         System.out.println(textLabel.getText());
-        SetUp.getInstance().namesListController.setUp(textLabel.getText(), fileName);
+        SetUp.getInstance().namesListController.setUp(textLabel.getText());
         Scene scene = SetUp.getInstance().namesListMenu;
         Stage window = (Stage) listButton.getScene().getWindow();
         window.setScene(scene);
@@ -115,17 +116,15 @@ public class CompareMenuController {
     }
 
     @FXML
-    void playExistingButtonClicked(MouseEvent event) {
+    void playExistingButtonClicked(MouseEvent event) throws IOException {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
         }
 
         String selectedName = textLabel.getText();
+        System.out.println(selectedName);
+        Media media = SetUp.getInstance().practiceMenuController.getDefault(selectedName);
 
-        //Get folder name and find files within
-        String folderName = pathToDB + "/" + selectedName + "/";
-        File[] listFiles = new File(folderName).listFiles();
-        Media media = new Media(listFiles[0].toURI().toString());
         audioPlayer = new MediaPlayer(media);
         audioPlayer.setOnPlaying(new CompareMenuController.AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new CompareMenuController.AudioRunnable(true));
