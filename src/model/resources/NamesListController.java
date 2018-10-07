@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -18,56 +19,34 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class NamesListController {
 
-    @FXML
-    private Button playButton;
-
-    @FXML
-    private Button setDefaultBtn;
-
-    @FXML
-    private Label defaultLabel;
-
-    @FXML
-    private ProgressBar progressBar;
-
-    @FXML
-    private ListView<String> nameListView;
-
-    @FXML
-    private Label nameName;
-
-    @FXML
-    private Button backBtn;
-
-    @FXML
-    private Button ratingsButton;
-
-    @FXML
-    private ComboBox<String> nameMenu;
-
+    @FXML private Button playButton;
+    @FXML private Button setDefaultBtn;
+    @FXML private Label defaultLabel;
+    @FXML private ProgressBar progressBar;
+    @FXML private ListView<String> nameListView;
+    @FXML private Button backBtn;
+    @FXML private Button ratingsButton;
+    @FXML private ComboBox<String> nameMenu;
     private MediaPlayer audioPlayer;
-
     private String pathToDB;
-
     private HashMap<String,File> defaultFileMap = new HashMap<>();
-
     private String fileName;
 
     @FXML
-    void audioRatingsPressed(ActionEvent event) {
-
+    public void audioRatingsPressed() throws IOException {
+        //Pass current class through to bad recordings
+        SetUp.getInstance().audioRatingsController.setPreviousScene("namesListMenu");
+        Scene scene = SetUp.getInstance().audioRatingsMenu;
+        Stage window = (Stage) backBtn.getScene().getWindow();
+        window.setScene(scene);
     }
 
     @FXML
-    void backBtnPressed(ActionEvent event) throws IOException, InterruptedException {
-
+    void backBtnPressed() {
         //Clear list view
         nameListView.getItems().removeAll(nameListView.getItems());
         nameListView.refresh();
@@ -130,7 +109,7 @@ public class NamesListController {
     }
 
     @FXML
-    void playButtonClicked(MouseEvent event) throws IOException {
+    void playButtonClicked() {
         //Stop audio player if there's currently one playing
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
@@ -195,12 +174,39 @@ public class NamesListController {
     }
 
     @FXML
-    void ratingsButtonClicked(MouseEvent event) {
+    void ratingButtonClicked() {
+        String selectedName = nameMenu.getSelectionModel().getSelectedItem();
+        //Ask the user to rate their choice
+        List<String> choices = new ArrayList<>();
+        choices.add("★☆☆☆☆");
+        choices.add("★★☆☆☆");
+        choices.add("★★★☆☆");
+        choices.add("★★★★☆");
+        choices.add("★★★★★");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("★☆☆☆☆", choices);
+        dialog.setTitle("Recording Rating");
+        dialog.setGraphic(null);
+        dialog.setHeaderText("Rate " + selectedName + "?");
+        dialog.setContentText("Select a rating:");
+
+        //Get rating and format to string
+        Optional<String> result = dialog.showAndWait();
+
+        if (result.isPresent()) {
+            try {
+                String rating = result.get();
+                String defaultName = selectedName.concat(": " + rating + "\n");
+                SetUp.getInstance().audioRatingsController.addName(defaultName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
 
     }
 
     @FXML
-    void setDefaultClicked(MouseEvent event) throws IOException {
+    void setDefaultClicked() {
 
         int selectedIndex = nameListView.getSelectionModel().getSelectedIndex();
 
@@ -269,7 +275,7 @@ public class NamesListController {
     }
 
     @FXML
-    void nameMenuAction(ActionEvent event) throws IOException {
+    void nameMenuAction() {
 
         if (nameMenu.getSelectionModel().getSelectedIndex() >= 0) {
             String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";

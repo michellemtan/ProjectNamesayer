@@ -229,7 +229,7 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void compareButtonClicked(MouseEvent event) throws IOException {
+    void compareButtonClicked() throws IOException {
 
         if (audioPlayer != null) {
             audioPlayer.stop();
@@ -243,7 +243,7 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void shuffleButtonClicked(MouseEvent event) {
+    void shuffleButtonClicked() {
         if (audioPlayer != null) {
             audioPlayer.stop();
         }
@@ -257,17 +257,7 @@ public class PracticeMenuController {
         creationList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
     }
 
-    @FXML
-    void audioRatingsPressed(ActionEvent event) throws IOException {
-        //Pass current class through to bad recordings
-        SetUp.getInstance().audioRatingsController.setPreviousScene("practiceMenu");
-        Scene scene = SetUp.getInstance().audioRatingsMenu;
-        Stage window = (Stage) backButton.getScene().getWindow();
-        window.setScene(scene);
-
-    }
-
-    public void setUpList(List<String> list) throws IOException {
+    void setUpList(List<String> list) throws IOException {
 
         //Set up the practice list view
         creationList = list;

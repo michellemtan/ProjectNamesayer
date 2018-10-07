@@ -78,7 +78,7 @@
         </rowConstraints>
          <children>
              <Button fx:id="backBtn" mnemonicParsing="false" onAction="#backBtnPressed" text="←" translateX="15.0" translateY="15.0" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-             <Button fx:id="ratingsButton" mnemonicParsing="false" onMouseClicked="#ratingsButtonClicked" text="★" translateX="-150.0" translateY="3.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
+             <Button fx:id="ratingsButton" mnemonicParsing="false" onAction="#ratingButtonClicked" text="★" translateX="-150.0" translateY="3.0" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="TOP">
                  <contextMenu>
                      <ContextMenu>
                          <items>

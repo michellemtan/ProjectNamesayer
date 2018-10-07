@@ -14,14 +14,11 @@ import java.util.List;
 
 public class AudioRatingsController {
 
-    HashMap<String, String> ratingMap = new HashMap<>();
-    @FXML
-    private Button backButton;
-    @FXML
-    private TextArea textArea;
+    private HashMap<String, String> ratingMap = new HashMap<>();
+    @FXML private Button backButton;
+    @FXML private TextArea textArea;
+    @FXML private Button clearTextButton;
     private String previousScene = "";
-    @FXML
-    private Button clearTextButton;
 
     //Return the user to the appropriate menu based on where they came from
     @FXML
@@ -38,16 +35,20 @@ public class AudioRatingsController {
             Scene scene = SetUp.getInstance().compareMenu;
             Stage window = (Stage) backButton.getScene().getWindow();
             window.setScene(scene);
+        }  else if (previousScene.equals("namesListMenu")) {
+            Scene scene = SetUp.getInstance().namesListMenu;
+            Stage window = (Stage) backButton.getScene().getWindow();
+            window.setScene(scene);
         }
     }
 
-    public void setPreviousScene(String name) throws IOException {
+    void setPreviousScene(String name) throws IOException {
         previousScene = name;
         updateTextLog();
     }
 
     //This method updates the text area to display contents of the audio ratings text file
-    public void updateTextLog() throws IOException {
+    private void updateTextLog() throws IOException {
 
         List<String> lineList = new ArrayList<String>();
 

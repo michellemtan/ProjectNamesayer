@@ -244,7 +244,7 @@ public class EnterNamesController {
         }
     }
 
-
+    //TODO: normalise concatenation
     private class ConcatService extends Service<Void> {
         @Override
         protected Task<Void> createTask() {
