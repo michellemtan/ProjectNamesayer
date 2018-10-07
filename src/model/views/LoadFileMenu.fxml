@@ -34,11 +34,11 @@
                         <Insets left="15.0" top="15.0" />
                      </GridPane.margin>
                   </Button>
-                  <Text fx:id="backButton" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" text="Load File" textAlignment="CENTER" wrappingWidth="800.33203125">
+                  <Label text="Load File" translateX="300.0">
                      <font>
-                        <Font size="40.0" />
+                        <Font name="Ubuntu Bold" size="39.0" />
                      </font>
-                  </Text>
+                  </Label>
                </children>
             </GridPane>
             <SplitPane fx:id="splitPane" dividerPositions="0.0" prefHeight="500.0" prefWidth="709.0">
