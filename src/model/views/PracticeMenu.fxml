@@ -47,9 +47,9 @@
    <top>
       <GridPane prefHeight="110.0" prefWidth="800.0" BorderPane.alignment="CENTER">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="48.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="688.0" minWidth="10.0" prefWidth="684.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="171.0" minWidth="10.0" prefWidth="49.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -63,7 +63,7 @@
                </font>
             </Label>
              <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#backButtonClicked" text="←" translateX="15.0" translateY="15.0" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-            <Button fx:id="ratingsButton" mnemonicParsing="false" onMouseClicked="#ratingsButtonClicked" text="★" translateX="70.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="ratingsButton" mnemonicParsing="false" onMouseClicked="#ratingsButtonClicked" text="★" translateX="-135.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font size="18.0" />
                </font>

@@ -23,64 +23,34 @@ import java.util.*;
 
 public class CompareMenuController {
 
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private ProgressBar existingProgressBar;
-
-    @FXML
-    private Button listButton;
-
-    @FXML
-    private Button ratingButton;
-
-    @FXML
-    private Button playExistingButton;
-
-    @FXML
-    private ProgressBar recordProgressBar;
-
-    @FXML
-    private Button recordButton;
-
-    @FXML
-    private ProgressBar progressBar;
-
-    @FXML
-    private Button playPauseButton;
-
-    @FXML
-    private Button repeatButton;
-
-    @FXML
-    private TextField textField;
-
-    @FXML
-    private Label textLabel;
-
-    @FXML
-    private Button micButton;
-
+    @FXML private Button backButton;
+    @FXML private ProgressBar existingProgressBar;
+    @FXML private Button listButton;
+    @FXML private Button ratingButton;
+    @FXML private Button playExistingButton;
+    @FXML private ProgressBar recordProgressBar;
+    @FXML private Button recordButton;
+    @FXML private ProgressBar progressBar;
+    @FXML private Button playPauseButton;
+    @FXML private Button repeatButton;
+    @FXML private TextField textField;
+    @FXML private Label textLabel;
+    @FXML private Button micButton;
     private MediaPlayer audioPlayer;
-
     private Timeline timeline;
-
     private String pathToDB;
-
     private int audioRecorded;
-
     private String fileName;
 
     @FXML
-    void backButtonClicked(MouseEvent event) throws IOException {
+    void backButtonClicked() throws IOException {
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
     }
 
     @FXML
-    void listButtonClicked(MouseEvent event) throws IOException {
+    void listButtonClicked() throws IOException {
         SetUp.getInstance().namesListController.setUp(textLabel.getText());
         Scene scene = SetUp.getInstance().namesListMenu;
         Stage window = (Stage) listButton.getScene().getWindow();
@@ -90,7 +60,7 @@ public class CompareMenuController {
 
 
     @FXML
-    void playPauseButtonClicked(MouseEvent event) {
+    void playPauseButtonClicked() {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             audioPlayer.stop();
         }
@@ -100,12 +70,12 @@ public class CompareMenuController {
         audioPlayer = new MediaPlayer(media);
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
-        progressBar();
         audioPlayer.play();
+        progressBar();
     }
 
     @FXML
-    void playExistingButtonClicked(MouseEvent event) throws IOException {
+    void playExistingButtonClicked() throws IOException {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
         }
@@ -142,10 +112,12 @@ public class CompareMenuController {
                 recordButton.setDisable(false);
                 micButton.setDisable(false);
                 repeatButton.setDisable(false);
+                playExistingButton.setDisable(false);
                 existingProgressBar.setProgress(0.0);
                 audioPlayer.dispose();
                 //When the media player is playing the audio file, the buttons will be disabled to prevent the user from navigating away
             } else {
+                playExistingButton.setDisable(true);
                 backButton.setDisable(true);
                 playPauseButton.setDisable(true);
                 listButton.setDisable(true);
@@ -163,6 +135,7 @@ public class CompareMenuController {
                     new KeyFrame((audioPlayer.getTotalDuration()), new KeyValue(existingProgressBar.progressProperty(), 1))
             );
             timeline.setCycleCount(1);
+            timeline.setOnFinished(e -> existingProgressBar.setProgress(0.0));
             timeline.play();
         } catch (IllegalArgumentException e) {
             //WHOOPS
@@ -205,7 +178,7 @@ public class CompareMenuController {
     }
 
     @FXML
-    void audioRatingsPressed(ActionEvent event) throws IOException {
+    void audioRatingsPressed() throws IOException {
         //Pass current class through to bad recordings
         SetUp.getInstance().audioRatingsController.setPreviousScene("compareMenu");
         Scene scene = SetUp.getInstance().audioRatingsMenu;
@@ -216,7 +189,7 @@ public class CompareMenuController {
 
 
     @FXML
-    void recordButtonClicked(MouseEvent event) {
+    void recordButtonClicked() {
         if (audioRecorded==0) {
             record();
         } else {
@@ -238,6 +211,15 @@ public class CompareMenuController {
     }
 
     private void record() {
+        //Disable all buttons
+        recordButton.setDisable(true);
+        micButton.setDisable(true);
+        backButton.setDisable(true);
+        listButton.setDisable(true);
+        playExistingButton.setDisable(true);
+        playPauseButton.setDisable(true);
+        repeatButton.setDisable(true);
+        ratingButton.setDisable(true);
         //Use a background thread to record audio files to prevent the GUI from freezing
         RecordAudioService service = new RecordAudioService();
         service.setOnSucceeded(e -> {
@@ -254,7 +236,12 @@ public class CompareMenuController {
                 @Override
                 protected Void call() {
                     //Disable buttons and start progress bar
-                    progressBar();
+                    Timeline timeline = new Timeline(
+                            new KeyFrame(Duration.ZERO, new KeyValue(recordProgressBar.progressProperty(), 0)),
+                            new KeyFrame(Duration.seconds(5), new KeyValue(recordProgressBar.progressProperty(), 1))
+                    );
+                    timeline.setCycleCount(1);
+                    timeline.play();
 
                     new File("./recorded_names").mkdir();
 
@@ -279,6 +266,7 @@ public class CompareMenuController {
                             listButton.setDisable(false);
                             playExistingButton.setDisable(false);
                             playPauseButton.setDisable(false);
+                            repeatButton.setDisable(false);
                             ratingButton.setDisable(false);
                         });
 
@@ -298,16 +286,17 @@ public class CompareMenuController {
                 new KeyFrame(Duration.seconds(5), new KeyValue(progressBar.progressProperty(), 1))
         );
         timeline.setCycleCount(1);
+        timeline.setOnFinished(e -> progressBar.setProgress(0.0));
         timeline.play();
     }
 
     @FXML
-    void repeatButtonClicked(MouseEvent event) {
+    void repeatButtonClicked() {
 
     }
 
     @FXML
-    void micButtonClicked(MouseEvent event) throws IOException {
+    void micButtonClicked() throws IOException {
         SetUp.getInstance().microphoneController.setPreviousScene("compareMenu");
         Scene scene = SetUp.getInstance().microphoneMenu;
         Stage window = (Stage) micButton.getScene().getWindow();
