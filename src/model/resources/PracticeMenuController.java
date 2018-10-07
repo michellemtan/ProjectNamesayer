@@ -319,6 +319,14 @@ public class PracticeMenuController {
             creationName.setText(creationList.get(0));
         }
     }
+
+    public void setDefault(String name, Media file){
+        hashMap.put(name,file);
+    }
+
+    public Media getDefault(String name){
+        return hashMap.get(name);
+    }
 }
 
 
