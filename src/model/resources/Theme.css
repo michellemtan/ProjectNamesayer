@@ -121,6 +121,11 @@
     -fx-background-color: #1A237E;
 }
 
+.list-cell:focused{
+    -fx-background-color: #1A237E;
+    -fx-text-fill: white;
+}
+
 .split-pane{
     -fx-background-color: #E8EAF6;
 }
@@ -138,4 +143,5 @@
     -fx-background-color: #E57373;
     -fx-border-width: 1px;
     -fx-border-radius: 4px;
+    -fx-text-fill: #1C1C1C;
 }
