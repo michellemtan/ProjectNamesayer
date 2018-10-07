@@ -287,7 +287,6 @@ public class PracticeMenuController {
         hashMap = new HashMap<>();
 
         for (int i = 0; i < listFiles.length; i++) {
-            System.out.println(listFiles[i].toString());
             Media media = new Media(listFiles[i].toURI().toString());
             hashMap.put(creationsListView.getItems().get(i),media);
         }
