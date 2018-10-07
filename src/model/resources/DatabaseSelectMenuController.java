@@ -1,12 +1,11 @@
 package model.resources;
 
+import javafx.beans.binding.Bindings;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -58,6 +57,9 @@ public class DatabaseSelectMenuController {
             if(dbListView.getSelectionModel().getSelectedItems().size() == 1) {
                 namesBtn.setDisable(false);
                 loadBtn.setDisable(false);
+            } else {
+                namesBtn.setDisable(true);
+                loadBtn.setDisable(true);
             }
         });
 
@@ -90,6 +92,32 @@ public class DatabaseSelectMenuController {
             window.setScene(scene2);
         });
 
+        //Set up cell factory for right-click > remove for each database
+        dbListView.setCellFactory(lv -> {
+            ListCell<String> cell = new ListCell<>();
+            ContextMenu contextMenu = new ContextMenu();
+            //Create menu item for remove
+            MenuItem editItem = new MenuItem();
+            editItem.textProperty().bind((Bindings.format("Remove Database")));
+            editItem.setOnAction(event -> {
+                if(dbListView.getSelectionModel().getSelectedItem() != null) {
+                    dbPref.remove(dbListView.getSelectionModel().getSelectedItem());
+                    dbListView.getItems().remove(dbListView.getSelectionModel().getSelectedItem());
+                }
+            });
+            //Add menu item and bind list to list view
+            contextMenu.getItems().add(editItem);
+            cell.textProperty().bind(cell.itemProperty());
+            //If empty set accordingly
+            cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+                if (isNowEmpty) {
+                    cell.setContextMenu(null);
+                } else {
+                    cell.setContextMenu(contextMenu);
+                }
+            });
+            return cell;
+        });
         //dbPref.clear();
     }
 
