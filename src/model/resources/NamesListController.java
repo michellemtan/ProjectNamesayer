@@ -63,9 +63,9 @@ public class NamesListController {
     void backBtnPressed(ActionEvent event) throws IOException, InterruptedException {
 
         //Re-concatenate name after changing
-        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
+/*        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
         Process p = audioBuilder.start();
-        p.waitFor();
+        p.waitFor();*/
 
         Scene scene = SetUp.getInstance().compareMenu;
         Stage window = (Stage) backBtn.getScene().getWindow();

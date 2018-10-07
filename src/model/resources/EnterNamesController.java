@@ -31,7 +31,6 @@ import java.util.Random;
 
 public class EnterNamesController {
 
-    @FXML private Text backButton;
     @FXML private SplitPane splitPane;
     @FXML private ListView<String> databaseNamesListView;
     @FXML private ListView<String> practiceNamesListView;
@@ -224,7 +223,7 @@ public class EnterNamesController {
                     SetUp.getInstance().practiceMenuController.setUpList(tempNames);
                     SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
                     Scene scene = SetUp.getInstance().practiceMenu;
-                    Stage window = (Stage) backButton.getScene().getWindow();
+                    Stage window = (Stage) expandButton.getScene().getWindow();
                     window.setScene(scene);
                 } catch (IOException ignored) {
                 }
