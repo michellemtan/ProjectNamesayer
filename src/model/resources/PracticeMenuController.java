@@ -52,7 +52,7 @@ public class PracticeMenuController {
 
     @FXML
     void ratingsButtonClicked(MouseEvent event)  {
-        String selectedName = creationsListView.getSelectionModel().getSelectedItem() + ".wav";
+        String selectedName = creationsListView.getSelectionModel().getSelectedItem();
 
         if (event.getButton() == MouseButton.PRIMARY) {
             //Ask the user to rate their choice
@@ -94,6 +94,8 @@ public class PracticeMenuController {
 
     @FXML
     void playButtonClicked() throws IOException, InterruptedException {
+
+        creationsListView.getSelectionModel().clearSelection();
         if (isFinished) {
             mediaPlayerCreator();
         } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
@@ -131,6 +133,7 @@ public class PracticeMenuController {
             isFinished = true;
             shuffleButton.setDisable(false);
             backButton.setDisable(false);
+            playPauseButton.setDisable(false);
             playSingleButton.setDisable(false);
             compareButton.setDisable(false);
             return;
@@ -176,6 +179,9 @@ public class PracticeMenuController {
             audioPlayer.stop();
         }
 
+        if (creationsListView.getSelectionModel().getSelectedItem()==null){
+            creationsListView.getSelectionModel().selectFirst();
+        }
         //Change the label of the practice menu to the name being played
         selectedName = creationsListView.getSelectionModel().getSelectedItem();
         int selectedIndex = creationsListView.getSelectionModel().getSelectedIndex();
@@ -291,11 +297,9 @@ public class PracticeMenuController {
             if(creationsListView.getSelectionModel().getSelectedItems().size() != 1) {
                 //If nothing is selected, disable the buttons
                 playSingleButton.setDisable(true);
-                playPauseButton.setDisable(true);
                 ratingsButton.setDisable(true);
                 shuffleButton.setDisable(true);
                 compareButton.setDisable(true);
-
             } else {
                 playSingleButton.setDisable(false);
                 playPauseButton.setDisable(false);
