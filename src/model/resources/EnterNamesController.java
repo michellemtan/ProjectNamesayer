@@ -123,13 +123,10 @@ public class EnterNamesController {
         String input = nameInput.getText();
         if(input != null && !input.isEmpty() && !practiceNamesListView.getItems().contains(input)) {
             //Check if added name is available
-            String[] split = input.replaceAll("-", " -").split("[\\s]");
+            String[] split = input.replaceAll("-", "- ").split("[\\s]");
             for(int i=0; i<split.length; i++) {
-                if(split[i].startsWith("-")) {
-                    if(!allNames.contains(split[i].substring(1))) {
-                        split[i] = "*" + split[i] + "*";
-                    }
-                }else if(!allNames.contains(split[i])) {
+                split[i] = split[i].substring(0, 1).toUpperCase() + split[i].substring(1).toLowerCase();
+                if(!allNames.contains(split[i].replaceAll("-", ""))) {
                     split[i] = "*" + split[i] + "*";
                 }
             }

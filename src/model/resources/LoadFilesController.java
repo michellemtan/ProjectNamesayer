@@ -137,26 +137,23 @@ public class LoadFilesController {
 
                 while ((line = reader.readLine()) != null) {
                         //Check if added name is available
-                        String[] split = line.replaceAll("-", " -").split("[\\s]");
-                        for(int i=0; i<split.length; i++) {
-                            if(split[i].startsWith("-")) {
-                                if(!allNames.contains(split[i].substring(1))) {
-                                    split[i] = "*" + split[i] + "*";
-                                }
-                            }else if(!allNames.contains(split[i])) {
-                                split[i] = "*" + split[i] + "*";
-                            }
+                    String[] split = line.replaceAll("-", "- ").split("[\\s]");
+                    for(int i=0; i<split.length; i++) {
+                        split[i] = split[i].substring(0, 1).toUpperCase() + split[i].substring(1).toLowerCase();
+                        if(!allNames.contains(split[i].replaceAll("-", ""))) {
+                            split[i] = "*" + split[i] + "*";
                         }
-                        //Add string to list view //TODO: re-add hyphen if present
-                        StringBuilder builder = new StringBuilder();
-                        for(String s : split) {
-                            builder.append(s + " ");
-                        }
-                        String str = builder.toString();
-                        //Add if not duplicate
-                        if(!practiceNamesListView.getItems().contains(str)) {
-                            practiceNamesListView.getItems().add(str);
-                        }
+                    }
+                    //Add string to list view
+                    StringBuilder builder = new StringBuilder();
+                    for(String s : split) {
+                        builder.append(s + " ");
+                    }
+                    String str = builder.toString();
+                    //Add if not duplicate
+                    if(!practiceNamesListView.getItems().contains(str)) {
+                        practiceNamesListView.getItems().add(str);
+                    }
 
                 //Disable the practice button when names are read
                 practiceButton.setDisable(false);
