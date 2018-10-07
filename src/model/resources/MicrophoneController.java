@@ -41,13 +41,13 @@ public class MicrophoneController {
         startMic();
     }
 
-    public void startMic(){
+    public void startMic() {
 
         new Thread () {
             @Override
                     public void run () {
 
-                //Based on:
+                //Based on:  https://stackoverflow.com/questions/15870666/calculating-microphone-volume-trying-to-find-max
                 TargetDataLine line = null;
                 AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, false);
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format); //     format is an AudioFormat object
@@ -65,18 +65,22 @@ public class MicrophoneController {
                 }
 
                 while (true) {
-                    byte[] bytes = new byte[line.getBufferSize() / 5];
-                    line.read(bytes, 0, bytes.length);
-                    double progress = (double) calculateRMSLevel(bytes)/65;
-                    progressBar.setProgress((progress-0.8)*12.5);
+                    try {
+                        byte[] bytes = new byte[line.getBufferSize() / 5];
+                        line.read(bytes, 0, bytes.length);
+                        double progress = (double) calculateRMSLevel(bytes) / 65;
+                        progressBar.setProgress(progress);
 
-                    Stage stage= (Stage) progressBar.getScene().getWindow();
+                        Stage stage = (Stage) progressBar.getScene().getWindow();
 
-                    if (backButton.isPressed() || !stage.isShowing()){
-                        line.close();
-                        return;
+                        if (backButton.isPressed() || !stage.isShowing()) {
+                            line.close();
+                            return;
+                        }
+                    } catch (NullPointerException e){
+                        //CLOSED TOO EARLY
+                        e.printStackTrace();
                     }
-
 
                 }
             }
