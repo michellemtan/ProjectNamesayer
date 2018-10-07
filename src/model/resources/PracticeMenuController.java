@@ -102,7 +102,7 @@ public class PracticeMenuController {
             shuffleButton.setDisable(false);
             playPauseButton.setDisable(false);
             backButton.setDisable(false);
-            playSingleButton.setDisable(false);
+            playSingleButton.setDisable(true);
             audioPlayer.pause();
             timeline.pause();
         } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
@@ -134,8 +134,6 @@ public class PracticeMenuController {
             shuffleButton.setDisable(false);
             backButton.setDisable(false);
             playPauseButton.setDisable(false);
-            playSingleButton.setDisable(false);
-            compareButton.setDisable(false);
             return;
         } else {
             isFinished = false;
@@ -248,6 +246,10 @@ public class PracticeMenuController {
     void shuffleButtonClicked(MouseEvent event) {
         if (audioPlayer != null) {
             audioPlayer.stop();
+        }
+
+        if (creationsListView.getSelectionModel().getSelectedItem()==null){
+            creationsListView.getSelectionModel().selectFirst();
         }
 
         //Shuffle list

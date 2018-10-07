@@ -56,7 +56,7 @@ public class NamesListController {
 
     private String pathToDB;
 
-    private HashMap<String,String> defaultFileMap = new HashMap<>();
+    private HashMap<String,File> defaultFileMap = new HashMap<>();
 
     private String fileName;
 
@@ -84,6 +84,10 @@ public class NamesListController {
                 Media media = new Media(f.toURI().toString());
                 SetUp.getInstance().practiceMenuController.setDefault(fileName, media);
                 System.out.println();
+
+                //Clear list view
+                nameListView.getItems().removeAll(nameListView.getItems());
+
                 Scene scene = SetUp.getInstance().compareMenu;
                 Stage window = (Stage) backBtn.getScene().getWindow();
                 window.setScene(scene);
@@ -106,7 +110,7 @@ public class NamesListController {
                         String concatString;
 
                         for (int i = 0; i < nameMenu.getItems().size(); i++) {
-                            concatString = defaultFileMap.get(nameMenu.getItems().get(i));
+                            concatString = defaultFileMap.get(nameMenu.getItems().get(i)).getPath();
                             addToTextFile(concatString);
                         }
 
@@ -212,7 +216,7 @@ public class NamesListController {
         //Set default
         System.out.println(nameMenu.getSelectionModel().getSelectedItem());
         System.out.println(listFiles[selectedIndex].getPath());
-        defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[selectedIndex].getPath());
+        defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[selectedIndex]);
         defaultLabel.setText("Default: " + listFiles[selectedIndex].getName());
 
     }
@@ -235,12 +239,23 @@ public class NamesListController {
             if (!defaultFileMap.containsKey(nameMenu.getSelectionModel().getSelectedItem())) {
                 String folderName = pathToDB + "/" + split[i] + "/";
                 File[] listFiles = new File(folderName).listFiles();
-                defaultFileMap.put(split[i], listFiles[0].getPath());
+                defaultFileMap.put(split[i], listFiles[0]);
             }
         }
 
         nameMenu.getItems().setAll(options);
         fileName = wholeName;
+
+        //Add listener to listview
+        nameListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (nameListView.getSelectionModel().getSelectedItems().size() != 1) {
+                setDefaultBtn.setDisable(true);
+                playButton.setDisable(true);
+            } else {
+                setDefaultBtn.setDisable(false);
+                playButton.setDisable(false);
+            }
+        });
     }
 
     @FXML
@@ -261,15 +276,19 @@ public class NamesListController {
 
             String defaultName;
 
-            //Set up the default label
+            //Set up the default label and hashmap
+
+            //If there is only one name
             if (listFiles.length == 1) {
                 defaultName = listFiles[0].getName();
-                defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0].getPath());
-            } else if (defaultFileMap.containsKey(nameMenu.getSelectionModel().getSelectedItem())) {
-                defaultName = listFiles[nameMenu.getSelectionModel().getSelectedIndex()].getName();
+                defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0]);
+
+            //If the name exists in the hash map
             } else {
-                defaultName = listFiles[0].getName();
-                defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0].getPath());
+                defaultName = listFiles[nameMenu.getSelectionModel().getSelectedIndex()].getName();
+                defaultName = defaultFileMap.get(nameMenu.getSelectionModel().getSelectedItem()).getName();
+
+            //If the name does not exist in the hash map
             }
 
             defaultLabel.setText("Default: " + defaultName);
