@@ -21,6 +21,8 @@ import java.util.*;
 
 public class PracticeMenuController {
 
+    //TODO: DISABLE SHUFFLE AND LIST PLAY BUTTON WHEN THERE IS ONLY ONE NAME
+
     @FXML private Button playPauseButton;
     @FXML private Button playSingleButton;
     @FXML private Button shuffleButton;

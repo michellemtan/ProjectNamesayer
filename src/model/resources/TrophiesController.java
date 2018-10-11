@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class TrophiesController {
 
+    //TODO: WE DON'T NEED THIS ANYMORE YAY
+
     @FXML
     private Button backButton;
 

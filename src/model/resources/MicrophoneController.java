@@ -14,6 +14,8 @@ import java.io.IOException;
 
 public class MicrophoneController {
 
+    //TODO: FIX THIS SO THE MICROPHONE LEVEL STARTS AT 0
+
     @FXML
     private Button backButton;
 

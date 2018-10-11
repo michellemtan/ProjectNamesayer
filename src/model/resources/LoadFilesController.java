@@ -47,6 +47,9 @@ public class LoadFilesController {
     private List<String> tempNames = new ArrayList<>();
 
     //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
+    //TODO: CLEAR NAMES BUTTON
+    //TODO: COMBINE THIS MENU WITH ADDING NAMES INDIVIDUALLY
+    //TODO: SHOULD THE USER BE ABLE TO DOUBLE CLICK ON A DATABASE NAME TO ADD IT TO THE LIST
 
     public void initialize() {
 

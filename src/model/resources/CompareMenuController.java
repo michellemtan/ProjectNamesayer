@@ -23,6 +23,9 @@ import java.util.*;
 
 public class CompareMenuController {
 
+    //TODO: EDIT DISABLING SO USER CAN PLAY EXISTING NAME BEFORE COMPARING?
+    //TODO: MAYBE CHANGE THIS BACK TO PREVIOUS RECORD BUTTON?
+
     @FXML private Button backButton;
     @FXML private ProgressBar existingProgressBar;
     @FXML private Button listButton;
