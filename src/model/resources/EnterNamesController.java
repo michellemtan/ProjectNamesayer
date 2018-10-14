@@ -81,6 +81,13 @@ public class EnterNamesController {
                     practiceNamesListView.getSelectionModel().select(i);
                 }
             }
+
+            //Disable practice button if no names in list view
+            if(practiceNamesListView.getItems().size() >= 1) {
+                practiceButton.setDisable(false);
+            } else {
+                practiceButton.setDisable(true);
+            }
         });
 
         //Disable button when no name has been entered
@@ -212,6 +219,14 @@ public class EnterNamesController {
                 }
 
             } catch (IOException ignored) {}
+        }
+    }
+
+    //Method called when item in database list view is double clicked
+    @FXML
+    private void doubleClicked(MouseEvent click) {
+        if (click.getClickCount() == 2) {
+            nameInput.setText(nameInput.getText() + databaseNamesListView.getSelectionModel().getSelectedItem() + " ");
         }
     }
 

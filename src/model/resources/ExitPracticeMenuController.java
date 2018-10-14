@@ -21,7 +21,7 @@ public class ExitPracticeMenuController {
     private String previousScene = "";
 
     @FXML
-    void cancelButtonClicked(MouseEvent event) throws IOException {
+    void cancelButtonClicked() throws IOException {
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) cancelButton.getScene().getWindow();
         window.setScene(scene);
@@ -29,19 +29,15 @@ public class ExitPracticeMenuController {
     }
 
     @FXML
-    void confirmButtonClicked(MouseEvent event) throws IOException {
+    void confirmButtonClicked() throws IOException {
         if (previousScene.equals("enterNamesMenu")) {
             Scene scene = SetUp.getInstance().enterNamesMenu;
-            Stage window = (Stage) confirmButton.getScene().getWindow();
-            window.setScene(scene);
-        } else if (previousScene.equals("loadFilesMenu")) {
-            Scene scene = SetUp.getInstance().loadFilesMenu;
             Stage window = (Stage) confirmButton.getScene().getWindow();
             window.setScene(scene);
         }
     }
 
-    public void setPreviousScene(String name) throws IOException {
+    public void setPreviousScene(String name) {
         previousScene = name;
     }
 

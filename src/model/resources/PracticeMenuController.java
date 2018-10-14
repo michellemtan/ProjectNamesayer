@@ -24,6 +24,7 @@ public class PracticeMenuController {
     //TODO: DISABLE SHUFFLE AND LIST PLAY BUTTON WHEN THERE IS ONLY ONE NAME
     //TODO: REMOVE ALERTS (CHANGE TO LITTLE WINDOW THAT CAN HAVE CSS INSTEAD)
     //TODO: ADD TIME DELAY BETWEEN NAMES?
+    //TODO: adding name like 'Ardern Ardern Ardern' stretches the names so they sound distorted
 
     @FXML private Button playPauseButton;
     @FXML private Button playSingleButton;

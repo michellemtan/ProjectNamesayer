@@ -23,12 +23,9 @@ public class DatabaseSelectMenuController {
     @FXML private ListView<String> dbListView;
     @FXML private Button backButton;
     @FXML private Button namesBtn;
-    @FXML private Button loadBtn;
     private Preferences dbPref = Preferences.userRoot();
     private TaskService service = new TaskService();
-    private TaskService service2 = new TaskService();
     private Scene scene;
-    private Scene scene2;
     private Stage window;
     private Stage progressStage;
     private String pathToDB;
@@ -52,14 +49,11 @@ public class DatabaseSelectMenuController {
 
         //Disable button and enable if 1 list item selected
         namesBtn.setDisable(true);
-        loadBtn.setDisable(true);
         dbListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> {
             if(dbListView.getSelectionModel().getSelectedItems().size() == 1) {
                 namesBtn.setDisable(false);
-                loadBtn.setDisable(false);
             } else {
                 namesBtn.setDisable(true);
-                loadBtn.setDisable(true);
             }
         });
 
@@ -82,14 +76,6 @@ public class DatabaseSelectMenuController {
         service.setOnSucceeded(e -> {
             progressStage.hide();
             window.setScene(scene);
-        });
-
-        //Set service to show progress bar while loading
-        service2.setOnScheduled(e -> progressStage.show());
-        //Set service to change scene upon completion
-        service2.setOnSucceeded(e -> {
-            progressStage.hide();
-            window.setScene(scene2);
         });
 
         //Set up cell factory for right-click > remove for each database
@@ -126,12 +112,6 @@ public class DatabaseSelectMenuController {
         service.restart();
     }
 
-    public void loadBtnPressed() {
-/*        Scene scene = SetUp.getInstance().loadFilesMenu;
-        Stage window = (Stage) loadBtn.getScene().getWindow();
-        window.setScene(scene);*/
-        service2.restart();
-    }
 
     @FXML
     void backButtonClicked() throws IOException {
@@ -182,12 +162,10 @@ public class DatabaseSelectMenuController {
                     processor.processDB();
 
                     scene = SetUp.getInstance().enterNamesMenu;
-                    scene2 = SetUp.getInstance().loadFilesMenu;
                     window = (Stage) namesBtn.getScene().getWindow();
                     String dbName = dbListView.getSelectionModel().getSelectedItem().substring(dbListView.getSelectionModel().getSelectedItem().lastIndexOf("/") +1);
                     pathToDB = dbListView.getSelectionModel().getSelectedItem();
                     SetUp.getInstance().enterNamesController.setUpList(getListNames(), dbName);
-                    SetUp.getInstance().loadFilesController.setUpList(getListNames(), dbName);
                     return null;
                 }
             };
