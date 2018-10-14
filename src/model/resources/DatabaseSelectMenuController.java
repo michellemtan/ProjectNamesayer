@@ -1,6 +1,7 @@
 package model.resources;
 
 import javafx.beans.binding.Bindings;
+import javafx.collections.ListChangeListener;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -34,6 +35,8 @@ public class DatabaseSelectMenuController {
     //TODO: THEN WHEN YOU CLICK ON IT, THE DATABASE PROCESSES FOREVER
 
     public void initialize() {
+        dbListView.getItems().add("Default Database");
+
         //Create list of keys and add to list view if valid
         String[] prefKeys = new String[0];
         try {
@@ -89,6 +92,7 @@ public class DatabaseSelectMenuController {
                 if(dbListView.getSelectionModel().getSelectedItem() != null) {
                     dbPref.remove(dbListView.getSelectionModel().getSelectedItem());
                     dbListView.getItems().remove(dbListView.getSelectionModel().getSelectedItem());
+                    dbListView.getSelectionModel().clearSelection();
                 }
             });
             //Add menu item and bind list to list view
@@ -136,8 +140,7 @@ public class DatabaseSelectMenuController {
     }
 
     private List<String> getListNames() {
-        File dir = new File(dbListView.getSelectionModel().getSelectedItem());
-        //Code to deal with same names, case insensitive (chen = Chen)
+        File dir = new File(pathToDB);
         File[] namesListing = dir.listFiles();
         List<String> names = new ArrayList<>();
         //Create list of strings of names
@@ -158,14 +161,23 @@ public class DatabaseSelectMenuController {
                 @Override
                 protected Void call() throws IOException {
                     //Instantiate database processor and start processing
-                    DatabaseProcessor processor = new DatabaseProcessor(dbListView.getSelectionModel().getSelectedItem());
-                    processor.processDB();
+                    if(dbListView.getSelectionModel().getSelectedItem().equals("Default Database")) {
+                        pathToDB = System.getProperty("user.dir") + "/names";
+                        DatabaseProcessor processor = new DatabaseProcessor(pathToDB);
+                        processor.processDB();
+                        String dbName = "Default Database";
+                        SetUp.getInstance().enterNamesController.setUpList(getListNames(), dbName);
+                    } else {
+                        DatabaseProcessor processor = new DatabaseProcessor(dbListView.getSelectionModel().getSelectedItem());
+                        processor.processDB();
+                        String dbName = dbListView.getSelectionModel().getSelectedItem().substring(dbListView.getSelectionModel().getSelectedItem().lastIndexOf("/") +1);
+                        pathToDB = dbListView.getSelectionModel().getSelectedItem();
+                        SetUp.getInstance().enterNamesController.setUpList(getListNames(), dbName);
+                    }
 
                     scene = SetUp.getInstance().enterNamesMenu;
                     window = (Stage) namesBtn.getScene().getWindow();
-                    String dbName = dbListView.getSelectionModel().getSelectedItem().substring(dbListView.getSelectionModel().getSelectedItem().lastIndexOf("/") +1);
-                    pathToDB = dbListView.getSelectionModel().getSelectedItem();
-                    SetUp.getInstance().enterNamesController.setUpList(getListNames(), dbName);
+
                     return null;
                 }
             };
