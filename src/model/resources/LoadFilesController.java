@@ -34,7 +34,6 @@ import java.util.Random;
 
 public class LoadFilesController {
 
-    @FXML private Text backButton;
     @FXML private ListView<String> databaseNamesListView;
     @FXML private ListView<String> practiceNamesListView;
     @FXML private Button practiceButton;

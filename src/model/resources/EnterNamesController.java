@@ -20,14 +20,13 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class EnterNamesController {
 
@@ -51,14 +50,15 @@ public class EnterNamesController {
             ListCell<String> cell = new ListCell<>();
             cell.getStyleClass().add("list-cell-red");
             ContextMenu contextMenu = new ContextMenu();
-            //Create menu item for remove
+            //Create menu item for removing names & set action events
             MenuItem editItem = new MenuItem();
             editItem.textProperty().bind((Bindings.format("Remove name")));
-            editItem.setOnAction(event -> {
-                practiceNamesListView.getItems().remove(cell.getText());
-            });
-            //Add menu item and bind list to list view
-            contextMenu.getItems().add(editItem);
+            MenuItem editItems = new MenuItem();
+            editItems.textProperty().bind((Bindings.format("Clear all")));
+            editItem.setOnAction(event -> practiceNamesListView.getItems().remove(cell.getText()));
+            editItems.setOnAction(event -> practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems()));
+            //Add menu items and bind list to list view
+            contextMenu.getItems().addAll(editItem, editItems);
             //If empty set accordingly
             cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
                 if (isNowEmpty) {
@@ -67,9 +67,20 @@ public class EnterNamesController {
                     cell.setContextMenu(contextMenu);
                 }
             });
-
             cell.textProperty().bind(cell.itemProperty());
             return cell;
+        });
+
+        //Listener for items of list to select invalid ones when they're added
+        practiceNamesListView.getItems().addListener((ListChangeListener<String>) c -> {
+            //Clear selection
+            practiceNamesListView.getSelectionModel().clearSelection();
+            //Select invalid names
+            for(int i=0; i<practiceNamesListView.getItems().size(); i++) {
+                if(practiceNamesListView.getItems().get(i).contains("*")) {
+                    practiceNamesListView.getSelectionModel().select(i);
+                }
+            }
         });
 
         //Disable button when no name has been entered
@@ -155,15 +166,53 @@ public class EnterNamesController {
             if(!practiceNamesListView.getItems().contains(str)) {
                 practiceNamesListView.getItems().add(str);
             }
-            if(str.contains("*")) {
-                practiceNamesListView.getSelectionModel().select(practiceNamesListView.getItems().size() - 1);
-            }
 
             //Enable practice button after a name has been added
             practiceButton.setDisable(false);
         }
         //Clear textfield
         nameInput.clear();
+    }
+
+    @FXML
+    void loadFilesPressed() {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Select text file");
+        Stage fcStage = new Stage();
+        File selectedFile = (File) fc.showOpenDialog(fcStage);
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
+
+        if (selectedFile != null) {
+            //Read in the file containing the list of bad quality recordings
+            try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+                String line;
+
+                while ((line = reader.readLine()) != null) {
+                    //Check if added name is available
+                    String[] split = line.replaceAll("-", "- ").split("[\\s]");
+                    for(int i=0; i<split.length; i++) {
+                        split[i] = split[i].substring(0, 1).toUpperCase() + split[i].substring(1).toLowerCase();
+                        if(!allNames.contains(split[i].replaceAll("-", ""))) {
+                            split[i] = "*" + split[i] + "*";
+                        }
+                    }
+                    //Add string to list view
+                    StringBuilder builder = new StringBuilder();
+                    for(String s : split) {
+                        builder.append(s + " ");
+                    }
+                    String str = builder.toString();
+                    //Add if not duplicate
+                    if(!practiceNamesListView.getItems().contains(str)) {
+                        practiceNamesListView.getItems().add(str);
+                    }
+
+                    //Disable the practice button when names are read
+                    practiceButton.setDisable(false);
+                }
+
+            } catch (IOException ignored) {}
+        }
     }
 
     //Call addButtonClicked if user presses enter from add name text field
