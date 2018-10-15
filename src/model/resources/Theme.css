@@ -157,3 +157,9 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
 }
+
+.label-custom{
+    -fx-background-color: #E0F2F1;
+    -fx-border-color: #E0F2F1;
+    -fx-border-radius: 4px;
+}

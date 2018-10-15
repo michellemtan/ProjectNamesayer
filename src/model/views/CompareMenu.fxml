@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.CompareMenuController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.CompareMenuController">
    <children>
       <VBox prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -49,8 +49,8 @@
                   <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="Existing Recordings" translateY="95.0" GridPane.halignment="CENTER" />
-                  <Label text="Your Recording" translateY="80.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
+                  <Label styleClass="label-custom" text="Existing Recordings" translateY="95.0" GridPane.halignment="CENTER" />
+                  <Label styleClass="label-custom" text="Your Recording" translateY="80.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP" />
                   <StackPane maxHeight="200.0" minHeight="200.0" prefHeight="150.0" prefWidth="200.0" translateY="-20.0" GridPane.rowIndex="1">
                      <children>
                         <ProgressBar fx:id="existingProgressBar" prefHeight="56.0" prefWidth="200.0" progress="0.0" />
