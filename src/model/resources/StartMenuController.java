@@ -10,38 +10,20 @@ import java.io.IOException;
 
 public class StartMenuController {
 
-    @FXML
-    private Button micButton;
+    @FXML private Button micButton;
+    @FXML private Button ratingsButton;
+    @FXML private Button startButton;
+    @FXML private Button instructionsButton;
 
     @FXML
-    private Button ratingsButton;
-
-    @FXML
-    private Button startButton;
-
-    @FXML
-    private Button instructionsButton;
-
-    @FXML
-    private Button trophiesButton;
-
-    @FXML
-    void instructionsButtonClicked(MouseEvent event) throws IOException {
+    void instructionsButtonClicked() throws IOException {
         Scene scene = SetUp.getInstance().instructionsMenu;
         Stage window = (Stage) instructionsButton.getScene().getWindow();
         window.setScene(scene);
     }
 
     @FXML
-    void trophiesButtonClicked(MouseEvent event) throws IOException {
-        Scene scene = SetUp.getInstance().trophiesMenu;
-        Stage window = (Stage) trophiesButton.getScene().getWindow();
-        window.setScene(scene);
-
-    }
-
-    @FXML
-    void micButtonClicked(MouseEvent event) throws IOException {
+    void micButtonClicked() throws IOException {
         SetUp.getInstance().microphoneController.setPreviousScene("startMenu");
         Scene scene = SetUp.getInstance().microphoneMenu;
         Stage window = (Stage) micButton.getScene().getWindow();
@@ -50,7 +32,7 @@ public class StartMenuController {
     }
 
     @FXML
-    void ratingsButtonClicked(MouseEvent event) throws IOException {
+    void ratingsButtonClicked() throws IOException {
         SetUp.getInstance().audioRatingsController.setPreviousScene("startMenu");
         Scene scene = SetUp.getInstance().audioRatingsMenu;
         Stage window = (Stage) ratingsButton.getScene().getWindow();
@@ -59,7 +41,7 @@ public class StartMenuController {
     }
 
     @FXML
-    void startButtonClicked(MouseEvent event) throws IOException {
+    void startButtonClicked() throws IOException {
         Scene scene = SetUp.getInstance().databaseSelectMenu;
         Stage window = (Stage) startButton.getScene().getWindow();
         window.setScene(scene);

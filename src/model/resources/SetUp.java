@@ -18,7 +18,6 @@ public class SetUp {
     DatabaseSelectMenuController databaseSelectMenuController;
     ExitPracticeMenuController exitPracticeMenuController;
     InstructionsMenuController instructionsMenuController;
-    TrophiesController trophiesController;
     EnterNamesController enterNamesController;
     MicrophoneController microphoneController;
     NamesListController namesListController;
@@ -31,7 +30,6 @@ public class SetUp {
     Scene instructionsMenu;
     Scene audioRatingsMenu;
     Scene exitPracticeMenu;
-    Scene trophiesMenu;
     public Scene enterNamesMenu;
     public Scene microphoneMenu;
     Scene namesListMenu;
@@ -46,7 +44,6 @@ public class SetUp {
         audioRatingsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/AudioRatings.fxml")));
         instructionsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/InstructionsMenu.fxml")));
         exitPracticeMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/ExitPracticeMenu.fxml")));
-        trophiesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/TrophiesMenu.fxml")));
         enterNamesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml")));
         microphoneMenu =  new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/MicrophoneMenu.fxml")));
         namesListMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/NamesListMenu.fxml")));
@@ -59,7 +56,6 @@ public class SetUp {
         instructionsMenuLoader();
         exitPracticeMenuLoader();
         compareMenuLoader();
-        trophiesMenuLoader();
         enterNamesLoader();
         microphoneMenuLoader();
         namesListMenuLoader();
@@ -72,7 +68,6 @@ public class SetUp {
         audioRatingsMenu.getStylesheets().add("/model/resources/Theme.css");
         instructionsMenu.getStylesheets().add("/model/resources/Theme.css");
         exitPracticeMenu.getStylesheets().add("/model/resources/Theme.css");
-        trophiesMenu.getStylesheets().add("/model/resources/Theme.css");
         enterNamesMenu.getStylesheets().add("/model/resources/Theme.css");
         microphoneMenu.getStylesheets().add("/model/resources/Theme.css");
         namesListMenu.getStylesheets().add("/model/resources/Theme.css");
@@ -93,12 +88,6 @@ public class SetUp {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/StartMenu.fxml"));
         startMenu = new Scene(loader.load());
         startMenuController = loader.getController();
-    }
-
-    private void trophiesMenuLoader() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/TrophiesMenu.fxml"));
-        trophiesMenu = new Scene(loader.load());
-        trophiesController = loader.getController();
     }
 
     private void practiceMenuLoader() throws IOException {
