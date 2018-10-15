@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -46,7 +47,10 @@
                 <AnchorPane maxWidth="800.0" minHeight="0.0" minWidth="0.0" prefWidth="421.0">
                      <children>
                         <TextField fx:id="filteredInput" layoutX="35.0" layoutY="46.0" onKeyPressed="#clearTextField" prefHeight="26.0" prefWidth="223.0" promptText="Search..." />
-                        <ListView fx:id="databaseNamesListView" layoutX="35.0" layoutY="72.0" onMouseClicked="#doubleClicked" prefHeight="321.0" prefWidth="223.0" />
+                        <ListView fx:id="databaseNamesListView" layoutX="35.0" layoutY="72.0" onMouseClicked="#doubleClicked" prefHeight="321.0" prefWidth="223.0">
+                           <tooltip>
+                              <Tooltip text="Double click a name to build!" wrapText="true" />
+                           </tooltip></ListView>
                         <Label fx:id="dbName" layoutX="35.0" layoutY="22.0" text="names_db">
                            <font>
                               <Font name="System Bold" size="13.0" />
@@ -76,7 +80,10 @@
                                           <Font size="16.0" />
                                        </font>
                                     </Button>
-                                    <TextField fx:id="nameInput" maxWidth="638.0" minWidth="80.0" onKeyPressed="#enterName" prefHeight="36.0" prefWidth="564.0" promptText="e.g. 'Bruce Li'" />
+                                    <TextField fx:id="nameInput" maxWidth="638.0" minWidth="80.0" onKeyPressed="#enterName" prefHeight="36.0" prefWidth="564.0" promptText="e.g. 'Bruce Li'">
+                                       <tooltip>
+                                          <Tooltip text="Press enter to add name" />
+                                       </tooltip></TextField>
                                     <Button fx:id="loadFilesBtn" minHeight="36.0" minWidth="80.0" mnemonicParsing="false" onAction="#loadFilesPressed" text="Load File" />
                                  </children>
                               </HBox>
@@ -97,7 +104,10 @@
                         </VBox>
                         <StackPane prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
                            <children>
-                              <ListView fx:id="practiceNamesListView" stylesheets="@../resources/Theme.css" />
+                              <ListView fx:id="practiceNamesListView" stylesheets="@../resources/Theme.css">
+                                 <tooltip>
+                                    <Tooltip text="Right click to delete names" />
+                                 </tooltip></ListView>
                            </children>
                         </StackPane>
                      </children>

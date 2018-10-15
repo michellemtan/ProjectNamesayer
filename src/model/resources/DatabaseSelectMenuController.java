@@ -89,7 +89,7 @@ public class DatabaseSelectMenuController {
             MenuItem editItem = new MenuItem();
             editItem.textProperty().bind((Bindings.format("Remove Database")));
             editItem.setOnAction(event -> {
-                if(dbListView.getSelectionModel().getSelectedItem() != null) {
+                if(dbListView.getSelectionModel().getSelectedItem() != null && !dbListView.getSelectionModel().getSelectedItem().equals("Default Database")) {
                     dbPref.remove(dbListView.getSelectionModel().getSelectedItem());
                     dbListView.getItems().remove(dbListView.getSelectionModel().getSelectedItem());
                     dbListView.getSelectionModel().clearSelection();

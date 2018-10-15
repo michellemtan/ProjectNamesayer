@@ -41,8 +41,6 @@ public class EnterNamesController {
     private List<String> allNames;
     private List<String> tempNames;
 
-    //TODO: THE USER SHOULD BE ABLE TO DELETE NAMES FROM THE LIST?
-
     public void initialize() {
         //Cell factory to assign red CSS to selected cells in list view
         practiceNamesListView.setCellFactory(lv -> {
