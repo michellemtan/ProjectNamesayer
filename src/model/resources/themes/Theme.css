@@ -13,6 +13,10 @@
     -fx-font-family: 'ubuntu';
 }
 
+.root-clear{
+    -fx-background-image: url("../images/background_clear.png");
+}
+
 .split-pane-image {
     -fx-background-image: url("../images/background.png");
     -fx-background-repeat: stretch;
@@ -172,4 +176,8 @@
     -fx-background-color: #E0F2F1;
     -fx-border-color: #E0F2F1;
     -fx-border-radius: 4px;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
 }
