@@ -1,20 +1,16 @@
 package model.resources;
 
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import javax.sound.sampled.*;
 import java.io.IOException;
 
 public class MicrophoneController {
-
-    //TODO: FIX THIS SO THE MICROPHONE LEVEL STARTS AT 0
 
     @FXML
     private Button backButton;
@@ -47,62 +43,68 @@ public class MicrophoneController {
 
         new Thread () {
             @Override
-                    public void run () {
-
-                //Based on:  https://stackoverflow.com/questions/15870666/calculating-microphone-volume-trying-to-find-max
+            public void run () {
+                //Based on:  https://stackoverflow.com/questions/26574326/how-to-calculate-the-level-amplitude-db-of-audio-signal-in-java
                 TargetDataLine line = null;
-                AudioFormat format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, 44100, 16, 2, 4, 44100, false);
-                DataLine.Info info = new DataLine.Info(TargetDataLine.class, format); //     format is an AudioFormat object
+                AudioFormat format = new AudioFormat(44100f, 16, 1, true, false);
+                DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+
+                int sample;
+                byte[] readByte = new byte[2048];
+                float[] sampleBytes = new float[1024];
+
                 if (!AudioSystem.isLineSupported(info)) {
-                    System.out.println("The line is not supported.");
+                    System.out.println("The line is not supported");
                 }
-                // Obtain and open the line.
+
+                // Obtain and open the line
                 try {
                     line = (TargetDataLine) AudioSystem.getLine(info);
-                    line.open(format);
-                    line.start();
+                    line.open(format, 1024);
                 } catch (
                         LineUnavailableException ex) {
-                    System.out.println("The TargetDataLine is unavailable.");
+                    System.out.println("The TargetDataLine is unavailable");
+                    System.exit(-1);
                 }
 
-                while (true) {
-                    try {
-                        byte[] bytes = new byte[line.getBufferSize() / 5];
-                        line.read(bytes, 0, bytes.length);
-                        double progress = (double) calculateRMSLevel(bytes) / 65;
-                        progressBar.setProgress(progress);
+                line.start();
 
-                        Stage stage = (Stage) progressBar.getScene().getWindow();
+                //Read bytes by sampling audio data from target data line
+                for (int byteSize; (byteSize = line.read(readByte, 0, readByte.length)) > -1; byteSize++ ) {
 
-                        if (backButton.isPressed() || !stage.isShowing()) {
-                            line.close();
-                            return;
-                        }
-                    } catch (NullPointerException e){
-                        //CLOSED TOO EARLY
+                    for (int i = 0, j= 0; i < byteSize; ) {
+                        sample = 0;
+
+                        //Get last 16 bits as sample of data line
+                        sample = sample | readByte[i++] & 0xFF;
+                        sample = sample | readByte[i++] << 8;
+                        sampleBytes[j++] = sample / 32768f;
                     }
 
+                    double progress = (double) calculateRMSLevel(sampleBytes);
+                    progressBar.setProgress(progress);
+
+                    Stage stage = (Stage) progressBar.getScene().getWindow();
+
+                    if (backButton.isPressed() || !stage.isShowing()) {
+                        line.close();
+                        return;
+                    }
                 }
             }
         }.start();
 
     }
 
-    protected static int calculateRMSLevel(byte[] audioData)
-    { // audioData might be buffered data read from a data line
-        long lSum = 0;
-        for(int i=0; i<audioData.length; i++)
-            lSum = lSum + audioData[i];
+    private float calculateRMSLevel(float[] audioData) {
+        float rms = 0f;
 
-        double dAvg = lSum / audioData.length;
+        for(float audioLevel : audioData) {
+            rms = rms + (float)Math.pow(audioLevel, 2);
+        }
 
-        double sumMeanSquare = 0d;
-        for(int j=0; j<audioData.length; j++)
-            sumMeanSquare = sumMeanSquare + Math.pow(audioData[j] - dAvg, 2d);
-
-        double averageMeanSquare = sumMeanSquare / audioData.length;
-        return (int)(Math.pow(averageMeanSquare,0.5d) + 0.5);
+        rms = (float)Math.sqrt(rms / audioData.length);
+        return rms;
     }
 
 }
