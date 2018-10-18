@@ -21,6 +21,7 @@ public class SetUp {
     EnterNamesController enterNamesController;
     MicrophoneController microphoneController;
     NamesListController namesListController;
+    public MissingDBController missingDBController;
 
     //Scenes to load the fxml files to
     public Scene startMenu;
@@ -33,6 +34,7 @@ public class SetUp {
     Scene enterNamesMenu;
     Scene microphoneMenu;
     Scene namesListMenu;
+    Scene missingDB;
 
     private SetUp() throws IOException {
 
@@ -47,6 +49,7 @@ public class SetUp {
         enterNamesMenu = enterNamesLoader();
         microphoneMenu = microphoneMenuLoader();
         namesListMenu = namesListMenuLoader();
+        missingDB = missingDBLoader();
 
         //Add Theme.css to all scenes
         compareMenu.getStylesheets().add("/model/resources/Theme.css");
@@ -59,6 +62,7 @@ public class SetUp {
         enterNamesMenu.getStylesheets().add("/model/resources/Theme.css");
         microphoneMenu.getStylesheets().add("/model/resources/Theme.css");
         namesListMenu.getStylesheets().add("/model/resources/Theme.css");
+        missingDB.getStylesheets().add("/model/resources/Theme.css");
     }
 
     //Constructor implementing Singleton pattern to create one instance of SetUp class where different scenes are created
@@ -76,6 +80,13 @@ public class SetUp {
         startMenu = new Scene(loader.load());
         startMenuController = loader.getController();
         return startMenu;
+    }
+
+    private Scene missingDBLoader() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/MissingDB.fxml"));
+        missingDB = new Scene(loader.load());
+        missingDBController = loader.getController();
+        return missingDB;
     }
 
     private Scene practiceMenuLoader() throws IOException {

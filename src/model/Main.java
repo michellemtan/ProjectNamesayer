@@ -10,10 +10,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Scene scene = SetUp.getInstance().startMenu; // load menu scene
-        SetUp.getInstance().startMenuController.setUp();
+        Scene scene = SetUp.getInstance().startMenu; //Load menu scene
+        SetUp.getInstance().missingDBController.setUpAlert(); //Check if database folder is present
         primaryStage.setTitle("Name Sayer");
-        //TODO: make work with no internet connections
         primaryStage.getIcons().add(new Image("/model/resources/images/icon.png"));
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
