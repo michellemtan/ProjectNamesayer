@@ -22,6 +22,7 @@ public class SetUp {
     MicrophoneController microphoneController;
     NamesListController namesListController;
     public MissingDBController missingDBController;
+    SettingsMenuController settingsMenuController;
 
     //Scenes to load the fxml files to
     public Scene startMenu;
@@ -35,6 +36,7 @@ public class SetUp {
     Scene microphoneMenu;
     Scene namesListMenu;
     Scene missingDB;
+    Scene settingsMenu;
 
     private SetUp() throws IOException {
 
@@ -50,19 +52,21 @@ public class SetUp {
         microphoneMenu = microphoneMenuLoader();
         namesListMenu = namesListMenuLoader();
         missingDB = missingDBLoader();
+        settingsMenu = settingsMenuLoader();
 
         //Add Theme.css to all scenes
-        compareMenu.getStylesheets().add("/model/resources/Theme.css");
-        databaseSelectMenu.getStylesheets().add("/model/resources/Theme.css");
-        practiceMenu.getStylesheets().add("/model/resources/Theme.css");
-        startMenu.getStylesheets().add("/model/resources/Theme.css");
-        audioRatingsMenu.getStylesheets().add("/model/resources/Theme.css");
-        instructionsMenu.getStylesheets().add("/model/resources/Theme.css");
-        exitPracticeMenu.getStylesheets().add("/model/resources/Theme.css");
-        enterNamesMenu.getStylesheets().add("/model/resources/Theme.css");
-        microphoneMenu.getStylesheets().add("/model/resources/Theme.css");
-        namesListMenu.getStylesheets().add("/model/resources/Theme.css");
-        missingDB.getStylesheets().add("/model/resources/Theme.css");
+        compareMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        databaseSelectMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        practiceMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        startMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        audioRatingsMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        instructionsMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        exitPracticeMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        enterNamesMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        microphoneMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        namesListMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        missingDB.getStylesheets().add("/model/resources/themes/Theme.css");
+        settingsMenu.getStylesheets().add("/model/resources/themes/Theme.css");
     }
 
     //Constructor implementing Singleton pattern to create one instance of SetUp class where different scenes are created
@@ -80,6 +84,13 @@ public class SetUp {
         startMenu = new Scene(loader.load());
         startMenuController = loader.getController();
         return startMenu;
+    }
+
+    private Scene settingsMenuLoader() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/Settings.fxml"));
+        settingsMenu = new Scene(loader.load());
+        settingsMenuController = loader.getController();
+        return settingsMenu;
     }
 
     private Scene missingDBLoader() throws IOException {

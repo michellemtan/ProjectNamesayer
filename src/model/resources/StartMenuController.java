@@ -11,23 +11,13 @@ import java.io.IOException;
 
 public class StartMenuController {
 
-    @FXML private Button micButton;
     @FXML private Button ratingsButton;
     @FXML private Button startButton;
-    @FXML private Button instructionsButton;
 
     @FXML
-    void instructionsButtonClicked() throws IOException {
-        Scene scene = SetUp.getInstance().instructionsMenu;
-        Stage window = (Stage) instructionsButton.getScene().getWindow();
-        window.setScene(scene);
-    }
-
-    @FXML
-    void micButtonClicked() throws IOException {
-        SetUp.getInstance().microphoneController.setPreviousScene("startMenu");
-        Scene scene = SetUp.getInstance().microphoneMenu;
-        Stage window = (Stage) micButton.getScene().getWindow();
+    void settingsBtnPressed() throws IOException {
+        Scene scene = SetUp.getInstance().settingsMenu;
+        Stage window = (Stage) startButton.getScene().getWindow();
         window.setScene(scene);
 
     }

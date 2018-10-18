@@ -1,7 +1,6 @@
 package model.resources;
 
 import javafx.beans.binding.Bindings;
-import javafx.collections.ListChangeListener;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -69,7 +68,7 @@ public class DatabaseSelectMenuController {
         progressStage = new Stage();
         progressStage.setTitle("Processing Database");
         Scene sceneP = new Scene(new StackPane(progressBar), 400, 150);
-        sceneP.getStylesheets().add("/model/resources/Theme.css");
+        sceneP.getStylesheets().add("/model/resources/themes/Theme.css");
         progressStage.setScene(sceneP);
         progressStage.setAlwaysOnTop(true);
 

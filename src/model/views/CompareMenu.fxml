@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/Theme.css" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.CompareMenuController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@../resources/themes/Theme.css" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.CompareMenuController">
    <children>
       <VBox prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -71,7 +71,7 @@
                               </ContextMenu>
                            </contextMenu>
                         </Button>
-                        <Button fx:id="playExistingButton" mnemonicParsing="false" onMouseClicked="#playExistingButtonClicked" prefHeight="56.0" prefWidth="200.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ ">
+                        <Button fx:id="playExistingButton" mnemonicParsing="false" onMouseClicked="#playExistingButtonClicked" prefHeight="56.0" prefWidth="200.0" styleClass="button-transparent" stylesheets="@../resources/themes/Theme.css" text="▶ ">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -81,7 +81,7 @@
                   <StackPane maxWidth="200.0" minWidth="200.0" prefHeight="150.0" prefWidth="200.0" translateX="290.0" translateY="-20.0" GridPane.rowIndex="2">
                      <children>
                         <ProgressBar fx:id="recordProgressBar" prefHeight="32.0" prefWidth="220.0" progress="0.0" />
-                        <Button fx:id="recordButton" maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onMouseClicked="#recordButtonClicked" prefHeight="32.0" prefWidth="220.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="Record">
+                        <Button fx:id="recordButton" maxHeight="32.0" minHeight="32.0" mnemonicParsing="false" onMouseClicked="#recordButtonClicked" prefHeight="32.0" prefWidth="220.0" styleClass="button-transparent" stylesheets="@../resources/themes/Theme.css" text="Record">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -91,7 +91,7 @@
                   <StackPane maxHeight="200.0" minHeight="200.0" prefHeight="200.0" prefWidth="364.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <ProgressBar fx:id="progressBar" prefHeight="56.0" prefWidth="329.0" progress="0.0" translateY="-20.0" />
-                        <Button fx:id="playPauseButton" mnemonicParsing="false" onMouseClicked="#playPauseButtonClicked" prefHeight="56.0" prefWidth="329.0" styleClass="button-transparent" stylesheets="@../resources/Theme.css" text="▶ " translateY="-20.0">
+                        <Button fx:id="playPauseButton" mnemonicParsing="false" onMouseClicked="#playPauseButtonClicked" prefHeight="56.0" prefWidth="329.0" styleClass="button-transparent" stylesheets="@../resources/themes/Theme.css" text="▶ " translateY="-20.0">
                            <font>
                               <Font size="24.0" />
                            </font>

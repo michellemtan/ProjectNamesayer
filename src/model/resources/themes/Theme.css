@@ -1,6 +1,6 @@
 .root{
     -fx-background-color: #E0F2F1;
-    -fx-background-image: url("images/background2.png");
+    -fx-background-image: url("../images/background.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 800 500;
     -fx-background-position: center center;
@@ -14,7 +14,7 @@
 }
 
 .split-pane-image {
-    -fx-background-image: url("images/background2.png");
+    -fx-background-image: url("../images/background.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 800 500;
     -fx-background-position: center center;

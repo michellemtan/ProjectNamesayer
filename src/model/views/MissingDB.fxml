@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" styleClass="root-clean" stylesheets="@../resources/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.MissingDBController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" styleClass="root-clean" stylesheets="@../resources/themes/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.MissingDBController">
    <center>
       <Label text="You will not be able to use Name Sayer without the default database, a folder called 'names' in the same directory as the jar file. To fix this, move the names databse to the correct location or add a new database from the settings menu." translateY="3.0" wrapText="true" BorderPane.alignment="CENTER">
          <opaqueInsets>
