@@ -14,7 +14,7 @@ public class SetUp {
     PracticeMenuController practiceMenuController;
     AudioRatingsController audioRatingsController;
     CompareMenuController compareMenuController;
-    StartMenuController startMenuController;
+    public StartMenuController startMenuController;
     DatabaseSelectMenuController databaseSelectMenuController;
     ExitPracticeMenuController exitPracticeMenuController;
     InstructionsMenuController instructionsMenuController;
@@ -24,41 +24,29 @@ public class SetUp {
 
     //Scenes to load the fxml files to
     public Scene startMenu;
-    public Scene compareMenu;
-    public Scene databaseSelectMenu;
-    public Scene practiceMenu;
+    Scene compareMenu;
+    Scene databaseSelectMenu;
+    Scene practiceMenu;
     Scene instructionsMenu;
     Scene audioRatingsMenu;
     Scene exitPracticeMenu;
-    public Scene enterNamesMenu;
-    public Scene microphoneMenu;
+    Scene enterNamesMenu;
+    Scene microphoneMenu;
     Scene namesListMenu;
 
     private SetUp() throws IOException {
 
-        //Load menus to be used throughout the program
-        compareMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/CompareMenu.fxml")));
-        databaseSelectMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/DatabaseSelectMenu.fxml")));
-        practiceMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/PracticeMenu.fxml")));
-        startMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/StartMenu.fxml")));
-        audioRatingsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/AudioRatings.fxml")));
-        instructionsMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/InstructionsMenu.fxml")));
-        exitPracticeMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/ExitPracticeMenu.fxml")));
-        enterNamesMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml")));
-        microphoneMenu =  new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/MicrophoneMenu.fxml")));
-        namesListMenu = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("model/views/NamesListMenu.fxml")));
-
-        //Load load menu
-        startMenuLoader();
-        databaseSelectMenuLoader();
-        practiceMenuLoader();
-        badRecordingsMenuLoader();
-        instructionsMenuLoader();
-        exitPracticeMenuLoader();
-        compareMenuLoader();
-        enterNamesLoader();
-        microphoneMenuLoader();
-        namesListMenuLoader();
+        //Load scenes to be used in the program
+        startMenu = startMenuLoader();
+        compareMenu = compareMenuLoader();
+        databaseSelectMenu = databaseSelectMenuLoader();
+        practiceMenu = practiceMenuLoader();
+        audioRatingsMenu = audioRatingsMenuLoader();
+        instructionsMenu = instructionsMenuLoader();
+        exitPracticeMenu = exitPracticeMenuLoader();
+        enterNamesMenu = enterNamesLoader();
+        microphoneMenu = microphoneMenuLoader();
+        namesListMenu = namesListMenuLoader();
 
         //Add Theme.css to all scenes
         compareMenu.getStylesheets().add("/model/resources/Theme.css");
@@ -83,70 +71,73 @@ public class SetUp {
 
     //Methods to load FXML files to scenes
 
-    private void startMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/StartMenu.fxml"));
+    private Scene startMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/StartMenu.fxml"));
         startMenu = new Scene(loader.load());
         startMenuController = loader.getController();
+        return startMenu;
     }
 
-    private void practiceMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/PracticeMenu.fxml"));
+    private Scene practiceMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/PracticeMenu.fxml"));
         practiceMenu = new Scene(loader.load());
         practiceMenuController = loader.getController();
+        return practiceMenu;
     }
 
-    private void databaseSelectMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/DatabaseSelectMenu.fxml"));
+    private Scene databaseSelectMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/DatabaseSelectMenu.fxml"));
         databaseSelectMenu = new Scene(loader.load());
         databaseSelectMenuController = loader.getController();
+        return databaseSelectMenu;
     }
 
-    private void badRecordingsMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/AudioRatings.fxml"));
+    private Scene audioRatingsMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/AudioRatings.fxml"));
         audioRatingsMenu = new Scene(loader.load());
         audioRatingsController = loader.getController();
+        return audioRatingsMenu;
     }
 
-    private void instructionsMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/InstructionsMenu.fxml"));
+    private Scene instructionsMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/InstructionsMenu.fxml"));
         instructionsMenu = new Scene(loader.load());
         instructionsMenuController = loader.getController();
+        return instructionsMenu;
     }
 
-    private void exitPracticeMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/ExitPracticeMenu.fxml"));
+    private Scene exitPracticeMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/ExitPracticeMenu.fxml"));
         exitPracticeMenu = new Scene(loader.load());
         exitPracticeMenuController = loader.getController();
+        return exitPracticeMenu;
     }
 
-    private void compareMenuLoader() throws IOException {
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/CompareMenu.fxml"));
+    private Scene compareMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/CompareMenu.fxml"));
         compareMenu = new Scene(loader.load());
         compareMenuController = loader.getController();
+        return compareMenu;
     }
 
-    private void enterNamesLoader() throws  IOException {
+    private Scene enterNamesLoader() throws  IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/EnterNamesMenu.fxml"));
         enterNamesMenu = new Scene(loader.load());
         enterNamesController = loader.getController();
+        return enterNamesMenu;
     }
 
-    private void microphoneMenuLoader() throws  IOException {
+    private Scene microphoneMenuLoader() throws  IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/MicrophoneMenu.fxml"));
         microphoneMenu = new Scene(loader.load());
         microphoneController = loader.getController();
+        return microphoneMenu;
     }
 
-    private void namesListMenuLoader() throws IOException {
+    private Scene namesListMenuLoader() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/NamesListMenu.fxml"));
         namesListMenu = new Scene(loader.load());
         namesListController = loader.getController();
+        return namesListMenu;
     }
 }
