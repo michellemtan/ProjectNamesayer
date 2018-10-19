@@ -74,11 +74,11 @@
 
 .button-transparent{
     -fx-background-color: transparent;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #A9B7C6;
 }
 
-.button-transparent:hover{
-    -fx-background-color: #595B5D;
+.button-save{
+    -fx-background-color: #1C1C1C;
 }
 
 .text-field{

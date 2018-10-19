@@ -74,15 +74,25 @@
                                     <Insets left="50.0" right="50.0" top="5.0" />
                                  </VBox.margin>
                                  <children>
-                                    <Button fx:id="addButton" maxHeight="36.0" minHeight="36.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#addButtonClicked" text=" + ">
+                                    <Button maxHeight="36.0" minHeight="36.0" minWidth="50.0" mnemonicParsing="false" styleClass="button-save" stylesheets="@../resources/themes/Theme.css">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
                                     </Button>
-                                    <TextField fx:id="nameInput" maxWidth="638.0" minWidth="80.0" onKeyPressed="#enterName" prefHeight="36.0" prefWidth="564.0" promptText="e.g. 'Bruce Li'">
-                                       <tooltip>
-                                          <Tooltip text="Press enter to add name" />
-                                       </tooltip></TextField>
+                                    <StackPane prefHeight="36.0" prefWidth="615.0">
+                                       <children>
+                                          <TextField fx:id="nameInput" maxWidth="738.0" minWidth="80.0" onKeyPressed="#enterName" prefHeight="36.0" prefWidth="564.0" promptText="e.g. 'Bruce Li'">
+                                             <tooltip>
+                                                <Tooltip text="Press enter to add name" />
+                                             </tooltip>
+                                          </TextField>
+                                          <Button fx:id="addButton" mnemonicParsing="false" onMouseClicked="#addButtonClicked" styleClass="button-transparent" stylesheets="@../resources/themes/Theme.css" text="+" translateX="-1.0" translateY="-1.0" StackPane.alignment="CENTER_RIGHT">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </StackPane>
                                     <Button fx:id="loadFilesBtn" minHeight="36.0" minWidth="80.0" mnemonicParsing="false" onAction="#loadFilesPressed" text="Load File" />
                                  </children>
                               </HBox>

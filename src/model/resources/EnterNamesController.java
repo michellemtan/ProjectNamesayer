@@ -262,7 +262,7 @@ public class EnterNamesController {
 
     @FXML
     void practiceButtonClicked() throws IOException, InterruptedException {
-
+        filteredInput.clear();
         ProcessBuilder removeBuilder = new ProcessBuilder("/bin/bash", "-c", "rm -r ./created_names");
         Process r = removeBuilder.start();
         r.waitFor();
@@ -279,8 +279,6 @@ public class EnterNamesController {
                     tempNames.add(name);
                 }
             }
-
-            //TODO: ADD ALERT CONTAINING LIST OF NAMES THAT DON'T EXIST?
 
             //Concat names before loading menu
             new File("./created_names").mkdir();

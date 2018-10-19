@@ -72,7 +72,19 @@
 
 .button-transparent{
     -fx-background-color: transparent;
+    -fx-border-color: transparent;
     -fx-text-fill: #000000;
+}
+
+.button-transparent:hover{
+    -fx-background-color: #BDBDBD;
+}
+
+.button-save{
+    -fx-background-image: url("../images/save.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 25 20;
+    -fx-background-position: center center;
 }
 
 .text-field{
