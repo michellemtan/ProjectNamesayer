@@ -11,16 +11,12 @@ import java.io.IOException;
 
 public class InstructionsMenuController {
 
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private TextArea textArea;
+    @FXML private Button backButton;
 
     //Return the user to the start menu when the back button is clicked
     @FXML
-    void backButtonClicked(MouseEvent event) throws IOException {
-        Scene scene = SetUp.getInstance().startMenu;
+    void backButtonClicked() throws IOException {
+        Scene scene = SetUp.getInstance().settingsMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
 

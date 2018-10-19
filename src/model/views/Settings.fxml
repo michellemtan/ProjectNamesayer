@@ -48,7 +48,7 @@
                         <Font name="Ubuntu Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" text="Here" translateX="20.0">
+                  <Button mnemonicParsing="false" onAction="#helpBtnPressed" text="Help" translateX="20.0">
                      <font>
                         <Font name="Ubuntu" size="13.0" />
                      </font></Button>
