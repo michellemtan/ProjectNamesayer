@@ -20,7 +20,7 @@ public class Creation {
     }
 
     public String getFirstName(){
-        String firstName = name.split(" ")[0];
+        String firstName = name.split("[- ]")[0];
         return firstName;
     }
 

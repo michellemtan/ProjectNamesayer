@@ -153,12 +153,6 @@ public class PracticeMenuController {
         audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
         audioPlayer.setOnReady(this::progressBar);
         audioPlayer.setOnEndOfMedia(() -> {
-            try {
-                //Delay playing the next audio file
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             playMediaTracks(mediaList, audioList, isFirstName);
         });
     }
