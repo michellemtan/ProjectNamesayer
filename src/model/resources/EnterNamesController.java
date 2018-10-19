@@ -92,8 +92,8 @@ public class EnterNamesController {
 
         //Disable button when no name has been entered
         practiceButton.setDisable(true);
-
-        splitPane.setDividerPositions(0);
+        //Start expanded
+        splitPane.setDividerPositions(0.35);
         BooleanProperty collapsed = new SimpleBooleanProperty();
         collapsed.bind(splitPane.getDividers().get(0).positionProperty().isEqualTo(0.0, 0.01));
 
