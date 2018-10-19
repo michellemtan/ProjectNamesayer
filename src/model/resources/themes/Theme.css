@@ -96,7 +96,7 @@
 }
 
 .text-field:selected{
-    -fx-background-color: 009688;
+    -fx-background-color: #009688;
 }
 
 .progress-bar{

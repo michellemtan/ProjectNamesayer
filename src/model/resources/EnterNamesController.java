@@ -38,6 +38,7 @@ public class EnterNamesController {
     @FXML private Button practiceButton;
     @FXML private Label dbName;
     @FXML private TextField nameInput;
+    @FXML private Button saveBtn;
     private List<String> allNames;
     private List<String> tempNames;
 
@@ -45,6 +46,7 @@ public class EnterNamesController {
 
     public void initialize() {
         //Cell factory to assign red CSS to selected cells in list view
+        saveBtn.getStyleClass().add("button-save");
         practiceNamesListView.setCellFactory(lv -> {
             //Set red if selected
             ListCell<String> cell = new ListCell<>();
