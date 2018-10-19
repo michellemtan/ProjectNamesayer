@@ -97,7 +97,7 @@
                         <Font name="Ubuntu Bold" size="16.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="chooseDB" prefHeight="25.0" prefWidth="704.0" translateX="20.0" />
+                  <ComboBox fx:id="chooseDB" onAction="#comboAction" prefHeight="25.0" prefWidth="704.0" translateX="20.0" />
                </children>
                <padding>
                   <Insets bottom="15.0" left="20.0" right="15.0" top="15.0" />
