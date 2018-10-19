@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="root-clear" stylesheets="@../resources/themes/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.SettingsMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.SettingsMenuController">
    <top>
        <GridPane prefHeight="110.0" prefWidth="800.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -61,9 +61,9 @@
                   </Label>
                   <HBox prefHeight="29.0" prefWidth="745.0" spacing="12.0">
                      <children>
-                        <Button mnemonicParsing="false" text="G" translateX="20.0" />
-                        <Button mnemonicParsing="false" text="B" translateX="20.0" />
-                        <Button mnemonicParsing="false" text="C" translateX="20.0" />
+                        <Button fx:id="blueTheme" mnemonicParsing="false" onAction="#defBtnPressed" prefWidth="30.0" styleClass="button-blue" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
+                        <Button fx:id="dracTheme" mnemonicParsing="false" onAction="#dracBtnPressed" prefWidth="30.0" styleClass="button-drac" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
+                        <Button fx:id="cTheme" mnemonicParsing="false" prefWidth="30.0" styleClass="button-c" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
                         <Label text="Wave" translateX="20.0" translateY="5.0">
                            <padding>
                               <Insets right="-8.0" />
@@ -72,7 +72,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <CheckBox mnemonicParsing="false" translateX="20.0" translateY="4.0" />
+                        <CheckBox fx:id="waveBox" mnemonicParsing="false" translateX="20.0" translateY="4.0" />
                      </children>
                   </HBox>
                   <Label text="▼ Microphone ――――――――――――――――――――――――――――――――――――――">

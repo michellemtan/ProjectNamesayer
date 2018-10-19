@@ -3,13 +3,9 @@ package model.resources;
 import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -26,8 +22,30 @@ public class SettingsMenuController {
 
     @FXML private Button backBtn;
     @FXML private ComboBox<String> chooseDB;
+    @FXML private CheckBox waveBox;
     private String pathToDB;
     private TaskService service = new TaskService();
+    //Themes
+    private String themeURL = getClass().getResource("/model/resources/themes/Theme.css").toExternalForm();
+    private String dracThemeURL = getClass().getResource("/model/resources/themes/dracTheme.css").toExternalForm();
+
+    String getTheme(){
+        return themeURL;
+    }
+
+    public String getPathToDB() {
+        return pathToDB;
+    }
+
+    @FXML
+    private void dracBtnPressed() throws IOException {
+        SetUp.getInstance().changeTheme(dracThemeURL);
+    }
+
+    @FXML
+    private void defBtnPressed() throws IOException {
+        SetUp.getInstance().changeTheme(themeURL);
+    }
 
     //Take user back to main menu, and pass list of current db to enter names
     public void backBtnPressed() throws IOException {
@@ -42,8 +60,10 @@ public class SettingsMenuController {
         String dbName;
         if(chooseDB.getSelectionModel().getSelectedItem().equals("Default Database")) {
             dbName = "Default Database";
+            pathToDB = System.getProperty("user.dir") + "/names";
         } else {
             dbName = chooseDB.getSelectionModel().getSelectedItem().substring(chooseDB.getSelectionModel().getSelectedItem().lastIndexOf("/") +1);
+            pathToDB = chooseDB.getSelectionModel().getSelectedItem();
         }
         SetUp.getInstance().enterNamesController.setUpList(getListNames(chooseDB.getSelectionModel().getSelectedItem()), dbName);
     }
@@ -53,6 +73,10 @@ public class SettingsMenuController {
         chooseDB.getItems().add("Default Database");
         chooseDB.getItems().add("Add new...");
         chooseDB.getSelectionModel().selectFirst();
+        waveBox.setSelected(true);
+
+        //Set up colours for theme buttons
+
 
         //Listener to deselect 'Add new' option if it is selected because user chooses bad folder
         chooseDB.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> {

@@ -55,18 +55,34 @@ public class SetUp {
         settingsMenu = settingsMenuLoader();
 
         //Add Theme.css to all scenes
-        compareMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        databaseSelectMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        practiceMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        startMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        audioRatingsMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        instructionsMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        exitPracticeMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        enterNamesMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        microphoneMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        namesListMenu.getStylesheets().add("/model/resources/themes/Theme.css");
-        missingDB.getStylesheets().add("/model/resources/themes/Theme.css");
-        settingsMenu.getStylesheets().add("/model/resources/themes/Theme.css");
+        changeTheme(settingsMenuController.getTheme());
+    }
+
+    void changeTheme(String themeURL) {
+        settingsMenu.getStylesheets().clear();
+        compareMenu.getStylesheets().clear();
+        databaseSelectMenu.getStylesheets().clear();
+        practiceMenu.getStylesheets().clear();
+        startMenu.getStylesheets().clear();
+        audioRatingsMenu.getStylesheets().clear();
+        instructionsMenu.getStylesheets().clear();
+        exitPracticeMenu.getStylesheets().clear();
+        enterNamesMenu.getStylesheets().clear();
+        microphoneMenu.getStylesheets().clear();
+        namesListMenu.getStylesheets().clear();
+        missingDB.getStylesheets().clear();
+        compareMenu.getStylesheets().add(themeURL);
+        databaseSelectMenu.getStylesheets().add(themeURL);
+        practiceMenu.getStylesheets().add(themeURL);
+        startMenu.getStylesheets().add(themeURL);
+        audioRatingsMenu.getStylesheets().add(themeURL);
+        instructionsMenu.getStylesheets().add(themeURL);
+        exitPracticeMenu.getStylesheets().add(themeURL);
+        enterNamesMenu.getStylesheets().add(themeURL);
+        microphoneMenu.getStylesheets().add(themeURL);
+        namesListMenu.getStylesheets().add(themeURL);
+        missingDB.getStylesheets().add(themeURL);
+        settingsMenu.getStylesheets().add(themeURL);
     }
 
     //Constructor implementing Singleton pattern to create one instance of SetUp class where different scenes are created

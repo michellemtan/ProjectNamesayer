@@ -267,7 +267,7 @@ public class PracticeMenuController {
 
         //Set up the practice list view
         creationList = list;
-        pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
         playPauseButton.setDisable(false);
         if (creationList.size()<=1){
             playPauseButton.setDisable(true);
@@ -275,7 +275,7 @@ public class PracticeMenuController {
         }
         creationsListView.getItems().setAll(creationList);
         creationsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
 
         //Create hashmap of audio files
         String folderName = "created_names/";

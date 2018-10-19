@@ -313,7 +313,7 @@ public class EnterNamesController {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws IOException, InterruptedException {
-                    String pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+                    String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
 
                     int audioNumber = 0;
                     for (String creation : tempNames) {
