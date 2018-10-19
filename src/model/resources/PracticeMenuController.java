@@ -5,7 +5,6 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -24,7 +23,6 @@ public class PracticeMenuController {
     //TODO: DISABLE SHUFFLE AND LIST PLAY BUTTON WHEN THERE IS ONLY ONE NAME
     //TODO: REMOVE ALERTS (CHANGE TO LITTLE WINDOW THAT CAN HAVE CSS INSTEAD)
     //TODO: ADD TIME DELAY BETWEEN NAMES?
-    //TODO: adding name like 'Ardern Ardern Ardern' stretches the names so they sound distorted. Concatenating names causes this.
     //TODO: there are also some cases of names being 'squashed' so they're high pitched and play too fast.
 
     @FXML private Button playPauseButton;
@@ -45,7 +43,8 @@ public class PracticeMenuController {
     private Timeline timeline;
     private ObservableList<Media> mediaList;
     private String selectedName;
-    private HashMap<String,Media> hashMap;
+    private HashMap<String,Creation> hashMap;
+    private int delay = 500;
 
     @FXML
     void backButtonClicked() throws IOException {
@@ -99,41 +98,32 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void playButtonClicked() throws IOException, InterruptedException {
-
-        creationsListView.getSelectionModel().clearSelection();
-        if (isFinished) {
-            mediaPlayerCreator();
-        } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
-            shuffleButton.setDisable(false);
-            playPauseButton.setDisable(false);
-            backButton.setDisable(false);
-            playSingleButton.setDisable(true);
-            audioPlayer.pause();
-            timeline.pause();
-        } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
-            audioPlayer.play();
-            timeline.play();
-        } else {
-            mediaPlayerCreator();
+    void playButtonClicked(MouseEvent event) throws IOException, InterruptedException {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            playNamesList(false);
         }
-
     }
 
-    private void mediaPlayerCreator() throws IOException, InterruptedException {
+    private void mediaPlayerCreator(boolean isFirstName) throws IOException, InterruptedException {
 
         List<String> audioList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
         mediaList = FXCollections.observableArrayList();
 
-        for (String a: audioList){
-            mediaList.add(hashMap.get(a));
+        if (isFirstName){
+            for (String a: audioList){
+                mediaList.add(hashMap.get(a).getFirstNameMedia());
+            }
+        } else {
+            for (String a: audioList){
+                mediaList.add(hashMap.get(a).getMedia());
+            }
         }
 
-        playMediaTracks(mediaList, audioList);
+        playMediaTracks(mediaList, audioList, isFirstName);
     }
 
 
-    private void playMediaTracks(List<Media> mediaList, List<String> audioList) {
+    private void playMediaTracks(List<Media> mediaList, List<String> audioList, boolean isFirstName) {
 
         if (mediaList.size() == 0) {
             isFinished = true;
@@ -149,7 +139,12 @@ public class PracticeMenuController {
             compareButton.setDisable(true);
         }
 
-        creationName.setText(audioList.get(0));
+        if (isFirstName) {
+            creationName.setText(hashMap.get(audioList.get(0)).getFirstName());
+        } else {
+            creationName.setText(audioList.get(0));
+        }
+
         audioList.remove(0);
 
         Media playing = mediaList.remove(0);
@@ -158,7 +153,13 @@ public class PracticeMenuController {
         audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
         audioPlayer.setOnReady(this::progressBar);
         audioPlayer.setOnEndOfMedia(() -> {
-            playMediaTracks(mediaList, audioList);
+            try {
+                //Delay playing the next audio file
+                Thread.sleep(delay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            playMediaTracks(mediaList, audioList, isFirstName);
         });
     }
 
@@ -171,35 +172,17 @@ public class PracticeMenuController {
             timeline.setCycleCount(1);
             timeline.play();
         } catch (IllegalArgumentException e) {
-            //WHOOPS
+            System.err.println(e);
         }
     }
 
 
     @FXML
-    public void playSingleButtonClicked() {
-
-        if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
-            audioPlayer.stop();
+    public void playSingleButtonClicked(MouseEvent event) throws IOException {
+        if (event.getButton() == MouseButton.PRIMARY) {
+            playSingleName(false);
         }
 
-        if (creationsListView.getSelectionModel().getSelectedItem()==null){
-            creationsListView.getSelectionModel().selectFirst();
-        }
-        //Change the label of the practice menu to the name being played
-        selectedName = creationsListView.getSelectionModel().getSelectedItem();
-        int selectedIndex = creationsListView.getSelectionModel().getSelectedIndex();
-
-        creationName.setText(selectedName);
-
-        Media media = hashMap.get(selectedName);
-        audioPlayer = new MediaPlayer(media);
-
-        audioPlayer.setOnPlaying(new AudioRunnable(false));
-        audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
-        audioPlayer.play();
-        audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
-        audioPlayer.setOnReady(this::progressBar);
     }
 
     //AudioRunnable is a thread that runs in the background and acts as a listener for the media player to ensure buttons are enabled/disabled correctly
@@ -268,14 +251,16 @@ public class PracticeMenuController {
         //Set up the practice list view
         creationList = list;
         pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
+
         playPauseButton.setDisable(false);
         if (creationList.size()<=1){
             playPauseButton.setDisable(true);
             shuffleButton.setDisable(true);
         }
+
+        //Set the list view with creations
         creationsListView.getItems().setAll(creationList);
         creationsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
 
         //Create hashmap of audio files
         String folderName = "created_names/";
@@ -286,7 +271,8 @@ public class PracticeMenuController {
 
         for (int i = 0; i < listFiles.length; i++) {
             Media media = new Media(listFiles[i].toURI().toString());
-            hashMap.put(creationsListView.getItems().get(i),media);
+            Creation c = new Creation(creationsListView.getItems().get(i),media);
+            hashMap.put(creationsListView.getItems().get(i),c);
         }
 
         creationsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -318,11 +304,75 @@ public class PracticeMenuController {
     }
 
     public void setDefault(String name, Media file){
-        hashMap.put(name,file);
+
+        Creation c = new Creation(name, file);
+        hashMap.put(name,c);
     }
 
     public Media getDefault(String name){
-        return hashMap.get(name);
+        return hashMap.get(name).getMedia();
+    }
+
+    @FXML
+    public void firstNamePlayClicked() throws IOException {
+        playSingleName(true);
+    }
+
+    @FXML
+    public void firstNamesListPlayClicked() throws IOException, InterruptedException {
+        playNamesList(true);
+    }
+
+    private void playSingleName(boolean isFirstName) throws IOException {
+        if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
+            audioPlayer.stop();
+        }
+
+        if (creationsListView.getSelectionModel().getSelectedItem()==null){
+            creationsListView.getSelectionModel().selectFirst();
+        }
+
+        //Change the label of the practice menu to the name being played
+        selectedName = creationsListView.getSelectionModel().getSelectedItem();
+        int selectedIndex = creationsListView.getSelectionModel().getSelectedIndex();
+        Media media;
+
+        if (isFirstName) {
+            creationName.setText(hashMap.get(selectedName).getFirstName());
+            media = hashMap.get(selectedName).getFirstNameMedia();
+        } else {
+            creationName.setText(selectedName);
+            media = hashMap.get(selectedName).getMedia();
+        }
+
+        audioPlayer = new MediaPlayer(media);
+
+        audioPlayer.setOnPlaying(new AudioRunnable(false));
+        audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
+        audioPlayer.play();
+        audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
+        audioPlayer.setOnReady(this::progressBar);
+    }
+
+    private void playNamesList(boolean isFirstName) throws IOException, InterruptedException {
+        creationsListView.getSelectionModel().clearSelection();
+
+        if (isFinished) {
+            mediaPlayerCreator(isFirstName);
+        } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            shuffleButton.setDisable(false);
+            playPauseButton.setDisable(false);
+            backButton.setDisable(false);
+            playSingleButton.setDisable(true);
+            audioPlayer.pause();
+            timeline.pause();
+        } else if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PAUSED) {
+            audioPlayer.play();
+            timeline.play();
+        } else {
+            mediaPlayerCreator(isFirstName);
+        }
+
     }
 }
 

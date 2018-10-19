@@ -54,17 +54,8 @@ public class AudioRatingsController {
 
         //Read in the file containing the list of bad quality recordings
         try (BufferedReader reader = new BufferedReader(new FileReader(new File("AudioRatings.txt")))) {
-            String line;
             StringBuilder fieldContent = new StringBuilder();
-
-            while ((line = reader.readLine()) != null) {
-                //Concatenate each line of the file to the StringBuilder
-                String name = line.substring(0, line.indexOf(":"));
-                //Add each recording name and the rating to a hash map
-                name = name.replaceAll(".wav", "");
-                name = name.concat(".wav");
-                ratingMap.put(name, line.trim());
-            }
+            readFile(reader);
 
             //Add the line to be displayed
             for (String value : ratingMap.values()) {
@@ -108,17 +99,8 @@ public class AudioRatingsController {
 
         //Read in the file containing the list of bad quality recordings
         try (BufferedReader reader = new BufferedReader(new FileReader(new File("AudioRatings.txt")))) {
-            String line;
             StringBuilder fieldContent = new StringBuilder();
-
-            //Read audio ratings text file
-            while ((line = reader.readLine()) != null) {
-                //Concatenate each line of the file to the StringBuilder
-                String name = line.substring(0, line.indexOf(":"));
-                name = name.replaceAll(".wav", "");
-                name = name.concat(".wav");
-                ratingMap.put(name, line.trim());
-            }
+           readFile(reader);
 
             //Iterate through names to be deleted and remove from hash map
             for (String key : toBeDeletedList) {
@@ -161,6 +143,18 @@ public class AudioRatingsController {
         bw.flush();
         bw.close();
         updateTextLog();
+    }
+
+    private void readFile(BufferedReader reader ) throws IOException {
+        //Read audio ratings text file
+        String line;
+        while ((line = reader.readLine()) != null) {
+            //Concatenate each line of the file to the StringBuilder
+            String name = line.substring(0, line.indexOf(":"));
+            name = name.replaceAll(".wav", "");
+            name = name.concat(".wav");
+            ratingMap.put(name, line.trim());
+        }
     }
 }
 
