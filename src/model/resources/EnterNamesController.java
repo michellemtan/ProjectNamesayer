@@ -135,11 +135,18 @@ public class EnterNamesController {
 
         filteredInput.textProperty().addListener(obs->{
             String filter = filteredInput.getText();
-            if(filter == null || filter.length() == 0) {
+            String upcased;
+            try {
+                upcased = filter.substring(0, 1).toUpperCase() + filter.substring(1).toLowerCase();
+            } catch (IndexOutOfBoundsException e) {
+                upcased = filter.toUpperCase();
+            }
+            if(upcased.length() == 0) {
                 filteredData.setPredicate(s -> true);
             }
             else {
-                filteredData.setPredicate(s -> s.contains(filter));
+                String finalUpcased = upcased;
+                filteredData.setPredicate(s -> s.contains(finalUpcased));
             }
         });
         //TODO: Make search work case insensitive
@@ -243,6 +250,7 @@ public class EnterNamesController {
 
     @FXML
     void backButtonClicked() throws IOException {
+        filteredInput.clear();
         practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems());
         Scene scene = SetUp.getInstance().startMenu;
         Stage window = (Stage) expandButton.getScene().getWindow();
