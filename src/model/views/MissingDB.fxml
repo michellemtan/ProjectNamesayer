@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="400.0" styleClass="root-clean" stylesheets="@../resources/themes/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.MissingDBController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" styleClass="root-clean" stylesheets="@../resources/themes/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.MissingDBController">
    <center>
-      <Label text="You will not be able to use Name Sayer without the default database, a folder called 'names' in the same directory as the jar file. To fix this, move the names databse to the correct location and restart Name Sayer or add a new database from the settings menu." translateY="3.0" wrapText="true" BorderPane.alignment="CENTER">
+      <Label text="Please move the 'names' database folder to the the same directory as the jar file and restart Name Sayer.&#10;&#10;Alternatively, add a new database from the settings menu." textAlignment="CENTER" translateY="3.0" wrapText="true" BorderPane.alignment="CENTER">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
@@ -25,13 +25,13 @@
       <Region maxWidth="20.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <top>
-      <Label text="Missing Database!" translateY="5.0" BorderPane.alignment="CENTER">
+      <Label text="Missing Default Database!" translateY="20.0" BorderPane.alignment="CENTER">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
    </top>
    <bottom>
-      <Button fx:id="okBtn" minWidth="50.0" mnemonicParsing="false" text="OK" translateY="-8.0" BorderPane.alignment="CENTER" />
+      <Button fx:id="okBtn" minWidth="50.0" mnemonicParsing="false" text="OK" translateY="-15.0" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>

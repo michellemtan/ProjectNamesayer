@@ -8,13 +8,17 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.io.File;
@@ -196,21 +200,29 @@ public class CompareMenuController {
         if (audioRecorded==0) {
             record();
         } else {
-            //Confirm if the user wants to overwrite existing recording
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to overwrite your recording?", ButtonType.NO, ButtonType.YES);
-            alert.setHeaderText(null);
-            alert.setGraphic(null);
-            alert.setTitle("Overwrite Recording?");
-            alert.showAndWait();
+            try {
+                //Load the popup window and set the controller
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/OverwriteRecordingMessage.fxml"));
+                Scene scene = new Scene(loader.load());
+                OverwriteRecordingController popupController = loader.getController();
 
-            if (alert.getResult() == ButtonType.YES) {
-                record();
-            } else {
-                alert.close();
+                //Set the style of the popup window controller and give access to the popup stage (to allow the controller to close the stage)
+                Stage popupStage = new Stage();
+                popupStage.initStyle(StageStyle.UNDECORATED);
+                popupController.setStage(popupStage);
+                popupStage.setScene(scene);
+                popupStage.showAndWait();
+
+                if (popupController.getResult() == true){
+                    record();
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-        backButton.setDisable(true);
 
+        backButton.setDisable(true);
     }
 
     private void record() {
