@@ -79,7 +79,7 @@
                         <Font name="Ubuntu Bold" size="16.0" />
                      </font>
                   </Label>
-                  <ProgressBar prefHeight="20.0" prefWidth="699.0" progress="0.0" translateX="20.0" />
+                  <ProgressBar fx:id="micBar" prefHeight="20.0" prefWidth="699.0" progress="0.0" translateX="20.0" />
                   <Label text="▼ Master Volume   ――――――――――――――――――――――――――――――――――――">
                      <font>
                         <Font name="Ubuntu Bold" size="16.0" />
@@ -88,7 +88,7 @@
                   <HBox prefHeight="1.0" prefWidth="765.0" spacing="8.0" translateX="20.0">
                      <children>
                         <Slider prefHeight="16.0" prefWidth="649.0" value="50.0" />
-                        <Button mnemonicParsing="false" text="Test" translateY="-6.0" />
+                        <Button mnemonicParsing="false" onAction="#playDing" text="Test" translateY="-6.0" />
                      </children>
                   </HBox>
                   <Label text="▼ Database   ―――――――――――――――――――――――――――――――――――――――">

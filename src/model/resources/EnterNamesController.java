@@ -41,6 +41,8 @@ public class EnterNamesController {
     private List<String> allNames;
     private List<String> tempNames;
 
+    //TODO: add context menu item: 'Delete all invalid names'
+
     public void initialize() {
         //Cell factory to assign red CSS to selected cells in list view
         practiceNamesListView.setCellFactory(lv -> {

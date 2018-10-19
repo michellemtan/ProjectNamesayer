@@ -21,7 +21,7 @@ public class MicrophoneController {
     private String previousScene = "";
 
     @FXML
-    void backButtonClicked(ActionEvent event) throws IOException {
+    void backButtonClicked() throws IOException {
 
         if (previousScene.equals("compareMenu")) {
             Scene scene = SetUp.getInstance().compareMenu;
@@ -34,12 +34,12 @@ public class MicrophoneController {
         }
     }
 
-    public void setPreviousScene(String name) throws IOException {
+    void setPreviousScene(String name) {
         previousScene = name;
-        startMic();
+        startMic(progressBar, backButton);
     }
 
-    public void startMic() {
+    void startMic(ProgressBar bar, Button back) {
 
         new Thread () {
             @Override
@@ -82,11 +82,11 @@ public class MicrophoneController {
                     }
 
                     double progress = (double) calculateRMSLevel(sampleBytes);
-                    progressBar.setProgress(progress);
+                    bar.setProgress(progress);
 
-                    Stage stage = (Stage) progressBar.getScene().getWindow();
+                    Stage stage = (Stage) bar.getScene().getWindow();
 
-                    if (backButton.isPressed() || !stage.isShowing()) {
+                    if (back.isPressed() || !stage.isShowing()) {
                         line.close();
                         return;
                     }
@@ -96,7 +96,7 @@ public class MicrophoneController {
 
     }
 
-    private float calculateRMSLevel(float[] audioData) {
+    float calculateRMSLevel(float[] audioData) {
         float rms = 0f;
 
         for(float audioLevel : audioData) {

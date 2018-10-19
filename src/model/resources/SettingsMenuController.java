@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.DatabaseProcessor;
@@ -21,10 +23,13 @@ import java.util.Objects;
 
 public class SettingsMenuController {
 
+    //TODO: if the warning that default DB isn't there, avoid the null pointer from pushing back
+
     @FXML private Button backBtn;
     @FXML private ComboBox<String> chooseDB;
     @FXML private CheckBox waveBox;
     @FXML private BorderPane backPane;
+    @FXML private ProgressBar micBar;
     private String pathToDB;
     private TaskService service = new TaskService();
     //Themes
@@ -47,6 +52,10 @@ public class SettingsMenuController {
     @FXML
     private void defBtnPressed() throws IOException {
         SetUp.getInstance().changeTheme(themeURL);
+    }
+
+    void startMicVol() throws IOException {
+        SetUp.getInstance().microphoneController.startMic(micBar, backBtn);
     }
 
     //Take user back to main menu, and pass list of current db to enter names
@@ -188,6 +197,14 @@ public class SettingsMenuController {
             }
         }
         return true;
+    }
+
+    @FXML
+    private void playDing() {
+        File dingFile = new File("src/model/resources/images/ding.wav");
+        Media m = new Media(dingFile.toURI().toString());
+        MediaPlayer mp = new MediaPlayer(m);
+        mp.play();
     }
 
     /**

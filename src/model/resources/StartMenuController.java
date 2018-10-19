@@ -16,6 +16,7 @@ public class StartMenuController {
 
     @FXML
     void settingsBtnPressed() throws IOException {
+        SetUp.getInstance().settingsMenuController.startMicVol();
         Scene scene = SetUp.getInstance().settingsMenu;
         Stage window = (Stage) startButton.getScene().getWindow();
         window.setScene(scene);

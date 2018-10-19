@@ -77,6 +77,10 @@
     -fx-text-fill: #000000;
 }
 
+.button-transparent:hover{
+    -fx-background-color: #595B5D;
+}
+
 .text-field{
     -fx-background-color: #313335;
     -fx-text-fill: #A9B7C6;
@@ -94,6 +98,10 @@
     -fx-accent: #D0D0D0;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
+}
+
+.progress-bar:hover{
+    -fx-background-color: #595B5D;
 }
 
 .progress-bar .track{
