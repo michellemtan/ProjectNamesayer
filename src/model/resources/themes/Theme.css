@@ -255,3 +255,7 @@
 .combo-box .arrow{
     -fx-background-color: white;
 }
+
+.dialog-pane{
+    -fx-background-color: #E0F2F1;
+}
