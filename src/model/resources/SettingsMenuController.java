@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -23,6 +24,7 @@ public class SettingsMenuController {
     @FXML private Button backBtn;
     @FXML private ComboBox<String> chooseDB;
     @FXML private CheckBox waveBox;
+    @FXML private BorderPane backPane;
     private String pathToDB;
     private TaskService service = new TaskService();
     //Themes
@@ -33,7 +35,7 @@ public class SettingsMenuController {
         return themeURL;
     }
 
-    public String getPathToDB() {
+    String getPathToDB() {
         return pathToDB;
     }
 
@@ -76,6 +78,7 @@ public class SettingsMenuController {
         waveBox.setSelected(true);
 
         //Set up colours for theme buttons
+        backPane.getStyleClass().add("root-clear");
 
 
         //Listener to deselect 'Add new' option if it is selected because user chooses bad folder

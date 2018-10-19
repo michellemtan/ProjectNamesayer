@@ -5,10 +5,11 @@
     -fx-background-size: 800 500;
     -fx-background-position: center center;
     -fx-font-family: 'ubuntu';
+    -fx-text-fill: whitesmoke;
 }
 
 .root-clean{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #1C1C1C;
     -fx-background-image: none;
     -fx-font-family: 'ubuntu';
 }
@@ -25,19 +26,19 @@
 }
 
 .button{
-    -fx-background-color: #009688;
-    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #D0D0D0;
+    -fx-text-fill: whitesmoke;
     -fx-border-color: #000000;
     -fx-border-radius: 4px;
     -fx-background-radius: 5px;
 }
 
 .button:hover{
-    -fx-background-color: #4DB6AC;
+    -fx-background-color: #424445;
 }
 
 .button-blue{
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
 }
 
 .button-drac{
@@ -58,6 +59,7 @@
 
 .label {
     -fx-font-family: 'ubuntu';
+    -fx-text-fill: whitesmoke;
 }
 
 .button-transparent{
@@ -70,7 +72,7 @@
     -fx-border-color: #000000;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
-    -fx-accent: #009688;
+    -fx-accent: #D0D0D0;
 }
 
 .text-field:selected{
@@ -78,47 +80,47 @@
 }
 
 .progress-bar{
-    -fx-accent: #009688;
+    -fx-accent: #D0D0D0;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
 }
 
 .progress-bar .track{
     -fx-text-box-border: #000000;
-    -fx-control-inner-background: #E0F2F1;
+    -fx-control-inner-background: whitesmoke;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
 }
 
 .text-area{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: whitesmoke;
     -fx-text-fill: black;
 }
 
 .text-area .content{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: whitesmoke;
     -fx-border-color: black;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
 }
 
 .context-menu {
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: whitesmoke;
     -fx-text-fill: black;
 }
 
 .menu-item:focused {
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
 }
 
 .scroll-bar{
     -fx-border-color: #000000;
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: whitesmoke;
 }
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb{
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
 }
 
 .scroll-bar:horizontal .track,
@@ -134,46 +136,46 @@
 
 .scroll-bar:vertical .increment-button ,
 .scroll-bar:vertical .decrement-button {
-    -fx-background-color :#E0F2F1;
+    -fx-background-color :#1C1C1C;
     -fx-background-radius: 4px;
 }
 
 .list-view{
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
     -fx-background-radius: 4px;
-    -fx-border-color: #009688;
+    -fx-border-color: #D0D0D0;
     -fx-border-radius: 4px;
 }
 
 .list-cell{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #1C1C1C;
     -fx-background-radius: 2px;
 }
 
 .list-cell:even {
-    -fx-background-color: #B2DFDB;
+    -fx-background-color: #D0D0D0;
 }
 
 .list-cell:hover {
-    -fx-background-color: #80CBC4;
+    -fx-background-color: #808080;
 }
 
 .list-cell:selected{
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
 }
 
 .list-cell:focused{
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
     -fx-text-fill: white;
 }
 
 .split-pane{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #1C1C1C;
 }
 
 .split-pane-divider{
-    -fx-background-color: #E0F2F1;
-    -fx-border-color: #E0F2F1;
+    -fx-background-color: #1C1C1C;
+    -fx-border-color: #1C1C1C;
 }
 
 .list-cell-red{
@@ -193,8 +195,8 @@
 }
 
 .label-custom{
-    -fx-background-color: #E0F2F1;
-    -fx-border-color: #E0F2F1;
+    -fx-background-color: #1C1C1C;
+    -fx-border-color: #1C1C1C;
     -fx-border-radius: 4px;
 }
 
@@ -203,7 +205,7 @@
 }
 
 .check-box .box{
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
     -fx-border-color: #1C1C1C;
     -fx-border-radius: 4px;
 }
@@ -213,17 +215,17 @@
 }
 
 .slider .track{
-    -fx-background-color: #009688;
+    -fx-background-color: #D0D0D0;
 }
 
 .slider .thumb{
-    -fx-background-color: #4DB6AC;
+    -fx-background-color: #424445;
     -fx-border-color: #1C1C1C;
     -fx-border-radius: 50%;
 }
 
 .combo-box .arrow-button{
-    -fx-background-color: #4DB6AC;
+    -fx-background-color: #424445;
 }
 
 .combo-box .arrow{

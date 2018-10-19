@@ -79,7 +79,7 @@ public class NamesListController {
             return new Task<Void>() {
                 @Override
                 protected Void call() throws IOException, InterruptedException {
-                    String pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+                    String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
 
                         String concatString;
 
@@ -230,7 +230,7 @@ public class NamesListController {
         setDefaultBtn.setDisable(true);
 
         //This method sets up the combo box to display all the parts of a name
-        pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
 
         String[] split = wholeName.replaceAll("-", " -").split("[\\s]");
 
