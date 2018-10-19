@@ -74,7 +74,7 @@
                                     <Insets left="50.0" right="50.0" top="5.0" />
                                  </VBox.margin>
                                  <children>
-                                    <Button maxHeight="36.0" minHeight="36.0" minWidth="50.0" mnemonicParsing="false" onAction="#savePressed">
+                                    <Button fx:id="saveBtn" maxHeight="36.0" minHeight="36.0" minWidth="50.0" mnemonicParsing="false" onAction="#savePressed">
                                        <font>
                                           <Font size="16.0" />
                                        </font>

@@ -27,6 +27,7 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class EnterNamesController {
 
@@ -153,7 +154,6 @@ public class EnterNamesController {
                 filteredData.setPredicate(s -> s.contains(finalUpcased));
             }
         });
-        //TODO: Make search work case insensitive
         //Update list view with filtered data if there is any
         filteredData.addListener((ListChangeListener<String>) c -> {
             databaseNamesListView.getItems().clear();
@@ -235,11 +235,28 @@ public class EnterNamesController {
 
     @FXML
     private void savePressed() {
-        TextInputDialog dialog = new TextInputDialog("walter");
-        dialog.setTitle("Text Input Dialog");
-        dialog.setHeaderText("Look, a Text Input Dialog");
-        dialog.setContentText("Please enter your name:");
-        dialog.showAndWait();
+        File saveDir = new File(System.getProperty("user.dir") + "/saved_playlists");
+        saveDir.mkdir();
+        List<String> namesList = new ArrayList<>();
+        for(String string : practiceNamesListView.getItems()) {
+            if(!string.contains("*")) {
+                namesList.add(string);
+            }
+        }
+        if(namesList.size() >= 1) {
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Save");
+            dialog.setHeaderText("Save playlist");
+            dialog.setContentText("Enter name:");
+            Optional<String> result = dialog.showAndWait();
+            /*result.ifPresent(name -> {
+                FileWriter writer = new FileWriter("saved_playlists/" + name + ".txt");
+                for(String str: namesList) {
+                    writer.write(str);
+                }
+                writer.close();
+            });*/
+        }
     }
 
     //Method called when item in database list view is double clicked
