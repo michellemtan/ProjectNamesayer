@@ -319,28 +319,28 @@ public class EnterNamesController {
 
                     int audioNumber = 0;
                     for (String creation : tempNames) {
+
                         audioNumber++;
                         //Split name up and concat audio files
                         String[] split = creation.replaceAll("-", "").split("[-\\s]");
-
                         String concatString;
 
+                        //Make list of audio files to concatenate
                         for (String aSplit : split) {
                             String folderName = pathToDB + "/" + aSplit + "/";
                             File[] listFiles = new File(folderName).listFiles();
 
                             concatString = listFiles[0].getPath();
-
                             addToTextFile(concatString);
                         }
 
                         String newName = creation.replaceAll(" ","");
 
-                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
+                        //Concatenate the audio file
+                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -f concat -safe 0 -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
                         Process p = audioBuilder.start();
                         p.waitFor();
                         PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
-
                     }
                     return null;
                 }
