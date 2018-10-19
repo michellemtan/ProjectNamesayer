@@ -15,7 +15,6 @@ import model.DatabaseProcessor;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +27,7 @@ import java.util.Objects;
 public class SettingsMenuController {
 
     //TODO: if the warning that default DB isn't there, avoid the null pointer from pushing back
+    //TODO: null pointer from mic menu if help button pushed
 
     @FXML private Button backBtn;
     @FXML private ComboBox<String> chooseDB;
@@ -60,6 +60,13 @@ public class SettingsMenuController {
 
     void startMicVol() throws IOException {
         SetUp.getInstance().microphoneController.startMic(micBar, backBtn);
+    }
+
+    @FXML
+    private void helpBtnPressed() throws IOException {
+        Scene scene = SetUp.getInstance().instructionsMenu;
+        Stage window = (Stage) backBtn.getScene().getWindow();
+        window.setScene(scene);
     }
 
     //Take user back to main menu, and pass list of current db to enter names
