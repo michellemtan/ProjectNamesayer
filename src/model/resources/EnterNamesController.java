@@ -189,7 +189,7 @@ public class EnterNamesController {
         File selectedFile = (File) fc.showOpenDialog(fcStage);
         fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
 
-        if (selectedFile != null) {
+        if (selectedFile != null && selectedFile.getName().endsWith(".txt")) {
             //Read in the file containing the list of bad quality recordings
             try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
                 String line;
