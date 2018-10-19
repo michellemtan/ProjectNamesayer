@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -63,7 +62,7 @@
                         <Button fx:id="blueTheme" mnemonicParsing="false" onAction="#defBtnPressed" prefWidth="30.0" styleClass="button-blue" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
                         <Button fx:id="dracTheme" mnemonicParsing="false" onAction="#dracBtnPressed" prefWidth="30.0" styleClass="button-drac" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
                         <Button fx:id="cTheme" mnemonicParsing="false" prefWidth="30.0" styleClass="button-c" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
-                        <Label text="Wave" translateX="20.0" translateY="5.0">
+                        <Label opacity="0.0" text="Wave" translateX="20.0" translateY="5.0">
                            <padding>
                               <Insets right="-8.0" />
                            </padding>
@@ -71,7 +70,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <CheckBox fx:id="waveBox" mnemonicParsing="false" translateX="20.0" translateY="4.0" />
+                        <CheckBox fx:id="waveBox" mnemonicParsing="false" opacity="0.0" translateX="20.0" translateY="4.0" />
                      </children>
                   </HBox>
                   <Label text="▼ Microphone ――――――――――――――――――――――――――――――――――――――">
@@ -80,14 +79,13 @@
                      </font>
                   </Label>
                   <ProgressBar fx:id="micBar" prefHeight="20.0" prefWidth="699.0" progress="0.0" translateX="20.0" />
-                  <Label text="▼ Master Volume   ――――――――――――――――――――――――――――――――――――">
+                  <Label text="▼ Volume ――――――――――――――――――――――――――――――――――――――――">
                      <font>
                         <Font name="Ubuntu Bold" size="16.0" />
                      </font>
                   </Label>
                   <HBox prefHeight="1.0" prefWidth="765.0" spacing="8.0" translateX="20.0">
                      <children>
-                        <Slider prefHeight="16.0" prefWidth="649.0" value="50.0" />
                         <Button mnemonicParsing="false" onAction="#playDing" text="Test" translateY="-6.0" />
                      </children>
                   </HBox>
