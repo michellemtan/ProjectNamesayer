@@ -54,11 +54,14 @@ public class EnterNamesController {
             MenuItem editItem = new MenuItem();
             editItem.textProperty().bind((Bindings.format("Remove name")));
             MenuItem editItems = new MenuItem();
-            editItems.textProperty().bind((Bindings.format("Clear all")));
+            editItems.textProperty().bind((Bindings.format("Clear all names")));
+            MenuItem removeInvalids = new MenuItem();
+            removeInvalids.textProperty().bind((Bindings.format("Clear invalid names")));
             editItem.setOnAction(event -> practiceNamesListView.getItems().remove(cell.getText()));
             editItems.setOnAction(event -> practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems()));
+            removeInvalids.setOnAction(event -> practiceNamesListView.getItems().removeAll(practiceNamesListView.getSelectionModel().getSelectedItems()));
             //Add menu items and bind list to list view
-            contextMenu.getItems().addAll(editItem, editItems);
+            contextMenu.getItems().addAll(editItem, removeInvalids, editItems);
             //If empty set accordingly
             cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
                 if (isNowEmpty) {
@@ -107,7 +110,6 @@ public class EnterNamesController {
 
         practiceNamesListView.addEventFilter(MouseEvent.MOUSE_PRESSED, Event::consume);
         practiceNamesListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
     }
 
     void setUpList(List<String> listNames, String name) {
@@ -255,11 +257,6 @@ public class EnterNamesController {
         Scene scene = SetUp.getInstance().startMenu;
         Stage window = (Stage) expandButton.getScene().getWindow();
         window.setScene(scene);
-
-    }
-
-    @FXML
-    void expandButtonClicked() {
 
     }
 

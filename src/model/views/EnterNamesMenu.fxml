@@ -46,7 +46,7 @@
                 <AnchorPane maxWidth="800.0" minHeight="0.0" minWidth="0.0" prefWidth="421.0">
                      <children>
                         <TextField fx:id="filteredInput" layoutX="35.0" layoutY="46.0" onKeyPressed="#clearTextField" prefHeight="26.0" prefWidth="223.0" promptText="Search..." />
-                        <ListView fx:id="databaseNamesListView" layoutX="35.0" layoutY="72.0" onMouseClicked="#doubleClicked" prefHeight="321.0" prefWidth="223.0">
+                        <ListView fx:id="databaseNamesListView" layoutX="35.0" layoutY="72.0" onKeyPressed="#enterName" onMouseClicked="#doubleClicked" prefHeight="321.0" prefWidth="223.0">
                            <tooltip>
                               <Tooltip text="Double click a name to build!" wrapText="true" />
                            </tooltip></ListView>
@@ -88,7 +88,7 @@
                               </HBox>
                               <HBox translateY="280.0">
                                  <children>
-                                    <Button fx:id="expandButton" mnemonicParsing="false" onAction="#expandButtonClicked" text="◀ Expand" translateX="50.0" />
+                                    <Button fx:id="expandButton" mnemonicParsing="false" text="◀ Expand" translateX="50.0" />
                                     <Button fx:id="practiceButton" mnemonicParsing="false" onMouseClicked="#practiceButtonClicked" text="Practice" translateX="260.0">
                                        <font>
                                           <Font size="20.0" />
