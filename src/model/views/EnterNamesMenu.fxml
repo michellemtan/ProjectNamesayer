@@ -16,9 +16,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="mainAnchor" prefHeight="500.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="model.resources.EnterNamesController">
+<AnchorPane fx:id="mainAnchor" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.EnterNamesController">
    <children>
       <VBox prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -62,14 +61,14 @@
                      <children>
                         <VBox maxWidth="800.0" prefHeight="428.0" prefWidth="790.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Add Name:" translateX="50.0" wrappingWidth="147.08984375">
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
+                              <Label text="Add Name:" translateX="50.0" translateY="5.0">
                                  <font>
-                                    <Font size="16.0" />
+                                    <Font name="System Bold" size="15.0" />
                                  </font>
-                              </Text>
+                                 <padding>
+                                    <Insets bottom="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
                               <HBox>
                                  <VBox.margin>
                                     <Insets left="50.0" right="50.0" top="5.0" />

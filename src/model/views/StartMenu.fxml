@@ -30,7 +30,7 @@
                      </font></Button>
                   <Label prefHeight="81.0" prefWidth="468.0" text="Name Sayer" translateX="145.0" GridPane.columnIndex="1">
                      <font>
-                        <Font name="Ubuntu Bold" size="70.0" />
+                        <Font name="System Bold" size="70.0" />
                      </font>
                   </Label>
                </children>

@@ -1,17 +1,27 @@
+@font-face {
+    font-family: 'Ubuntu';
+    src: url("Ubuntu-R.ttf");
+}
+@font-face {
+    font-family: 'Ubuntu';
+    font-weight: bold;
+    src: url("Ubuntu-B.ttf");
+}
+
 .root{
-    -fx-background-color: #1C1C1C;
+    -fx-background-color: #2B2B2B;
     -fx-background-image: url("../images/blackground.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 800 500;
     -fx-background-position: center center;
-    -fx-font-family: 'ubuntu';
-    -fx-text-fill: whitesmoke;
+    -fx-font-family: "Ubuntu";
+    -fx-text-fill: #A9B7C6;
 }
 
 .root-clean{
-    -fx-background-color: #1C1C1C;
+    -fx-background-color: #2B2B2B;
     -fx-background-image: none;
-    -fx-font-family: 'ubuntu';
+    -fx-font-family: "Ubuntu";
 }
 
 .root-clear{
@@ -26,19 +36,19 @@
 }
 
 .button{
-    -fx-background-color: #D0D0D0;
-    -fx-text-fill: whitesmoke;
-    -fx-border-color: #000000;
+    -fx-background-color: #3C3F41;
+    -fx-text-fill: #A9B7C6;
+    -fx-border-color: #5E6060;
     -fx-border-radius: 4px;
     -fx-background-radius: 5px;
 }
 
 .button:hover{
-    -fx-background-color: #424445;
+    -fx-background-color: #595B5D;
 }
 
 .button-blue{
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #009688;
 }
 
 .button-drac{
@@ -58,8 +68,8 @@
 }
 
 .label {
-    -fx-font-family: 'ubuntu';
-    -fx-text-fill: whitesmoke;
+    -fx-font-family: 'Ubuntu';
+    -fx-text-fill: #A9B7C6;
 }
 
 .button-transparent{
@@ -68,7 +78,8 @@
 }
 
 .text-field{
-    -fx-background-color: #E0F2F1;
+    -fx-background-color: #313335;
+    -fx-text-fill: #A9B7C6;
     -fx-border-color: #000000;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
@@ -76,7 +87,7 @@
 }
 
 .text-field:selected{
-    -fx-background-color: 009688;
+    -fx-background-color: #0D293E;
 }
 
 .progress-bar{
@@ -87,85 +98,93 @@
 
 .progress-bar .track{
     -fx-text-box-border: #000000;
-    -fx-control-inner-background: whitesmoke;
+    -fx-control-inner-background: #5E6060;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
 }
 
 .text-area{
-    -fx-background-color: whitesmoke;
+    -fx-background-color: #A9B7C6;
     -fx-text-fill: black;
 }
 
 .text-area .content{
-    -fx-background-color: whitesmoke;
+    -fx-background-color: #A9B7C6;
     -fx-border-color: black;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
 }
 
 .context-menu {
-    -fx-background-color: whitesmoke;
-    -fx-text-fill: black;
+    -fx-background-color: #A9B7C6;
+    -fx-text-fill: #2B2B2B;
+}
+
+.menu-item .label {
+    -fx-text-fill: #2B2B2B;
 }
 
 .menu-item:focused {
     -fx-background-color: #D0D0D0;
+    -fx-text-fill: #2B2B2B;
 }
 
 .scroll-bar{
     -fx-border-color: #000000;
-    -fx-background-color: whitesmoke;
+    -fx-background-color: #A9B7C6;
 }
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb{
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #A9B7C6;
 }
 
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track {
     -fx-background-radius: 4px;
+    -fx-background-color: #2B2B2B;
 }
 
 .scroll-bar:horizontal .increment-button ,
 .scroll-bar:horizontal .decrement-button {
-    -fx-background-color : #E8EAF6;
-    -fx-background-radius: 4px;
+    -fx-background-color : #2B2B2B;
+    -fx-background-radius: 2px;
 }
 
 .scroll-bar:vertical .increment-button ,
 .scroll-bar:vertical .decrement-button {
-    -fx-background-color :#1C1C1C;
-    -fx-background-radius: 4px;
+    -fx-background-color :#2B2B2B;
+    -fx-background-radius: 2px;
 }
 
 .list-view{
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #3C3F41;
     -fx-background-radius: 4px;
-    -fx-border-color: #D0D0D0;
+    -fx-border-color: #4B4B4B;
     -fx-border-radius: 4px;
 }
 
 .list-cell{
-    -fx-background-color: #1C1C1C;
+    -fx-background-color: #313335;
     -fx-background-radius: 2px;
+    -fx-text-fill: #A9B7C6;
 }
 
 .list-cell:even {
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #3C3F41;
 }
 
 .list-cell:hover {
-    -fx-background-color: #808080;
+    -fx-background-color: #29383D;
 }
 
 .list-cell:selected{
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #5A5A5A;
+    -fx-text-fill: #2B2B2B;
 }
 
 .list-cell:focused{
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #5A5A5A;
     -fx-text-fill: white;
 }
 
@@ -182,8 +201,8 @@
 }
 
 .list-cell-red:selected{
-    -fx-border-color: #B71C1C;
-    -fx-background-color: #E57373;
+    -fx-border-color: #703E40;
+    -fx-background-color: #894440;
     -fx-border-width: 1px;
     -fx-border-radius: 4px;
     -fx-text-fill: #1C1C1C;
@@ -205,7 +224,7 @@
 }
 
 .check-box .box{
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #3C3F41;
     -fx-border-color: #1C1C1C;
     -fx-border-radius: 4px;
 }
@@ -215,12 +234,13 @@
 }
 
 .slider .track{
-    -fx-background-color: #D0D0D0;
+    -fx-background-color: #3C3F41;
+    -fx-border-color: #595B5D;
 }
 
 .slider .thumb{
-    -fx-background-color: #424445;
-    -fx-border-color: #1C1C1C;
+    -fx-background-color: #595B5D;
+    -fx-border-color: #CB6C2F;
     -fx-border-radius: 50%;
 }
 
@@ -230,4 +250,17 @@
 
 .combo-box .arrow{
     -fx-background-color: white;
+}
+
+.combo-box .list-cell{
+    -fx-background-color: #3C3F41;
+    -fx-font-family: "Ubuntu";
+}
+
+.combo-box .list-cell:hover{
+    -fx-background-color: #29383D;
+}
+
+.combo-box .list-cell:selected{
+    -fx-background-color: #5A5A5A;
 }
