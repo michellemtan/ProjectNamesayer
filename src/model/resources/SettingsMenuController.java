@@ -8,14 +8,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import model.DatabaseProcessor;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -201,10 +204,16 @@ public class SettingsMenuController {
 
     @FXML
     private void playDing() {
-        File dingFile = new File("src/model/resources/images/ding.wav");
-        Media m = new Media(dingFile.toURI().toString());
-        MediaPlayer mp = new MediaPlayer(m);
-        mp.play();
+        try {
+            //Use input stream to play ding from within jar
+            InputStream is = getClass().getResourceAsStream("/model/resources/images/ding.wav");
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start( );
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
