@@ -33,7 +33,8 @@ public class StartMenuController {
 
     @FXML
     void startButtonClicked() throws IOException {
-        Scene scene = SetUp.getInstance().databaseSelectMenu;
+        SetUp.getInstance().settingsMenuController.setUpNameLists();
+        Scene scene = SetUp.getInstance().enterNamesMenu;
         Stage window = (Stage) startButton.getScene().getWindow();
         window.setScene(scene);
     }

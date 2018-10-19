@@ -242,7 +242,7 @@ public class EnterNamesController {
     @FXML
     void backButtonClicked() throws IOException {
         practiceNamesListView.getItems().removeAll(practiceNamesListView.getItems());
-        Scene scene = SetUp.getInstance().databaseSelectMenu;
+        Scene scene = SetUp.getInstance().startMenu;
         Stage window = (Stage) expandButton.getScene().getWindow();
         window.setScene(scene);
 

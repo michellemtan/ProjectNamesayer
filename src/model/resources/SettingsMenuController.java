@@ -1,5 +1,6 @@
 package model.resources;
 
+import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -28,8 +29,16 @@ public class SettingsMenuController {
     private String pathToDB;
     private TaskService service = new TaskService();
 
-
+    //Take user back to main menu, and pass list of current db to enter names
     public void backBtnPressed() throws IOException {
+        setUpNameLists();
+        Scene scene = SetUp.getInstance().startMenu;
+        Stage window = (Stage) backBtn.getScene().getWindow();
+        window.setScene(scene);
+    }
+
+    //Method to set up list in enter names menu, using names from the database currently selected
+    void setUpNameLists() throws IOException {
         String dbName;
         if(chooseDB.getSelectionModel().getSelectedItem().equals("Default Database")) {
             dbName = "Default Database";
@@ -37,16 +46,22 @@ public class SettingsMenuController {
             dbName = chooseDB.getSelectionModel().getSelectedItem().substring(chooseDB.getSelectionModel().getSelectedItem().lastIndexOf("/") +1);
         }
         SetUp.getInstance().enterNamesController.setUpList(getListNames(chooseDB.getSelectionModel().getSelectedItem()), dbName);
-
-        Scene scene = SetUp.getInstance().startMenu;
-        Stage window = (Stage) backBtn.getScene().getWindow();
-        window.setScene(scene);
     }
 
     public void initialize() {
+        //Set up default values for combo-box
         chooseDB.getItems().add("Default Database");
         chooseDB.getItems().add("Add new...");
         chooseDB.getSelectionModel().selectFirst();
+
+        //Listener to deselect 'Add new' option if it is selected because user chooses bad folder
+        chooseDB.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> {
+            if(newI.equals("Add new...")){
+                //Must be run later as in JFX the observable list of the combo-box cannot be edited while it's currently being edited (listener gets fired too often)
+                Platform.runLater(() -> chooseDB.getSelectionModel().selectFirst());
+            }
+        });
+
 
         //Create progress bar for processing database
         ProgressBar progressBar = new ProgressBar();
@@ -63,11 +78,10 @@ public class SettingsMenuController {
 
         //Set service to show progress bar while loading
         service.setOnScheduled(e -> progressStage.show());
-        //Set service to change scene upon completion
         service.setOnSucceeded(e -> progressStage.hide());
     }
 
-    //Helper method that iterates through files in supplied path & adds ti list of string. Only invoked upon back button being pushed to leave settings
+    //Helper method that iterates through files in supplied path & adds to list of string. Only invoked when set up name lists is being called
     private List<String> getListNames(String path) {
         List<String> names = new ArrayList<>();
         //If default database being used
@@ -76,6 +90,7 @@ public class SettingsMenuController {
             for(File file : Objects.requireNonNull(dir.listFiles())) {
                 names.add(file.getName());
             }
+            //Remove folder that's not a name
             names.remove("uncut_files");
             return names;
         }
@@ -91,9 +106,10 @@ public class SettingsMenuController {
         return names;
     }
 
-    public void comboAction(ActionEvent event) {
+    //Triggered when user selects database
+    public void comboAction() {
         if(chooseDB.getSelectionModel().getSelectedItem().equals("Add new...")) {
-
+            //User directory chooser to let them choose the folder
             DirectoryChooser dc = new DirectoryChooser();
             dc.setTitle("Choose database folder");
             Stage dcStage = new Stage();
@@ -102,14 +118,15 @@ public class SettingsMenuController {
             if (selectedDirectory != null) {
                 //Verify database is valid i.e contains .wav files
                 if(verifyDB(selectedDirectory.getPath())) {
+                    //Check for duplicates
                     if(!chooseDB.getItems().contains(selectedDirectory.getPath())) {
                         chooseDB.getItems().remove("Add new...");
                         //Add new database to combo-box (then re-add add new option so it's at the bottom)
                         chooseDB.getItems().add(selectedDirectory.getPath());
                         chooseDB.getItems().add("Add new...");
-                        //TODO: if add same database twice, can select 'Add New' option from combo-box - bad
                         chooseDB.getSelectionModel().select(selectedDirectory.getPath());
                         pathToDB = selectedDirectory.getPath();
+                        //Process database in background
                         service.restart();
                     }
                 } else {
@@ -117,7 +134,7 @@ public class SettingsMenuController {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Invalid Database");
                     alert.setHeaderText(null);
-                    alert.setContentText("Invalid database! The selected folder must only contain files ending in .wav");
+                    alert.setContentText("Invalid database! The selected folder must only contain folders or files ending in .wav");
 
                     alert.showAndWait();
                 }
@@ -133,7 +150,13 @@ public class SettingsMenuController {
             return false;
         }
         for(File file : files) {
-            if(!file.getName().endsWith(".wav")) {
+            if(file.isDirectory()) {
+                for (File innerFile : Objects.requireNonNull(file.listFiles())) {
+                    if(!innerFile.getName().endsWith(".wav")) {
+                        return false;
+                    }
+                }
+            } else if(!file.getName().endsWith(".wav")) {
                 return false;
             }
         }
