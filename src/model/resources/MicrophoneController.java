@@ -12,13 +12,10 @@ import java.io.IOException;
 
 public class MicrophoneController {
 
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private ProgressBar progressBar;
-
+    @FXML private Button backButton;
+    @FXML private ProgressBar progressBar;
     private String previousScene = "";
+    private TargetDataLine line;
 
     @FXML
     void backButtonClicked() throws IOException {
@@ -45,7 +42,7 @@ public class MicrophoneController {
             @Override
             public void run () {
                 //Based on:  https://stackoverflow.com/questions/26574326/how-to-calculate-the-level-amplitude-db-of-audio-signal-in-java
-                TargetDataLine line = null;
+                line = null;
                 AudioFormat format = new AudioFormat(44100f, 16, 1, true, false);
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
@@ -86,9 +83,15 @@ public class MicrophoneController {
 
                     Stage stage = (Stage) bar.getScene().getWindow();
 
-                    if (back.isPressed() || !stage.isShowing()) {
-                        line.close();
-                        return;
+
+                    try {
+                        if (back.isPressed() || !stage.isShowing()) {
+                            line.close();
+                            return;
+                        }
+                        //Null's if click help from settings menu, doesn't matter has have to go back to settings to push back
+                    } catch(NullPointerException ignored) {
+
                     }
                 }
             }
@@ -96,7 +99,7 @@ public class MicrophoneController {
 
     }
 
-    float calculateRMSLevel(float[] audioData) {
+    private float calculateRMSLevel(float[] audioData) {
         float rms = 0f;
 
         for(float audioLevel : audioData) {

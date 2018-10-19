@@ -36,6 +36,7 @@ public class SettingsMenuController {
     @FXML private ProgressBar micBar;
     private String pathToDB;
     private TaskService service = new TaskService();
+    private boolean missingDB;
     //Themes
     private String themeURL = getClass().getResource("/model/resources/themes/Theme.css").toExternalForm();
     private String dracThemeURL = getClass().getResource("/model/resources/themes/dracTheme.css").toExternalForm();
@@ -56,6 +57,14 @@ public class SettingsMenuController {
     @FXML
     private void defBtnPressed() throws IOException {
         SetUp.getInstance().changeTheme(themeURL);
+    }
+
+    void disableBack(boolean value) {
+        if(value) {
+            backBtn.setDisable(true);
+        } else {
+            backBtn.setDisable(false);
+        }
     }
 
     void startMicVol() throws IOException {
@@ -154,7 +163,7 @@ public class SettingsMenuController {
     }
 
     //Triggered when user selects database
-    public void comboAction() {
+    public void comboAction() throws IOException {
         if(chooseDB.getSelectionModel().getSelectedItem().equals("Add new...")) {
             //User directory chooser to let them choose the folder
             DirectoryChooser dc = new DirectoryChooser();
@@ -173,6 +182,8 @@ public class SettingsMenuController {
                         chooseDB.getItems().add("Add new...");
                         chooseDB.getSelectionModel().select(selectedDirectory.getPath());
                         pathToDB = selectedDirectory.getPath();
+                        disableBack(false);
+                        SetUp.getInstance().startMenuController.buttonsOff(false);
                         //Process database in background
                         service.restart();
                     }
