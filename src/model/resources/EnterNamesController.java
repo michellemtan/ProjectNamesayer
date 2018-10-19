@@ -231,6 +231,15 @@ public class EnterNamesController {
         }
     }
 
+    @FXML
+    private void savePressed() {
+        TextInputDialog dialog = new TextInputDialog("walter");
+        dialog.setTitle("Text Input Dialog");
+        dialog.setHeaderText("Look, a Text Input Dialog");
+        dialog.setContentText("Please enter your name:");
+        dialog.showAndWait();
+    }
+
     //Method called when item in database list view is double clicked
     @FXML
     private void doubleClicked(MouseEvent click) {
