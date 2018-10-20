@@ -61,7 +61,7 @@
                      <children>
                         <Button fx:id="blueTheme" mnemonicParsing="false" onAction="#defBtnPressed" prefWidth="30.0" styleClass="button-blue" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
                         <Button fx:id="dracTheme" mnemonicParsing="false" onAction="#dracBtnPressed" prefWidth="30.0" styleClass="button-drac" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
-                        <Button fx:id="cTheme" mnemonicParsing="false" prefWidth="30.0" styleClass="button-c" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
+                        <Button mnemonicParsing="false" onAction="#mBtnPressed" prefWidth="30.0" styleClass="button-c" stylesheets="@../resources/themes/Theme.css" translateX="20.0" />
                         <Label opacity="0.0" text="Wave" translateX="20.0" translateY="5.0">
                            <padding>
                               <Insets right="-8.0" />

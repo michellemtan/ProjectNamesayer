@@ -40,6 +40,7 @@ public class SettingsMenuController {
     //Themes
     private String themeURL = getClass().getResource("/model/resources/themes/Theme.css").toExternalForm();
     private String dracThemeURL = getClass().getResource("/model/resources/themes/dracTheme.css").toExternalForm();
+    private String mThemeURL = getClass().getResource("/model/resources/themes/mTheme.css").toExternalForm();
 
     String getTheme(){
         return currentTheme;
@@ -59,6 +60,12 @@ public class SettingsMenuController {
     private void defBtnPressed() throws IOException {
         currentTheme = themeURL;
         SetUp.getInstance().changeTheme(themeURL);
+    }
+
+    @FXML
+    private void mBtnPressed() throws IOException {
+        currentTheme = mThemeURL;
+        SetUp.getInstance().changeTheme(mThemeURL);
     }
 
     void disableBack(boolean value) {

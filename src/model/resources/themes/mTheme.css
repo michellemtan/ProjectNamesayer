@@ -9,13 +9,13 @@
 }
 
 .root{
-    -fx-background-color: #2B2B2B;
-    -fx-background-image: url("../images/blackground.png");
+    -fx-background-color: #FFFFFF;
+    -fx-background-image: url("../images/mbackground.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 800 500;
     -fx-background-position: center center;
     -fx-font-family: "Ubuntu";
-    -fx-text-fill: #A9B7C6;
+    -fx-text-fill: #000000;
 }
 
 .root-clean{
@@ -25,26 +25,26 @@
 }
 
 .root-clear{
-    -fx-background-image: url("../images/blackground_clear.png");
+    -fx-background-image: url("../images/mbackground_clear.png");
 }
 
 .split-pane-image {
-    -fx-background-image: url("../images/blackground.png");
+    -fx-background-image: url("../images/mbackground.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 800 500;
     -fx-background-position: center center;
 }
 
 .button{
-    -fx-background-color: #3C3F41;
-    -fx-text-fill: #A9B7C6;
+    -fx-background-color: #0284FE;
+    -fx-text-fill: #FFFFFF;
     -fx-border-color: #5E6060;
     -fx-border-radius: 4px;
     -fx-background-radius: 5px;
 }
 
 .button:hover{
-    -fx-background-color: #595B5D;
+    -fx-background-color: #02A3FE;
 }
 
 .button-blue{
@@ -68,21 +68,21 @@
 }
 
 .button-settings{
-    -fx-background-image: url("../images/dsetting.png");
+    -fx-background-image: url("../images/msetting.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center center;
 }
 
 .button-listen{
-    -fx-background-image: url("../images/dsound.png");
+    -fx-background-image: url("../images/msound.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center center;
 }
 
 .button-practice{
-    -fx-background-image: url("../images/dpractice.png");
+    -fx-background-image: url("../images/mpractice.png");
     -fx-background-repeat: stretch;
     -fx-background-size: cover;
     -fx-background-position: center center;
@@ -90,12 +90,12 @@
 
 .label {
     -fx-font-family: 'Ubuntu';
-    -fx-text-fill: #A9B7C6;
+    -fx-text-fill: #000000;
 }
 
 .button-transparent{
     -fx-background-color: transparent;
-    -fx-text-fill: #A9B7C6;
+    -fx-text-fill: #000000;
 }
 
 .button-save{
@@ -107,7 +107,7 @@
 
 .text-field{
     -fx-background-color: #313335;
-    -fx-text-fill: #A9B7C6;
+    -fx-text-fill: #000000;
     -fx-border-color: #5E6060;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
@@ -119,25 +119,25 @@
 }
 
 .progress-bar{
-    -fx-accent: #D0D0D0;
+    -fx-accent: #0284FE;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
 }
 
 .progress-bar:hover{
-    -fx-background-color: #595B5D;
+    -fx-background-color: #0069CC;
 }
 
 .progress-bar .track{
     -fx-text-box-border: #000000;
-    -fx-control-inner-background: #5E6060;
+    -fx-control-inner-background: #FFFFFF;
     -fx-background-radius: 4px;
     -fx-border-radius: 4px;
 }
 
 .text-area{
     -fx-background-color: #A9B7C6;
-    -fx-text-fill: black;
+    -fx-text-fill: #000000;
 }
 
 .text-area .content{
@@ -149,16 +149,16 @@
 
 .context-menu {
     -fx-background-color: #A9B7C6;
-    -fx-text-fill: #2B2B2B;
+    -fx-text-fill: #000000;
 }
 
 .menu-item .label {
-    -fx-text-fill: #2B2B2B;
+    -fx-text-fill: #000000;
 }
 
 .menu-item:focused {
     -fx-background-color: #D0D0D0;
-    -fx-text-fill: #2B2B2B;
+    -fx-text-fill: #000000;
 }
 
 .scroll-bar{
@@ -199,7 +199,7 @@
 .list-cell{
     -fx-background-color: #313335;
     -fx-background-radius: 2px;
-    -fx-text-fill: #A9B7C6;
+    -fx-text-fill: #000000;
 }
 
 .list-cell:even {
@@ -212,12 +212,12 @@
 
 .list-cell:selected{
     -fx-background-color: #5A5A5A;
-    -fx-text-fill: #2B2B2B;
+    -fx-text-fill: #000000;
 }
 
 .list-cell:focused{
     -fx-background-color: #5A5A5A;
-    -fx-text-fill: white;
+    -fx-text-fill: #000000;
 }
 
 .split-pane{
@@ -237,7 +237,7 @@
     -fx-background-color: #894440;
     -fx-border-width: 1px;
     -fx-border-radius: 4px;
-    -fx-text-fill: #1C1C1C;
+    -fx-text-fill: #000000;
 }
 
 .split-pane-divider{
@@ -265,34 +265,23 @@
     -fx-background-color: white;
 }
 
-.slider .track{
-    -fx-background-color: #3C3F41;
-    -fx-border-color: #595B5D;
-}
-
-.slider .thumb{
-    -fx-background-color: #595B5D;
-    -fx-border-color: #CB6C2F;
-    -fx-border-radius: 50%;
-}
-
 .combo-box .arrow-button{
-    -fx-background-color: #424445;
+    -fx-background-color: #0069CC;
 }
 
 .combo-box .arrow{
-    -fx-background-color: white;
+    -fx-background-color: #000000;
 }
 
 .combo-box .list-cell{
-    -fx-background-color: #3C3F41;
+    -fx-background-color: #FFFFFF;
     -fx-font-family: "Ubuntu";
 }
 
 .combo-box .list-cell:hover{
-    -fx-background-color: #29383D;
+    -fx-background-color: #0069CC;
 }
 
 .combo-box .list-cell:selected{
-    -fx-background-color: #5A5A5A;
+    -fx-background-color: #0284FE;
 }

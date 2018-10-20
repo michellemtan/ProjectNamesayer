@@ -59,11 +59,11 @@
 }
 
 .button-c{
-    -fx-background-color: darkred;
+    -fx-background-color: #0284FE;
 }
 
 .button-c:hover{
-    -fx-background-color: indianred;
+    -fx-background-color: #0069CC;
 }
 
 .button-settings{
