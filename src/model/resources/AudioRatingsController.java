@@ -39,6 +39,10 @@ public class AudioRatingsController {
             Scene scene = SetUp.getInstance().namesListMenu;
             Stage window = (Stage) backButton.getScene().getWindow();
             window.setScene(scene);
+        } else if (previousScene.equals("listenMenu")) {
+            Scene scene = SetUp.getInstance().listenMenu;
+            Stage window = (Stage) backButton.getScene().getWindow();
+            window.setScene(scene);
         }
     }
 

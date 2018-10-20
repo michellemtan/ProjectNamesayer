@@ -116,13 +116,12 @@ public class ListenMenuController {
         }
     }
 
-    //TODO: ROWAN CAN YOU PLEASE SET THE PATH FOR THIS
     @FXML
     public void audioRatingsPressed() throws IOException {
-//        //Pass current class through to bad recordings
-//        SetUp.getInstance().audioRatingsController.setPreviousScene("practiceMenu");
-//        Scene scene = SetUp.getInstance().audioRatingsMenu;
-//        Stage window = (Stage) backButton.getScene().getWindow();
-//        window.setScene(scene);
+        //Pass current class through to bad recordings
+        SetUp.getInstance().audioRatingsController.setPreviousScene("listenMenu");
+        Scene scene = SetUp.getInstance().audioRatingsMenu;
+        Stage window = (Stage) backBtn.getScene().getWindow();
+        window.setScene(scene);
     }
 }
