@@ -78,6 +78,9 @@
                                        <font>
                                           <Font size="16.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Save playlist" />
+                                       </tooltip>
                                     </Button>
                                     <StackPane prefHeight="36.0" prefWidth="615.0">
                                        <children>

@@ -240,7 +240,7 @@ public class EnterNamesController {
         List<String> namesList = new ArrayList<>();
         for(String string : practiceNamesListView.getItems()) {
             if(!string.contains("*")) {
-                namesList.add(string);
+                namesList.add(string.replaceAll("- ", "-"));
             }
         }
         if(namesList.size() >= 1) {
@@ -249,13 +249,17 @@ public class EnterNamesController {
             dialog.setHeaderText("Save playlist");
             dialog.setContentText("Enter name:");
             Optional<String> result = dialog.showAndWait();
-            /*result.ifPresent(name -> {
-                FileWriter writer = new FileWriter("saved_playlists/" + name + ".txt");
-                for(String str: namesList) {
-                    writer.write(str);
+            result.ifPresent(name -> {
+                try {
+                    FileWriter writer = new FileWriter("saved_playlists/" + name + ".txt");
+                    for (String str : namesList) {
+                        writer.write(str + "\n");
+                    }
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Error writing to file");
                 }
-                writer.close();
-            });*/
+            });
         }
     }
 
