@@ -197,13 +197,7 @@ public class SettingsMenuController {
                     }
                 } else {
                     //Simple alert if selected database is invalid
-                    //TODO: alerts can be skinned, see: https://stackoverflow.com/questions/28417140/styling-default-javafx-dialogs
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Invalid Database");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Invalid database! The selected folder must only contain folders or files ending in .wav");
-
-                    alert.showAndWait();
+                    PopupWindow p = new PopupWindow("model/views/InvalidDB.fxml", true, "");
                 }
             }
         }
