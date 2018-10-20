@@ -9,6 +9,8 @@ public class Creation {
 
     private String name;
     private Media media;
+    private Media defaultMedia = null;
+    private Media highestRatedMedia = null;
 
     public Creation(String n, Media m) {
         name = n;
@@ -24,8 +26,15 @@ public class Creation {
         return firstName;
     }
 
+    //This method returns the default media file
     public Media getMedia(){
-        return this.media;
+        if (defaultMedia == null){
+            return defaultMedia;
+        } else if (highestRatedMedia == null){
+            return highestRatedMedia;
+        } else {
+            return media;
+        }
     }
 
     public Media getFirstNameMedia() throws IOException {
@@ -36,8 +45,15 @@ public class Creation {
         return firstNameMedia;
     }
 
-    public void setMedia(Media m){
-        media = m;
+    //This method sets the highest rated media file
+    public void setHighestRateMedia(Media m){
+        highestRatedMedia = m;
+    }
+
+
+    //This method sets the default media file
+    public void setDefaultMedia(Media m){
+        defaultMedia = m;
     }
 
 }
