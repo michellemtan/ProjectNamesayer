@@ -65,7 +65,7 @@ public class SettingsMenuController {
         SetUp.getInstance().changeTheme(mThemeURL);
     }
 
-    void disableBack(boolean value) {
+    public void disableBack(boolean value) {
         if(value) {
             backBtn.setDisable(true);
         } else {
@@ -86,14 +86,11 @@ public class SettingsMenuController {
 
     //Take user back to main menu, and pass list of current db to enter names
     public void backBtnPressed() throws IOException {
-        if (SetUp.getInstance().settingsMenuController.getPathToDB() == null) {
-            PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null);
-        } else {
             setUpNameLists();
             Scene scene = SetUp.getInstance().startMenu;
             Stage window = (Stage) backBtn.getScene().getWindow();
             window.setScene(scene);
-        }
+
     }
 
     //Method to set up list in enter names menu, using names from the database currently selected

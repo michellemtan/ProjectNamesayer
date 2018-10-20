@@ -53,7 +53,7 @@ public class AudioRatingsController {
         List<String> lineList = new ArrayList<String>();
 
         //Read in the file containing the list of bad quality recordings
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File("AudioRatings.txt")))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("audioRatingsMenu.txt")))) {
             StringBuilder fieldContent = new StringBuilder();
             readFile(reader);
 
@@ -76,7 +76,7 @@ public class AudioRatingsController {
 
         } catch (IOException e) {
             //If there are no bad recordings saved, create a new text file to store them
-            File f = new File("AudioRatings.txt");
+            File f = new File("audioRatingsMenu.txt");
             BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
             bw.flush();
             bw.close();
@@ -86,7 +86,7 @@ public class AudioRatingsController {
     //This method is called when the clear button is pressed
     @FXML
     public void clearTextLog() throws IOException {
-        File file = new File("AudioRatings.txt");
+        File file = new File("audioRatingsMenu.txt");
         PrintWriter writer = new PrintWriter(file);
         ratingMap = new HashMap<>();
         updateTextLog();
@@ -98,7 +98,7 @@ public class AudioRatingsController {
         List<String> lineList = new ArrayList<String>();
 
         //Read in the file containing the list of bad quality recordings
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File("AudioRatings.txt")))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("audioRatingsMenu.txt")))) {
             StringBuilder fieldContent = new StringBuilder();
            readFile(reader);
 
@@ -114,7 +114,7 @@ public class AudioRatingsController {
             Collections.sort(lineList);
 
             //Write lines to display and text file
-            PrintWriter print = new PrintWriter(new FileWriter("AudioRatings.txt"));
+            PrintWriter print = new PrintWriter(new FileWriter("audioRatingsMenu.txt"));
             for (String outputLine : lineList) {
                 fieldContent.append(outputLine + "\n");
                 print.write(outputLine + "\n");
@@ -128,7 +128,7 @@ public class AudioRatingsController {
 
         } catch (IOException e) {
             //If there are no bad recordings saved, create a new text file to store them
-            File f = new File("AudioRatings.txt");
+            File f = new File("audioRatingsMenu.txt");
             BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
             bw.flush();
             bw.close();
@@ -137,7 +137,7 @@ public class AudioRatingsController {
 
     //This method is used to add names to the audio ratings text file
     public void addName(String name) throws IOException {
-        File f = new File("AudioRatings.txt");
+        File f = new File("audioRatingsMenu.txt");
         BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
         bw.append(name);
         bw.flush();

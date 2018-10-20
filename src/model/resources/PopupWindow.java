@@ -13,7 +13,7 @@ public class PopupWindow {
 
     //TODO: can close main stage and this stage stays open
 
-    PopupWindow(String fxml, boolean setUpRequired, String name) throws IOException {
+    public PopupWindow(String fxml, boolean setUpRequired, String name) throws IOException {
         //Load the popup window and set the controller
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxml));
         Scene scene = null;

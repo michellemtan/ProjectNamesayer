@@ -20,8 +20,8 @@ public class SetUp {
     EnterNamesController enterNamesController;
     MicrophoneController microphoneController;
     NamesListController namesListController;
-    public MissingDBController missingDBController;
-    SettingsMenuController settingsMenuController;
+    private MissingDBController missingDBController;
+    public SettingsMenuController settingsMenuController;
     ListenMenuController listenMenuController;
 
     //Scenes to load the fxml files to

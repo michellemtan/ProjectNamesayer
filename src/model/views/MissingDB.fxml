@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" styleClass="root-clean" stylesheets="@../resources/themes/Theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.MissingDBController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" styleClass="root-clean" stylesheets="@../resources/themes/Theme.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.MissingDBController">
    <center>
       <Label text="Please move the 'names' database folder to the the same directory as the jar file and restart Name Sayer.&#10;&#10;Alternatively, add a new database from the settings menu." textAlignment="CENTER" translateY="3.0" wrapText="true" BorderPane.alignment="CENTER">
          <opaqueInsets>

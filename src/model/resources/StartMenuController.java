@@ -62,7 +62,7 @@ public class StartMenuController {
         }
     }
 
-    void buttonsOff(boolean toggle) {
+    public void buttonsOff(boolean toggle) {
         if(toggle) {
             listenBtn.setDisable(true);
             startButton.setDisable(true);
