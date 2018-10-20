@@ -26,6 +26,7 @@ public class DatabaseProcessor {
                     String upcased = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
                     //Create folder of name
                     new File(pathToDB + "/" + upcased).mkdir();
+
                     //Trim audio into newly created folder
                     String command = "ffmpeg -y -i " + bashify(file.getPath()) + " -af silenceremove=0:0:0:-1:0.5:-35dB " + bashify(pathToDB) + "/" + upcased + "/" + file.getName();
                     trimAudio(command);
