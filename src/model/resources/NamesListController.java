@@ -174,35 +174,11 @@ public class NamesListController {
     }
 
     @FXML
-    void ratingButtonClicked() {
+    void ratingButtonClicked(MouseEvent event) {
         String selectedName = nameMenu.getSelectionModel().getSelectedItem();
-        //Ask the user to rate their choice
-        List<String> choices = new ArrayList<>();
-        choices.add("★☆☆☆☆");
-        choices.add("★★☆☆☆");
-        choices.add("★★★☆☆");
-        choices.add("★★★★☆");
-        choices.add("★★★★★");
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("★☆☆☆☆", choices);
-        dialog.setTitle("Recording Rating");
-        dialog.setGraphic(null);
-        dialog.setHeaderText("Rate " + selectedName + "?");
-        dialog.setContentText("Select a rating:");
-
-        //Get rating and format to string
-        Optional<String> result = dialog.showAndWait();
-
-        if (result.isPresent()) {
-            try {
-                String rating = result.get();
-                String defaultName = selectedName.concat(": " + rating + "\n");
-                SetUp.getInstance().audioRatingsController.addName(defaultName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (event.getButton() == MouseButton.PRIMARY) {
+            PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);
         }
-
-
     }
 
     @FXML

@@ -19,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -243,7 +244,8 @@ public class EnterNamesController {
     }
 
     @FXML
-    private void savePressed() {
+    private void savePressed(MouseEvent event) throws IOException {
+
         File saveDir = new File(System.getProperty("user.dir") + "/saved_playlists");
         saveDir.mkdir();
         List<String> namesList = new ArrayList<>();

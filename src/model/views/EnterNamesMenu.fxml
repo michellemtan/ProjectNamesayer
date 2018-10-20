@@ -48,7 +48,7 @@
                         <TextField fx:id="filteredInput" layoutX="35.0" layoutY="46.0" onKeyPressed="#clearTextField" prefHeight="26.0" prefWidth="223.0" promptText="Search..." />
                         <ListView fx:id="databaseNamesListView" layoutX="35.0" layoutY="72.0" onKeyPressed="#enterName" onMouseClicked="#doubleClicked" prefHeight="321.0" prefWidth="223.0">
                            <tooltip>
-                              <Tooltip text="Double click a name to build!" wrapText="true" />
+                              <Tooltip text="Double-click a name to build!" wrapText="true" />
                            </tooltip></ListView>
                         <Label fx:id="dbName" layoutX="35.0" layoutY="22.0" text="names_db">
                            <font>
@@ -74,7 +74,7 @@
                                     <Insets left="50.0" right="50.0" top="5.0" />
                                  </VBox.margin>
                                  <children>
-                                    <Button fx:id="saveBtn" maxHeight="36.0" minHeight="36.0" minWidth="50.0" mnemonicParsing="false" onAction="#savePressed">
+                                    <Button fx:id="saveBtn" maxHeight="36.0" minHeight="36.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#savePressed">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -118,7 +118,7 @@
                            <children>
                               <ListView fx:id="practiceNamesListView">
                                  <tooltip>
-                                    <Tooltip fx:id="listTip" text="Right click to delete names" />
+                                    <Tooltip fx:id="listTip" text="Right-click to delete names" />
                                  </tooltip></ListView>
                            </children>
                         </StackPane>

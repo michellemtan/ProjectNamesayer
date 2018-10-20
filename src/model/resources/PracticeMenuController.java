@@ -21,7 +21,6 @@ import java.util.*;
 public class PracticeMenuController {
 
     //TODO: DISABLE SHUFFLE AND LIST PLAY BUTTON WHEN THERE IS ONLY ONE NAME
-    //TODO: REMOVE ALERTS (CHANGE TO LITTLE WINDOW THAT CAN HAVE CSS INSTEAD)
     //TODO: there are also some cases of names being 'squashed' so they're high pitched and play too fast.
 
     @FXML private Button playPauseButton;
