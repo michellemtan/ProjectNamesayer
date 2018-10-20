@@ -225,6 +225,7 @@ public class NamesListController {
 
         //Set the combo box with options
         nameMenu.getItems().setAll(options);
+        nameMenu.getSelectionModel().selectFirst();
         fileName = wholeName;
 
         //Add listener to listview
@@ -249,7 +250,7 @@ public class NamesListController {
             }
         });
 
-        nameMenu.getSelectionModel().selectFirst();
+
     }
 
     @FXML
