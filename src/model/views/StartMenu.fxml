@@ -63,7 +63,7 @@
                         <Insets left="25.0" right="25.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="listenBtn" mnemonicParsing="false" prefHeight="250.0" prefWidth="195.0" text="Listen" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <Button fx:id="listenBtn" mnemonicParsing="false" onAction="#listenBtnPressed" prefHeight="250.0" prefWidth="195.0" text="Listen" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font name="Ubuntu" size="27.0" />
                      </font>

@@ -40,6 +40,7 @@ public class EnterNamesController {
     @FXML private Label dbName;
     @FXML private TextField nameInput;
     @FXML private Button saveBtn;
+    @FXML private Tooltip listTip;
     private List<String> allNames;
     private List<String> tempNames;
 
@@ -77,8 +78,16 @@ public class EnterNamesController {
             return cell;
         });
 
+        //Disable tooltip when list is empty
+        practiceNamesListView.setTooltip(null);
         //Listener for items of list to select invalid ones when they're added
         practiceNamesListView.getItems().addListener((ListChangeListener<String>) c -> {
+            //Enable tooltip if list has items
+            if(practiceNamesListView.getItems().size() < 1) {
+                practiceNamesListView.setTooltip(null);
+            } else {
+                practiceNamesListView.setTooltip(listTip);
+            }
             //Clear selection
             practiceNamesListView.getSelectionModel().clearSelection();
             //Select invalid names
@@ -240,7 +249,7 @@ public class EnterNamesController {
         List<String> namesList = new ArrayList<>();
         for(String string : practiceNamesListView.getItems()) {
             if(!string.contains("*")) {
-                namesList.add(string);
+                namesList.add(string.replaceAll("- ", "-"));
             }
         }
         if(namesList.size() >= 1) {
@@ -249,13 +258,17 @@ public class EnterNamesController {
             dialog.setHeaderText("Save playlist");
             dialog.setContentText("Enter name:");
             Optional<String> result = dialog.showAndWait();
-            /*result.ifPresent(name -> {
-                FileWriter writer = new FileWriter("saved_playlists/" + name + ".txt");
-                for(String str: namesList) {
-                    writer.write(str);
+            result.ifPresent(name -> {
+                try {
+                    FileWriter writer = new FileWriter("saved_playlists/" + name + ".txt");
+                    for (String str : namesList) {
+                        writer.write(str + "\n");
+                    }
+                    writer.close();
+                } catch (IOException e) {
+                    System.out.println("Error writing to file");
                 }
-                writer.close();
-            });*/
+            });
         }
     }
 
@@ -264,6 +277,7 @@ public class EnterNamesController {
     private void doubleClicked(MouseEvent click) {
         if (click.getClickCount() == 2) {
             nameInput.setText(nameInput.getText() + databaseNamesListView.getSelectionModel().getSelectedItem() + " ");
+            filteredInput.clear();
         }
     }
 

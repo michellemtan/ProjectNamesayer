@@ -78,6 +78,9 @@
                                        <font>
                                           <Font size="16.0" />
                                        </font>
+                                       <tooltip>
+                                          <Tooltip text="Save playlist" />
+                                       </tooltip>
                                     </Button>
                                     <StackPane prefHeight="36.0" prefWidth="615.0">
                                        <children>
@@ -115,7 +118,7 @@
                            <children>
                               <ListView fx:id="practiceNamesListView">
                                  <tooltip>
-                                    <Tooltip text="Right click to delete names" />
+                                    <Tooltip fx:id="listTip" text="Right click to delete names" />
                                  </tooltip></ListView>
                            </children>
                         </StackPane>

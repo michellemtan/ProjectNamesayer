@@ -23,6 +23,7 @@ public class SetUp {
     NamesListController namesListController;
     public MissingDBController missingDBController;
     SettingsMenuController settingsMenuController;
+    ListenMenuController listenMenuController;
 
     //Scenes to load the fxml files to
     public Scene startMenu;
@@ -37,6 +38,7 @@ public class SetUp {
     Scene namesListMenu;
     Scene missingDB;
     Scene settingsMenu;
+    Scene listenMenu;
 
     private SetUp() throws IOException {
 
@@ -53,6 +55,7 @@ public class SetUp {
         namesListMenu = namesListMenuLoader();
         missingDB = missingDBLoader();
         settingsMenu = settingsMenuLoader();
+        listenMenu = listenMenuLoader();
 
         //Add Theme.css to all scenes
         changeTheme(settingsMenuController.getTheme());
@@ -71,6 +74,7 @@ public class SetUp {
         microphoneMenu.getStylesheets().clear();
         namesListMenu.getStylesheets().clear();
         missingDB.getStylesheets().clear();
+        listenMenu.getStylesheets().clear();
         compareMenu.getStylesheets().add(themeURL);
         databaseSelectMenu.getStylesheets().add(themeURL);
         practiceMenu.getStylesheets().add(themeURL);
@@ -83,6 +87,7 @@ public class SetUp {
         namesListMenu.getStylesheets().add(themeURL);
         missingDB.getStylesheets().add(themeURL);
         settingsMenu.getStylesheets().add(themeURL);
+        listenMenu.getStylesheets().add(themeURL);
     }
 
     //Constructor implementing Singleton pattern to create one instance of SetUp class where different scenes are created
@@ -100,6 +105,13 @@ public class SetUp {
         startMenu = new Scene(loader.load());
         startMenuController = loader.getController();
         return startMenu;
+    }
+
+    private Scene listenMenuLoader() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/ListenMenu.fxml"));
+        listenMenu = new Scene(loader.load());
+        listenMenuController = loader.getController();
+        return listenMenu;
     }
 
     private Scene settingsMenuLoader() throws IOException {
