@@ -28,9 +28,9 @@ public class Creation {
 
     //This method returns the default media file
     public Media getMedia(){
-        if (defaultMedia == null){
+        if (!(defaultMedia == null)){
             return defaultMedia;
-        } else if (highestRatedMedia == null){
+        } else if (!(highestRatedMedia == null)){
             return highestRatedMedia;
         } else {
             return media;
