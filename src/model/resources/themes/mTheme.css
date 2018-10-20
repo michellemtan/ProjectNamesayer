@@ -251,8 +251,8 @@
 }
 
 .label-custom{
-    -fx-background-color: #000000;
-    -fx-border-color: #000000;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #FFFFFF;
     -fx-border-radius: 4px;
 }
 
@@ -269,16 +269,20 @@
 }
 
 .combo-box .list-cell{
-    -fx-background-color: #FFFFFF;
+    -fx-background-color: #0284FE;
     -fx-font-family: "Ubuntu";
 }
 
-.combo-box .list-cell:hover{
+.combo-box .list-cell:even{
     -fx-background-color: #0069CC;
+}
+
+.combo-box .list-cell:hover{
+    -fx-background-color: #02A3FE;
     -fx-text-fill: #FFFFFF;
 }
 
 .combo-box .list-cell:selected{
-    -fx-background-color: #0284FE;
+    -fx-background-color: #0008A7;
     -fx-text-fill: #FFFFFF;
 }

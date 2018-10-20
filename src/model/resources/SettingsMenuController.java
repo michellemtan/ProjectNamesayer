@@ -26,9 +26,6 @@ import java.util.Objects;
 
 public class SettingsMenuController {
 
-    //TODO: if the warning that default DB isn't there, avoid the null pointer from pushing back
-    //TODO: null pointer from mic menu if help button pushed
-
     @FXML private Button backBtn;
     @FXML private ComboBox<String> chooseDB;
     @FXML private CheckBox waveBox;
