@@ -12,6 +12,13 @@ public class StartMenuController {
     @FXML private Button ratingsButton;
     @FXML private Button startButton;
     @FXML private Button listenBtn;
+    @FXML private Button settingsBtn;
+
+    public void initialize() {
+        settingsBtn.getStyleClass().add("button-settings");
+        listenBtn.getStyleClass().add("button-listen");
+        startButton.getStyleClass().add("button-practice");
+    }
 
     @FXML
     void settingsBtnPressed() throws IOException {
@@ -19,7 +26,6 @@ public class StartMenuController {
         Scene scene = SetUp.getInstance().settingsMenu;
         Stage window = (Stage) startButton.getScene().getWindow();
         window.setScene(scene);
-
     }
 
     @FXML

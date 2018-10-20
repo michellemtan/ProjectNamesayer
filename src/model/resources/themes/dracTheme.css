@@ -67,6 +67,27 @@
     -fx-background-color: indianred;
 }
 
+.button-settings{
+    -fx-background-image: url("../images/dsetting.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.button-listen{
+    -fx-background-image: url("../images/dsound.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
+.button-practice{
+    -fx-background-image: url("../images/dpractice.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: cover;
+    -fx-background-position: center center;
+}
+
 .label {
     -fx-font-family: 'Ubuntu';
     -fx-text-fill: #A9B7C6;

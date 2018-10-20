@@ -47,7 +47,7 @@
                 <RowConstraints maxHeight="77.0" minHeight="10.0" prefHeight="38.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                   <Button fx:id="startButton" mnemonicParsing="false" onMouseClicked="#startButtonClicked" prefHeight="250.0" prefWidth="195.0" text="Start" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                   <Button fx:id="startButton" mnemonicParsing="false" onMouseClicked="#startButtonClicked" prefHeight="250.0" prefWidth="195.0" text="Practice" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <font>
                          <Font name="Ubuntu" size="27.0" />
                      </font>
@@ -57,7 +57,7 @@
                   </Button>
                   <Button fx:id="settingsBtn" mnemonicParsing="false" onAction="#settingsBtnPressed" prefHeight="250.0" prefWidth="190.0" text="Settings" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <font>
-                         <Font name="Ubuntu" size="24.0" />
+                         <Font size="27.0" />
                      </font>
                      <GridPane.margin>
                         <Insets left="25.0" right="25.0" />
