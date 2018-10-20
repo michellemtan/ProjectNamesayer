@@ -15,7 +15,6 @@ public class SetUp {
     AudioRatingsController audioRatingsController;
     CompareMenuController compareMenuController;
     public StartMenuController startMenuController;
-    DatabaseSelectMenuController databaseSelectMenuController;
     ExitPracticeMenuController exitPracticeMenuController;
     InstructionsMenuController instructionsMenuController;
     EnterNamesController enterNamesController;
@@ -28,7 +27,6 @@ public class SetUp {
     //Scenes to load the fxml files to
     public Scene startMenu;
     Scene compareMenu;
-    Scene databaseSelectMenu;
     Scene practiceMenu;
     Scene instructionsMenu;
     Scene audioRatingsMenu;
@@ -45,7 +43,6 @@ public class SetUp {
         //Load scenes to be used in the program
         startMenu = startMenuLoader();
         compareMenu = compareMenuLoader();
-        databaseSelectMenu = databaseSelectMenuLoader();
         practiceMenu = practiceMenuLoader();
         audioRatingsMenu = audioRatingsMenuLoader();
         instructionsMenu = instructionsMenuLoader();
@@ -64,7 +61,6 @@ public class SetUp {
     void changeTheme(String themeURL) {
         settingsMenu.getStylesheets().clear();
         compareMenu.getStylesheets().clear();
-        databaseSelectMenu.getStylesheets().clear();
         practiceMenu.getStylesheets().clear();
         startMenu.getStylesheets().clear();
         audioRatingsMenu.getStylesheets().clear();
@@ -76,7 +72,6 @@ public class SetUp {
         missingDB.getStylesheets().clear();
         listenMenu.getStylesheets().clear();
         compareMenu.getStylesheets().add(themeURL);
-        databaseSelectMenu.getStylesheets().add(themeURL);
         practiceMenu.getStylesheets().add(themeURL);
         startMenu.getStylesheets().add(themeURL);
         audioRatingsMenu.getStylesheets().add(themeURL);
@@ -133,13 +128,6 @@ public class SetUp {
         practiceMenu = new Scene(loader.load());
         practiceMenuController = loader.getController();
         return practiceMenu;
-    }
-
-    private Scene databaseSelectMenuLoader() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/DatabaseSelectMenu.fxml"));
-        databaseSelectMenu = new Scene(loader.load());
-        databaseSelectMenuController = loader.getController();
-        return databaseSelectMenu;
     }
 
     private Scene audioRatingsMenuLoader() throws IOException {
