@@ -19,7 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -28,7 +27,6 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class EnterNamesController {
 
@@ -243,34 +241,24 @@ public class EnterNamesController {
         }
     }
 
-    @FXML
-    private void savePressed(MouseEvent event) throws IOException {
-
-        File saveDir = new File(System.getProperty("user.dir") + "/saved_playlists");
-        saveDir.mkdir();
+    //Returns list of valid names from practice names list view
+    List<String> getNamesList() {
         List<String> namesList = new ArrayList<>();
         for(String string : practiceNamesListView.getItems()) {
             if(!string.contains("*")) {
                 namesList.add(string.replaceAll("- ", "-"));
             }
         }
-        if(namesList.size() >= 1) {
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Save");
-            dialog.setHeaderText("Save playlist");
-            dialog.setContentText("Enter name:");
-            Optional<String> result = dialog.showAndWait();
-            result.ifPresent(name -> {
-                try {
-                    FileWriter writer = new FileWriter("saved_playlists/" + name + ".txt");
-                    for (String str : namesList) {
-                        writer.write(str + "\n");
-                    }
-                    writer.close();
-                } catch (IOException e) {
-                    System.out.println("Error writing to file");
-                }
-            });
+        return namesList;
+    }
+
+    //Code run when save is pressed
+    @FXML
+    private void savePressed() throws IOException {
+        File saveDir = new File(System.getProperty("user.dir") + "/saved_playlists");
+        saveDir.mkdir();
+        if(getNamesList().size() >= 1) {
+            PopupWindow p = new PopupWindow("model/views/SavePlaylist.fxml", true, "");
         }
     }
 

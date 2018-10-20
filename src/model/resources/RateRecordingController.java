@@ -9,30 +9,25 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class RateRecordingController extends AbstractController {
 
-    @FXML
-    private Label nameLabel;
-
-    @FXML
-    private Button okButton;
-
-    @FXML
-    private ComboBox<String> namesBox;
-
-    @FXML
-    private ComboBox<String> ratingsBox;
-
-    @FXML
-    private Button saveButton;
-
+    @FXML private Label nameLabel;
+    @FXML private Button okButton;
+    @FXML private ComboBox<String> namesBox;
+    @FXML private ComboBox<String> ratingsBox;
+    @FXML private Button saveButton;
+    @FXML private BorderPane bground;
     private Stage stage = null;
+    private Tooltip customTooltip;
+
 
     @FXML
-    void okButtonClicked(MouseEvent event) {
+    void okButtonClicked() {
         if (stage != null) {
             stage.close();
         }
@@ -60,6 +55,7 @@ public class RateRecordingController extends AbstractController {
     }
 
     public void setUp(String name) {
+        bground.getStyleClass().add("root-clean");
         //Set up the name label
         nameLabel.setText("Rate " + name + "?");
 
@@ -77,9 +73,7 @@ public class RateRecordingController extends AbstractController {
         //Create list of names
         String[] split = name.replaceAll("-", " ").split("[\\s]");
         ObservableList<String> nameChoices = FXCollections.observableArrayList();
-        for (int i = 0; i < split.length; i++) {
-            nameChoices.add(split[i]);
-        }
+        nameChoices.addAll(Arrays.asList(split));
 
         //Set the names box with choices
         namesBox.getItems().setAll(nameChoices);

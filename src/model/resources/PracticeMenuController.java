@@ -54,7 +54,7 @@ public class PracticeMenuController {
     }
 
     @FXML
-    void ratingsButtonClicked(MouseEvent event)  {
+    void ratingsButtonClicked(MouseEvent event) throws IOException {
         String selectedName = creationsListView.getSelectionModel().getSelectedItem();
 
         if (event.getButton() == MouseButton.PRIMARY) {

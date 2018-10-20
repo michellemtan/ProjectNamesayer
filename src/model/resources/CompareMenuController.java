@@ -151,7 +151,7 @@ public class CompareMenuController {
 
 
     @FXML
-    void ratingButtonClicked(MouseEvent event) {
+    void ratingButtonClicked(MouseEvent event) throws IOException {
         String selectedName = textLabel.getText();
         if (event.getButton() == MouseButton.PRIMARY) {
             PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);
@@ -170,12 +170,12 @@ public class CompareMenuController {
 
 
     @FXML
-    void recordButtonClicked() {
+    void recordButtonClicked() throws IOException {
         if (audioRecorded==0) {
             record();
         } else {
-                PopupWindow p = new PopupWindow("model/views/OverwriteRecordingMessage.fxml", false,null);
-                if (p.getController().getResult() == true){
+                PopupWindow p = new PopupWindow("model/views/OverwriteRecordingMessage.fxml", true,null);
+                if (p.getController().getResult()){
                     record();
                 }
             }
