@@ -277,7 +277,7 @@ public class CompareMenuController {
 
     //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
     void setUp(String name) throws IOException {
-        pathToDB = SetUp.getInstance().databaseSelectMenuController.getPathToDB();
+        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
         textLabel.setText(name);
 
         audioRecorded=0;
