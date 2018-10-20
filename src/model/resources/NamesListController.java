@@ -174,7 +174,7 @@ public class NamesListController {
     }
 
     @FXML
-    void ratingButtonClicked(MouseEvent event) {
+    void ratingButtonClicked(MouseEvent event) throws IOException {
         String selectedName = nameMenu.getSelectionModel().getSelectedItem();
         if (event.getButton() == MouseButton.PRIMARY) {
             PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);

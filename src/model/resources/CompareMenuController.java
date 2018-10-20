@@ -151,7 +151,7 @@ public class CompareMenuController {
 
 
     @FXML
-    void ratingButtonClicked(MouseEvent event) {
+    void ratingButtonClicked(MouseEvent event) throws IOException {
         String selectedName = textLabel.getText();
         if (event.getButton() == MouseButton.PRIMARY) {
             PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);
