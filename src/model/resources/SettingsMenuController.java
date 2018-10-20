@@ -36,7 +36,6 @@ public class SettingsMenuController {
     @FXML private ProgressBar micBar;
     private String pathToDB;
     private TaskService service = new TaskService();
-    private boolean missingDB;
     //Themes
     private String themeURL = getClass().getResource("/model/resources/themes/Theme.css").toExternalForm();
     private String dracThemeURL = getClass().getResource("/model/resources/themes/dracTheme.css").toExternalForm();
@@ -97,6 +96,7 @@ public class SettingsMenuController {
             pathToDB = chooseDB.getSelectionModel().getSelectedItem();
         }
         SetUp.getInstance().enterNamesController.setUpList(getListNames(chooseDB.getSelectionModel().getSelectedItem()), dbName);
+        SetUp.getInstance().listenMenuController.setUpList(getListNames(chooseDB.getSelectionModel().getSelectedItem()), dbName);
     }
 
     public void initialize() {

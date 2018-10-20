@@ -41,6 +41,7 @@ public class StartMenuController {
 
     @FXML
     void listenBtnPressed() throws IOException {
+        SetUp.getInstance().settingsMenuController.setUpNameLists();
         Scene scene = SetUp.getInstance().listenMenu;
         Stage window = (Stage) startButton.getScene().getWindow();
         window.setScene(scene);

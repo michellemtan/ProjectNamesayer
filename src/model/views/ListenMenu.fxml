@@ -37,7 +37,7 @@
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="500.0" progress="0.0" />
-            <ListView fx:id="creationsListView" prefHeight="300.0" prefWidth="500.0" />
+            <ListView fx:id="namesListView" prefHeight="300.0" prefWidth="500.0" />
          </children>
       </VBox>
    </center>
@@ -54,7 +54,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="creationName" alignment="CENTER" contentDisplay="CENTER" text="db Name" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+            <Label fx:id="dbName" alignment="CENTER" contentDisplay="CENTER" text="db Name" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
