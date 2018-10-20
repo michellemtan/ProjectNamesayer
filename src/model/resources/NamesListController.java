@@ -33,8 +33,7 @@ public class NamesListController {
     @FXML private ComboBox<String> nameMenu;
     private MediaPlayer audioPlayer;
     private String pathToDB;
-    private HashMap<String,File> defaultFileMap = new HashMap<>();
-    private String fileName;
+    private Creation creation;
 
     @FXML
     public void audioRatingsPressed() throws IOException {
@@ -72,41 +71,41 @@ public class NamesListController {
 //
 //        service.start();
     }
+//
+//    private class ConcatService extends Service<Void> {
+//        @Override
+//        protected Task<Void> createTask() {
+//            return new Task<Void>() {
+//                @Override
+//                protected Void call() throws IOException, InterruptedException {
+//                    String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
+//
+//                        String concatString;
+//
+//                        for (int i = 0; i < nameMenu.getItems().size(); i++) {
+//                            concatString = defaultFileMap.get(nameMenu.getItems().get(i)).getPath();
+//                            addToTextFile(concatString);
+//                        }
+//
+//                        String tempName = fileName.replaceAll(" ","");
+//                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -y -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + tempName+".wav");
+//                        Process p = audioBuilder.start();
+//                        p.waitFor();
+//                        PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
+//
+//                    return null;
+//                    }
+//                };
+//            }
+//        }
 
-    private class ConcatService extends Service<Void> {
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws IOException, InterruptedException {
-                    String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
-
-                        String concatString;
-
-                        for (int i = 0; i < nameMenu.getItems().size(); i++) {
-                            concatString = defaultFileMap.get(nameMenu.getItems().get(i)).getPath();
-                            addToTextFile(concatString);
-                        }
-
-                        String tempName = fileName.replaceAll(" ","");
-                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -y -safe 0 -f concat -i ConcatNames.txt -c copy ./created_names/" + tempName+".wav");
-                        Process p = audioBuilder.start();
-                        p.waitFor();
-                        PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
-
-                    return null;
-                    }
-                };
-            }
-        }
-
-    private void addToTextFile(String name) throws IOException {
-        File f = new File("ConcatNames.txt");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
-        bw.append("file '"+name+"'\n");
-        bw.flush();
-        bw.close();
-    }
+//    private void addToTextFile(String name) throws IOException {
+//        File f = new File("ConcatNames.txt");
+//        BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
+//        bw.append("file '"+name+"'\n");
+//        bw.flush();
+//        bw.close();
+//    }
 
     @FXML
     void playButtonClicked() {
@@ -175,30 +174,29 @@ public class NamesListController {
 
     @FXML
     void ratingButtonClicked(MouseEvent event) throws IOException {
-        String selectedName = nameMenu.getSelectionModel().getSelectedItem();
         if (event.getButton() == MouseButton.PRIMARY) {
-            PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);
+            PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, creation.getFullName());
         }
     }
 
     @FXML
     void setDefaultClicked() {
-
         int selectedIndex = nameListView.getSelectionModel().getSelectedIndex();
-
         String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";
         File[] listFiles = new File(folderName).listFiles();
+        Media m = new Media(listFiles[selectedIndex].toURI().toString());
 
         //Set default audio file
-        defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[selectedIndex]);
+        creation.setDefaultMedia(nameMenu.getSelectionModel().getSelectedItem(), m);
         defaultLabel.setText("Default: " + listFiles[selectedIndex].getName());
 
     }
 
     @FXML
-    void setUp(String wholeName) throws IOException {
+    void setUp(Creation c) throws IOException {
 
-        //TODO: SOMETIMES DOESN'T REFRESH??
+        creation = c;
+        String fullName = c.getFullName();
         nameListView.getItems().removeAll(nameListView.getItems());
 
         //Disable buttons
@@ -208,25 +206,17 @@ public class NamesListController {
         //This method sets up the combo box to display all the parts of a name
         pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
 
-        String[] split = wholeName.replaceAll("-", "- ").split("[\\s]");
+        String[] split = fullName.replaceAll("-", "- ").split("[\\s]");
 
         ObservableList<String> options = FXCollections.observableArrayList();
 
         for(int i=0; i<split.length; i++) {
            options.add(split[i]);
-
-            //Set up the hash map to contain the default names
-            if (!defaultFileMap.containsKey(nameMenu.getSelectionModel().getSelectedItem())) {
-                String folderName = pathToDB + "/" + split[i] + "/";
-                File[] listFiles = new File(folderName).listFiles();
-                defaultFileMap.put(split[i], listFiles[0]);
-            }
         }
 
         //Set the combo box with options
         nameMenu.getItems().setAll(options);
         nameMenu.getSelectionModel().selectFirst();
-        fileName = wholeName;
 
         //Add listener to listview
         nameListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -249,8 +239,7 @@ public class NamesListController {
                 setDefaultBtn.setDisable(false);
             }
         });
-
-
+        nameMenuAction();
     }
 
     @FXML
@@ -259,33 +248,17 @@ public class NamesListController {
         if (nameMenu.getSelectionModel().getSelectedIndex() >= 0) {
             String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";
             File[] listFiles = new File(folderName).listFiles();
-
             List<String> displayList = new ArrayList<>();
 
             for (File f : listFiles) {
                 displayList.add(f.getName());
             }
-
             nameListView.getItems().setAll(displayList);
 
-            String defaultName;
-
-            //Set up the default label and hashmap
-
-            //If there is only one name
-            if (listFiles.length == 1) {
-                defaultName = listFiles[0].getName();
-                defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0]);
-            //If the name exists in the hash map
-            } else {
-                if (!defaultFileMap.containsKey(nameMenu.getSelectionModel().getSelectedItem())) {
-                    defaultFileMap.put(nameMenu.getSelectionModel().getSelectedItem(), listFiles[0]);
-                }
-
-                defaultName = defaultFileMap.get(nameMenu.getSelectionModel().getSelectedItem()).getName();
-            }
-
-            defaultLabel.setText("Default: " + defaultName);
+            //Set up the default label
+            File f = new File(creation.getFullNameHashMap().get(nameMenu.getSelectionModel().getSelectedItem()).getSource());
+            System.out.println(f.getName());
+            defaultLabel.setText("Default: " + f.getName());
         }
     }
 }

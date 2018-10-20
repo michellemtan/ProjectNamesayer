@@ -65,4 +65,7 @@ public class Creation {
         fullNameHashMap.put(name, m);
     }
 
+    public HashMap<String, Media> getFullNameHashMap() {
+        return fullNameHashMap;
+    }
 }
