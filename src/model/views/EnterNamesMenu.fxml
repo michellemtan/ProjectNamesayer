@@ -118,7 +118,7 @@
                            <children>
                               <ListView fx:id="practiceNamesListView">
                                  <tooltip>
-                                    <Tooltip text="Right click to delete names" />
+                                    <Tooltip fx:id="listTip" text="Right click to delete names" />
                                  </tooltip></ListView>
                            </children>
                         </StackPane>

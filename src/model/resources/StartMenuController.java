@@ -39,6 +39,13 @@ public class StartMenuController {
         window.setScene(scene);
     }
 
+    @FXML
+    void listenBtnPressed() throws IOException {
+        Scene scene = SetUp.getInstance().listenMenu;
+        Stage window = (Stage) startButton.getScene().getWindow();
+        window.setScene(scene);
+    }
+
     void buttonsOff(boolean toggle) {
         if(toggle) {
             listenBtn.setDisable(true);

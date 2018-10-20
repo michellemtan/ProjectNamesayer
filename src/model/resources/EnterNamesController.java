@@ -40,6 +40,7 @@ public class EnterNamesController {
     @FXML private Label dbName;
     @FXML private TextField nameInput;
     @FXML private Button saveBtn;
+    @FXML private Tooltip listTip;
     private List<String> allNames;
     private List<String> tempNames;
 
@@ -77,8 +78,16 @@ public class EnterNamesController {
             return cell;
         });
 
+        //Disable tooltip when list is empty
+        practiceNamesListView.setTooltip(null);
         //Listener for items of list to select invalid ones when they're added
         practiceNamesListView.getItems().addListener((ListChangeListener<String>) c -> {
+            //Enable tooltip if list has items
+            if(practiceNamesListView.getItems().size() < 1) {
+                practiceNamesListView.setTooltip(null);
+            } else {
+                practiceNamesListView.setTooltip(listTip);
+            }
             //Clear selection
             practiceNamesListView.getSelectionModel().clearSelection();
             //Select invalid names
@@ -268,6 +277,7 @@ public class EnterNamesController {
     private void doubleClicked(MouseEvent click) {
         if (click.getClickCount() == 2) {
             nameInput.setText(nameInput.getText() + databaseNamesListView.getSelectionModel().getSelectedItem() + " ");
+            filteredInput.clear();
         }
     }
 
