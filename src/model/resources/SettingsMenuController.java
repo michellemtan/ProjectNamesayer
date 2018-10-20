@@ -32,7 +32,7 @@ public class SettingsMenuController {
     @FXML private BorderPane backPane;
     @FXML private ProgressBar micBar;
     private String currentTheme;
-    private String pathToDB;
+    private String pathToDB = null;
     private TaskService service = new TaskService();
     //Themes
     private String themeURL = getClass().getResource("/model/resources/themes/Theme.css").toExternalForm();
@@ -86,10 +86,14 @@ public class SettingsMenuController {
 
     //Take user back to main menu, and pass list of current db to enter names
     public void backBtnPressed() throws IOException {
-        setUpNameLists();
-        Scene scene = SetUp.getInstance().startMenu;
-        Stage window = (Stage) backBtn.getScene().getWindow();
-        window.setScene(scene);
+        if (SetUp.getInstance().settingsMenuController.getPathToDB() == null) {
+            PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null);
+        } else {
+            setUpNameLists();
+            Scene scene = SetUp.getInstance().startMenu;
+            Stage window = (Stage) backBtn.getScene().getWindow();
+            window.setScene(scene);
+        }
     }
 
     //Method to set up list in enter names menu, using names from the database currently selected

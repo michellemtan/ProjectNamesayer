@@ -39,18 +39,27 @@ public class StartMenuController {
 
     @FXML
     void startButtonClicked() throws IOException {
-        SetUp.getInstance().settingsMenuController.setUpNameLists();
-        Scene scene = SetUp.getInstance().enterNamesMenu;
-        Stage window = (Stage) startButton.getScene().getWindow();
-        window.setScene(scene);
+
+        if (SetUp.getInstance().settingsMenuController.getPathToDB() == null){
+            PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null);
+        } else {
+            SetUp.getInstance().settingsMenuController.setUpNameLists();
+            Scene scene = SetUp.getInstance().enterNamesMenu;
+            Stage window = (Stage) startButton.getScene().getWindow();
+            window.setScene(scene);
+        }
     }
 
     @FXML
     void listenBtnPressed() throws IOException {
-        SetUp.getInstance().settingsMenuController.setUpNameLists();
-        Scene scene = SetUp.getInstance().listenMenu;
-        Stage window = (Stage) startButton.getScene().getWindow();
-        window.setScene(scene);
+        if (SetUp.getInstance().settingsMenuController.getPathToDB() == null){
+            PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null);
+        } else {
+            SetUp.getInstance().settingsMenuController.setUpNameLists();
+            Scene scene = SetUp.getInstance().listenMenu;
+            Stage window = (Stage) startButton.getScene().getWindow();
+            window.setScene(scene);
+        }
     }
 
     void buttonsOff(boolean toggle) {

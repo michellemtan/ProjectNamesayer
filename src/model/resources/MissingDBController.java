@@ -5,14 +5,16 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 
-public class MissingDBController {
+public class MissingDBController extends AbstractController {
 
     @FXML private Button okBtn;
 
     public void setUpAlert() throws IOException {
+        //TODO: Not sure if this is necessary?
         File f = new File(System.getProperty("user.dir") + "/names");
         if(!f.exists() || !f.isDirectory()) {
             //Create stage and scene for small alert regarding missing database
@@ -27,6 +29,11 @@ public class MissingDBController {
             stage.setAlwaysOnTop(true);
             stage.show();
         }
+    }
+
+    @FXML
+    public void okButtonClicked(){
+        stage.close();
     }
 
 }

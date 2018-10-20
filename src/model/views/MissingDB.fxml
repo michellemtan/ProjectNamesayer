@@ -32,6 +32,6 @@
       </Label>
    </top>
    <bottom>
-      <Button fx:id="okBtn" minWidth="50.0" mnemonicParsing="false" text="OK" translateY="-15.0" BorderPane.alignment="CENTER" />
+      <Button fx:id="okBtn" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#okButtonClicked" text="OK" translateY="-15.0" BorderPane.alignment="CENTER" />
    </bottom>
 </BorderPane>
