@@ -44,7 +44,6 @@ public class PracticeMenuController {
     private String selectedName;
     private HashMap<String,Creation> hashMap;
     private Duration fullNameDuration;
-    private int delay = 500;
     private List<Media> durationList;
     private Duration[] duration = {Duration.ZERO};
 
@@ -83,7 +82,6 @@ public class PracticeMenuController {
         }
 
         creationsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            creationName.setText(creationsListView.getSelectionModel().getSelectedItem());
             if(creationsListView.getSelectionModel().getSelectedItems().size() != 1) {
                 //If nothing is selected, disable the buttons
                 playSingleButton.setDisable(true);
@@ -140,7 +138,7 @@ public class PracticeMenuController {
         if (audioPlayer != null) {
             audioPlayer.stop();
         }
-        SetUp.getInstance().compareMenuController.setUp(creationsListView.getSelectionModel().getSelectedItem());
+        SetUp.getInstance().compareMenuController.setUp(hashMap.get(creationsListView.getSelectionModel().getSelectedItem()));
         Scene scene = SetUp.getInstance().compareMenu;
         Stage window = (Stage) compareButton.getScene().getWindow();
         window.setScene(scene);
@@ -192,10 +190,11 @@ public class PracticeMenuController {
     }
 
     private void mediaPlayerCreator(boolean isFirstName) throws IOException, InterruptedException {
-        List<String> audioList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
+        List<String> audioList = new ArrayList<>(creationsListView.getItems());
         mediaList = FXCollections.observableArrayList();
         if (isFirstName){
             for (String a: audioList){
+                System.out.println(a);
                 mediaList.add(hashMap.get(a).getFirstNameMedia());
                 playMediaTracks(mediaList, audioList, isFirstName);
             }

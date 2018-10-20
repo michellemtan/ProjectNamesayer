@@ -27,7 +27,6 @@ import java.util.*;
 
 public class CompareMenuController {
 
-    //TODO: EDIT DISABLING SO USER CAN PLAY EXISTING NAME BEFORE COMPARING?
     //TODO: MAYBE CHANGE THIS BACK TO PREVIOUS RECORD BUTTON?
 
     @FXML private Button backButton;
@@ -48,6 +47,10 @@ public class CompareMenuController {
     private String pathToDB;
     private int audioRecorded;
     private String fileName;
+    private Creation creation;
+    private Duration fullNameDuration;
+    private List<Media> durationList;
+    private Duration[] duration = {Duration.ZERO};
 
     @FXML
     void backButtonClicked() throws IOException {
@@ -88,17 +91,68 @@ public class CompareMenuController {
         }
 
         String selectedName = textLabel.getText();
-        //Media media = SetUp.getInstance().practiceMenuController.getDefault(selectedName);
 
-        Media media = null;
+        durationList = creation.getFullNameMedia();
+        DurationService service = new DurationService();
+        service.setOnSucceeded(event -> {
+            fullNameDuration = duration[0];
+        });
+        service.start();
+        playFullName(durationList, false);
+    }
 
-        audioPlayer = new MediaPlayer(media);
-        audioPlayer.setOnPlaying(new CompareMenuController.AudioRunnable(false));
-        audioPlayer.setOnEndOfMedia(new CompareMenuController.AudioRunnable(true));
-        audioPlayer.play();
-        audioPlayer.setOnReady(() -> existingProgressBar.setProgress(0.0));
-        audioPlayer.setOnReady(this::setExistingProgressBar);
+    private void playFullName(List<Media> mediaList , boolean isStarted) {
+        if  (!(mediaList.size() == 0)) {
+            Media playing = mediaList.remove(0);
+            audioPlayer = new MediaPlayer(playing);
+            audioPlayer.play();
+            disablePlaying();
+            if (!isStarted) {
+                audioPlayer.setOnReady(() -> existingProgressBar.setProgress(0.0));
+                audioPlayer.setOnReady(this::fullNameProgressBar);
+            }
+            audioPlayer.setOnEndOfMedia(() -> {
+                playFullName(mediaList, true);
+            });
+            //Finished!
+        } else {
+            enableFinished();
+            return;
+        }
+    }
 
+    private void fullNameProgressBar() {
+        try {
+            timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(existingProgressBar.progressProperty(), 0)),
+                    new KeyFrame(fullNameDuration, new KeyValue(existingProgressBar.progressProperty(), 1))
+            );
+            timeline.setCycleCount(1);
+            timeline.play();
+        } catch (IllegalArgumentException e) {
+            System.err.println(e);
+        }
+    }
+
+    private class DurationService extends Service<Void> {
+        @Override
+        protected Task<Void> createTask() {
+            return new Task<Void>() {
+                @Override
+                protected Void call() throws IOException, InterruptedException {
+                    for (Media file: durationList){
+                        MediaPlayer mediaPlayer = new MediaPlayer(file);
+                        mediaPlayer.setOnReady(new Runnable() {
+                            @Override
+                            public void run() {
+                                duration[0] = duration[0].add(file.getDuration());
+                            }
+                        });
+                    }
+                    return null;
+                }
+            };
+        }
     }
 
 
@@ -115,26 +169,36 @@ public class CompareMenuController {
         public void run() {
             //When the media player has finished, the buttons will be enabled
             if (isFinished) {
-                backButton.setDisable(false);
-                playPauseButton.setDisable(false);
-                listButton.setDisable(false);
-                recordButton.setDisable(false);
-                micButton.setDisable(false);
-                repeatButton.setDisable(false);
-                playExistingButton.setDisable(false);
-                existingProgressBar.setProgress(0.0);
-                audioPlayer.dispose();
+                enableFinished();
                 //When the media player is playing the audio file, the buttons will be disabled to prevent the user from navigating away
             } else {
-                playExistingButton.setDisable(true);
-                backButton.setDisable(true);
-                playPauseButton.setDisable(true);
-                listButton.setDisable(true);
-                recordButton.setDisable(true);
-                micButton.setDisable(true);
-                repeatButton.setDisable(true);
+               disablePlaying();
             }
         }
+    }
+
+    private void disablePlaying(){
+        playExistingButton.setDisable(true);
+        backButton.setDisable(true);
+        playPauseButton.setDisable(true);
+        listButton.setDisable(true);
+        recordButton.setDisable(true);
+        micButton.setDisable(true);
+        repeatButton.setDisable(true);
+
+    }
+
+    private void enableFinished(){
+        backButton.setDisable(false);
+        playPauseButton.setDisable(false);
+        listButton.setDisable(false);
+        recordButton.setDisable(false);
+        micButton.setDisable(false);
+        repeatButton.setDisable(false);
+        playExistingButton.setDisable(false);
+        existingProgressBar.setProgress(0.0);
+        progressBar.setProgress(0.0);
+        audioPlayer.dispose();
     }
 
     private void setExistingProgressBar() {
@@ -265,8 +329,34 @@ public class CompareMenuController {
     }
 
     @FXML
-    void repeatButtonClicked() {
+    void repeatButtonClicked() throws IOException {
+        String str = textField.getText();
 
+        if (str.equals(null)) {
+
+            //TODO: ERROR MESSAGE
+        } else if (isNumeric(str)){
+            int numRepeats = Integer.parseInt(str);
+            for (int i=0; i<numRepeats; i++){
+               repeatLoop();
+            }
+        }
+    }
+
+    private void repeatLoop() throws IOException {
+        synchronized (this){
+            playExistingButtonClicked();
+        }
+        playPauseButtonClicked();
+    }
+
+    private boolean isNumeric(String str)
+    {
+        for (char c : str.toCharArray())
+        {
+            if (!Character.isDigit(c)) return false;
+        }
+        return true;
     }
 
     @FXML
@@ -278,16 +368,13 @@ public class CompareMenuController {
     }
 
     //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
-    void setUp(String name) throws IOException {
+    void setUp(Creation c) throws IOException {
         pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
-        textLabel.setText(name);
-
+        textLabel.setText(c.getFullName());
+        this.creation = c;
         audioRecorded=0;
 
         //Disable all buttons until audio is recorded
-        listButton.setDisable(true);
-        playExistingButton.setDisable(true);
-        ratingButton.setDisable(true);
         playPauseButton.setDisable(true);
         repeatButton.setDisable(true);
     }

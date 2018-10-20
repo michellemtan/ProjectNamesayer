@@ -44,7 +44,6 @@ public class Creation {
     public List<Media> getFullNameMedia(){
         List<Media> mediaList = new ArrayList<>();
         for (String name: nameList){
-            System.out.println(name);
             mediaList.add(fullNameHashMap.get(name));
         }
         return mediaList;
@@ -52,7 +51,7 @@ public class Creation {
 
     public Media getFirstNameMedia() throws IOException {
         String firstName = name.split("[- ]")[0];
-        return  fullNameHashMap.get(firstName);
+        return fullNameHashMap.get(firstName);
     }
 
     //This method sets the highest rated media file

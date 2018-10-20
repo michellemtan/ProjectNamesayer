@@ -46,31 +46,31 @@ public class NamesListController {
     }
 
     @FXML
-    void backBtnPressed() {
+    void backBtnPressed() throws IOException {
         //Clear list view
         nameListView.getItems().removeAll(nameListView.getItems());
         nameListView.refresh();
 
-        ConcatService service = new ConcatService();
-        service.setOnSucceeded(concatEvent -> {
-            //Change to practice menu and set the path to have come from the load files menu
-            try {
-
-                String folderName = "created_names/";
-                String tempName = fileName.replaceAll(" ", "");
-                File f = new File(folderName + tempName+".wav");
-                Media media = new Media(f.toURI().toString());
-                SetUp.getInstance().practiceMenuController.setDefault(fileName, media);
+//        ConcatService service = new ConcatService();
+//        service.setOnSucceeded(concatEvent -> {
+//            //Change to practice menu and set the path to have come from the load files menu
+//            try {
+//
+//                String folderName = "created_names/";
+//                String tempName = fileName.replaceAll(" ", "");
+//                File f = new File(folderName + tempName+".wav");
+//                Media media = new Media(f.toURI().toString());
+//                SetUp.getInstance().practiceMenuController.setDefault(fileName, media);
 
                 Scene scene = SetUp.getInstance().compareMenu;
                 Stage window = (Stage) backBtn.getScene().getWindow();
                 window.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
-        service.start();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//
+//        service.start();
     }
 
     private class ConcatService extends Service<Void> {
