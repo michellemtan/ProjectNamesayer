@@ -313,10 +313,10 @@ public class EnterNamesController {
             }
 
             //Concat names before loading menu
-            new File("./created_names").mkdir();
+            //new File("./created_names").mkdir();
 
-            ConcatService service = new ConcatService();
-            service.setOnSucceeded(event -> {
+//            ConcatService service = new ConcatService();
+//            service.setOnSucceeded(event -> {
                 try {
                     //Change to practice menu and set the path to have come from the enter names menu
                     SetUp.getInstance().practiceMenuController.setUpList(tempNames);
@@ -326,12 +326,11 @@ public class EnterNamesController {
                     window.setScene(scene);
                 } catch (IOException ignored) {
                 }
-            });
-            if(tempNames.size() >= 1) {
-                service.start();
-            }
-
-            }
+//            });
+//            if(tempNames.size() >= 1) {
+//                service.start();
+//            }
+        }
     }
 
 

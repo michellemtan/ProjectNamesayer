@@ -1,20 +1,34 @@
 package model.resources;
 
 import javafx.scene.media.Media;
-
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class Creation {
 
+    private HashMap<String, Media> fullNameHashMap;
     private String name;
-    private Media media;
-    private Media defaultMedia = null;
-    private Media highestRatedMedia = null;
+    private List<String> nameList;
 
-    public Creation(String n, Media m) {
+    public Creation(String n) throws IOException {
         name = n;
-        media = m;
+
+        String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
+        String[] split = name.replaceAll("-", "- ").split("[\\s]");
+        nameList = new ArrayList<>();
+        fullNameHashMap = new HashMap<>();
+
+        for(int i=0; i<split.length; i++) {
+            nameList.add(split[i]);
+            //Set up the hash map to contain the default names
+            String folderName = pathToDB + "/" + split[i] + "/";
+            File[] listFiles = new File(folderName).listFiles();
+            Media m = new Media(listFiles[0].toURI().toString());
+            fullNameHashMap.put(split[i], m);
+        }
     }
 
     public String getFullName() {
@@ -26,34 +40,30 @@ public class Creation {
         return firstName;
     }
 
-    //This method returns the default media file
-    public Media getMedia(){
-        if (!(defaultMedia == null)){
-            return defaultMedia;
-        } else if (!(highestRatedMedia == null)){
-            return highestRatedMedia;
-        } else {
-            return media;
+    //This method returns the full name of media files
+    public List<Media> getFullNameMedia(){
+        List<Media> mediaList = new ArrayList<>();
+        for (String name: nameList){
+            System.out.println(name);
+            mediaList.add(fullNameHashMap.get(name));
         }
+        return mediaList;
     }
 
     public Media getFirstNameMedia() throws IOException {
-        String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
-        String folderName = pathToDB + "/" + this.getFirstName() + "/";
-        File[] listFiles = new File(folderName).listFiles();
-        Media firstNameMedia = new Media(listFiles[0].toURI().toString());
-        return firstNameMedia;
+        String firstName = name.split("[- ]")[0];
+        return  fullNameHashMap.get(firstName);
     }
 
     //This method sets the highest rated media file
-    public void setHighestRateMedia(Media m){
-        highestRatedMedia = m;
+    public void setHighestRateMedia(String name, Media m){
+        fullNameHashMap.put(name, m);
     }
 
 
     //This method sets the default media file
-    public void setDefaultMedia(Media m){
-        defaultMedia = m;
+    public void setDefaultMedia(String name, Media m){
+        fullNameHashMap.put(name, m);
     }
 
 }

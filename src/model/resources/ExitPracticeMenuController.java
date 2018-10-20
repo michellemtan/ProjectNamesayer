@@ -30,10 +30,6 @@ public class ExitPracticeMenuController {
     @FXML
     void confirmButtonClicked() throws IOException {
 
-        //Delete all saved recordings and created names from the session
-       deleteFromFolder("created_names");
-       deleteFromFolder("recorded_names");
-
         if (previousScene.equals("enterNamesMenu")) {
             Scene scene = SetUp.getInstance().enterNamesMenu;
             Stage window = (Stage) confirmButton.getScene().getWindow();
@@ -43,15 +39,6 @@ public class ExitPracticeMenuController {
 
     public void setPreviousScene(String name) {
         previousScene = name;
-    }
-
-    private void deleteFromFolder(String pathname){
-        File dir = new File(pathname);
-        for(File file: dir.listFiles()) {
-            if (!file.isDirectory()) {
-                file.delete();
-            }
-        }
     }
 
 }

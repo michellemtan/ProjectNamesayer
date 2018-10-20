@@ -26,7 +26,7 @@
    <bottom>
        <ButtonBar prefHeight="70.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <buttons>
-            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" text="Play  ►" translateX="-350.0" />
+            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playSingleButtonClicked" text="Play  ►" translateX="-350.0" />
          </buttons>
          <BorderPane.margin>
             <Insets />
@@ -60,7 +60,7 @@
                </font>
             </Label>
              <Button fx:id="backBtn" mnemonicParsing="false" onAction="#backBtnPressed" text="←" translateX="15.0" translateY="15.0" GridPane.halignment="LEFT" GridPane.valignment="TOP" />
-            <Button fx:id="ratingsButton" mnemonicParsing="false" text="★" translateX="-135.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Button fx:id="ratingsButton" mnemonicParsing="false" onMouseClicked="#ratingsButtonClicked" text="★" translateX="-135.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font size="18.0" />
                </font>

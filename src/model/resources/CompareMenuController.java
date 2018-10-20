@@ -88,7 +88,9 @@ public class CompareMenuController {
         }
 
         String selectedName = textLabel.getText();
-        Media media = SetUp.getInstance().practiceMenuController.getDefault(selectedName);
+        //Media media = SetUp.getInstance().practiceMenuController.getDefault(selectedName);
+
+        Media media = null;
 
         audioPlayer = new MediaPlayer(media);
         audioPlayer.setOnPlaying(new CompareMenuController.AudioRunnable(false));
