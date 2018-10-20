@@ -34,6 +34,7 @@ public class SettingsMenuController {
     @FXML private CheckBox waveBox;
     @FXML private BorderPane backPane;
     @FXML private ProgressBar micBar;
+    private String currentTheme;
     private String pathToDB;
     private TaskService service = new TaskService();
     //Themes
@@ -41,7 +42,7 @@ public class SettingsMenuController {
     private String dracThemeURL = getClass().getResource("/model/resources/themes/dracTheme.css").toExternalForm();
 
     String getTheme(){
-        return themeURL;
+        return currentTheme;
     }
 
     String getPathToDB() {
@@ -50,11 +51,13 @@ public class SettingsMenuController {
 
     @FXML
     private void dracBtnPressed() throws IOException {
+        currentTheme = dracThemeURL;
         SetUp.getInstance().changeTheme(dracThemeURL);
     }
 
     @FXML
     private void defBtnPressed() throws IOException {
+        currentTheme = themeURL;
         SetUp.getInstance().changeTheme(themeURL);
     }
 
@@ -100,6 +103,7 @@ public class SettingsMenuController {
     }
 
     public void initialize() {
+        currentTheme = themeURL;
         //Set up default values for combo-box
         chooseDB.getItems().add("Default Database");
         chooseDB.getItems().add("Add new...");

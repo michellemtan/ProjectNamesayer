@@ -11,7 +11,9 @@ public class PopupWindow {
 
     private AbstractController popupController;
 
-    public PopupWindow(String fxml, boolean setUpRequired, String name){
+    //TODO: can close main stage and this stage stays open
+
+    PopupWindow(String fxml, boolean setUpRequired, String name) throws IOException {
         //Load the popup window and set the controller
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxml));
         Scene scene = null;
@@ -20,6 +22,7 @@ public class PopupWindow {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        scene.getStylesheets().add(SetUp.getInstance().settingsMenuController.getTheme());
 
         popupController = loader.getController();
 

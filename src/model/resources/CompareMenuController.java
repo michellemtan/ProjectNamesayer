@@ -196,12 +196,12 @@ public class CompareMenuController {
 
 
     @FXML
-    void recordButtonClicked() {
+    void recordButtonClicked() throws IOException {
         if (audioRecorded==0) {
             record();
         } else {
-                PopupWindow p = new PopupWindow("model/views/OverwriteRecordingMessage.fxml", false,null);
-                if (p.getController().getResult() == true){
+                PopupWindow p = new PopupWindow("model/views/OverwriteRecordingMessage.fxml", true,null);
+                if (p.getController().getResult()){
                     record();
                 }
             }
