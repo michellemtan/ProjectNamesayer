@@ -200,28 +200,11 @@ public class CompareMenuController {
         if (audioRecorded==0) {
             record();
         } else {
-            try {
-                //Load the popup window and set the controller
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("model/views/OverwriteRecordingMessage.fxml"));
-                Scene scene = new Scene(loader.load());
-                OverwriteRecordingController popupController = loader.getController();
-
-                //Set the style of the popup window controller and give access to the popup stage (to allow the controller to close the stage)
-                Stage popupStage = new Stage();
-                popupStage.initStyle(StageStyle.UNDECORATED);
-                popupController.setStage(popupStage);
-                popupStage.setScene(scene);
-                popupStage.showAndWait();
-
-                if (popupController.getResult() == true){
+                PopupWindow p = new PopupWindow("model/views/OverwriteRecordingMessage.fxml", false,null);
+                if (p.getController().getResult() == true){
                     record();
                 }
-
-            } catch (IOException e) {
-                e.printStackTrace();
             }
-        }
-
         backButton.setDisable(true);
     }
 

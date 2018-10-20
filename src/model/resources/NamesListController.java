@@ -232,7 +232,7 @@ public class NamesListController {
         //This method sets up the combo box to display all the parts of a name
         pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
 
-        String[] split = wholeName.replaceAll("-", " -").split("[\\s]");
+        String[] split = wholeName.replaceAll("-", "- ").split("[\\s]");
 
         ObservableList<String> options = FXCollections.observableArrayList();
 
@@ -272,6 +272,8 @@ public class NamesListController {
                 setDefaultBtn.setDisable(false);
             }
         });
+
+        nameMenu.getSelectionModel().selectFirst();
     }
 
     @FXML

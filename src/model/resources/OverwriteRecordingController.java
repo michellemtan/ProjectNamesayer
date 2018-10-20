@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class OverwriteRecordingController {
+public class OverwriteRecordingController extends AbstractController {
 
     @FXML
     private Button yesButton;
@@ -13,7 +13,6 @@ public class OverwriteRecordingController {
     @FXML
     private Button cancelButton;
 
-    private Stage stage = null;
     private boolean isOverwritten;
 
     @FXML
@@ -32,10 +31,7 @@ public class OverwriteRecordingController {
         }
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
+    @Override
     public boolean getResult(){
         return isOverwritten;
     }
