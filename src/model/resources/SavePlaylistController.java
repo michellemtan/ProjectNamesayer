@@ -2,17 +2,17 @@ package model.resources;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 public class SavePlaylistController extends AbstractController {
 
     @FXML private TextField input;
     @FXML private BorderPane bground;
-    private List<String> names;
 
     public void setUp(String name) {
         bground.getStyleClass().add("root-clean");
@@ -23,10 +23,6 @@ public class SavePlaylistController extends AbstractController {
         if(stage!=null) {
             stage.close();
         }
-    }
-
-    void setNames(List<String> name) {
-        names = name;
     }
 
     @FXML
@@ -44,6 +40,14 @@ public class SavePlaylistController extends AbstractController {
             }
         }
         stage.close();
+    }
+
+    //Call addButtonClicked if user presses enter from add name text field
+    @FXML
+    private void enterName(KeyEvent e) {
+        if(e.getCode() == KeyCode.ENTER) {
+            tickPressed();
+        }
     }
 
 }
