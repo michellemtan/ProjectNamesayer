@@ -34,8 +34,9 @@ public class Creation {
             String folderName = pathToDB + "/" + aSplit + "/";
             File[] listFiles = new File(folderName).listFiles();
 
+
             //Get audio file length and sum so creation length indicates length of entire creation
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(listFiles[0]);
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(listFiles)[0]);
             AudioFormat format = audioInputStream.getFormat();
             long frames = audioInputStream.getFrameLength();
             creationLength += (frames+0.0) / format.getFrameRate() + 0.1;

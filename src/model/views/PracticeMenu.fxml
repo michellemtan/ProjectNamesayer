@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.PracticeMenuController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.PractiseMenuController">
    <left>
       <Region prefHeight="200.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
    </left>
@@ -26,19 +26,19 @@
    <bottom>
        <ButtonBar prefHeight="70.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <buttons>
-             <Button fx:id="playPauseButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playButtonClicked" text="List  ▶ ▍▍" translateX="-270.0">
+             <Button fx:id="playPauseButton" alignment="CENTER" mnemonicParsing="false" text="List  ▶ ▍▍" translateX="-270.0">
                <contextMenu>
                   <ContextMenu>
                     <items>
-                      <MenuItem fx:id="firstNamesListPlay" mnemonicParsing="false" onAction="#firstNamesListPlayClicked" text="First Names" />
+                      <MenuItem fx:id="firstNamesListPlay" mnemonicParsing="false" text="First Names" />
                     </items>
                   </ContextMenu>
                </contextMenu></Button>
-            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#playSingleButtonClicked" text="Play  ►" translateX="-230.0">
+            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" onAction="#playSinglePressed" text="Play  ►" translateX="-230.0">
                <contextMenu>
                   <ContextMenu>
                     <items>
-                      <MenuItem fx:id="firstNamePlay" mnemonicParsing="false" onAction="#firstNamePlayClicked" text="First Name" />
+                      <MenuItem fx:id="firstNamePlay" mnemonicParsing="false" text="First Name" />
                     </items>
                   </ContextMenu>
                </contextMenu></Button>

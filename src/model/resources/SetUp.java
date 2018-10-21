@@ -11,7 +11,7 @@ public class SetUp {
     private static SetUp setUp;
 
     //Initialise controllers to allow for data to be passed between scenes
-    PracticeMenuController practiceMenuController;
+    PractiseMenuController practiceMenuController;
     AudioRatingsController audioRatingsController;
     CompareMenuController compareMenuController;
     public StartMenuController startMenuController;

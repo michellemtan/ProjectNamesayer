@@ -48,9 +48,13 @@ public class PracticeMenuController {
     private HashMap<String,Creation> hashMap;
     private Duration fullNameDuration;
     private List<Media> durationList;
-    private Duration[] duration = {Duration.ZERO};
 
     void setUpList(List<String> list) throws IOException, UnsupportedAudioFileException {
+
+        //Listener to change label to selected name
+        creationsListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> {
+            creationName.setText(creationsListView.getSelectionModel().getSelectedItem());
+        });
 
         //Set up the practice list view
         creationList = list;
@@ -167,14 +171,14 @@ public class PracticeMenuController {
 
     //This button plays a list of names
     @FXML
-    void playButtonClicked(MouseEvent event) throws IOException, InterruptedException {
+    void playButtonClicked(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
             playNamesList(false);
         }
     }
 
-    private void playNamesList(boolean isFirstName) throws IOException, InterruptedException {
-        creationsListView.getSelectionModel().clearSelection();
+    private void playNamesList(boolean isFirstName) {
+        creationsListView.getSelectionModel().selectFirst();
 
         if (isFinished) {
             mediaPlayerCreator(isFirstName);
@@ -193,28 +197,20 @@ public class PracticeMenuController {
         }
     }
 
-    private void mediaPlayerCreator(boolean isFirstName) throws IOException {
+    private void mediaPlayerCreator(boolean isFirstName) {
         List<String> audioList = new ArrayList<>(creationsListView.getItems());
         mediaList = FXCollections.observableArrayList();
         if (isFirstName){
             for (String a: audioList){
                 mediaList.add(hashMap.get(a).getFirstNameMedia());
             }
-            playMediaTracks(mediaList, audioList, isFirstName);
+            playMediaTracks(mediaList, audioList, true);
         } else {
             List<Media> mList = new ArrayList<>();
-            List<Media> fullNameList = new ArrayList<>();
+            List<Media> fullNameList;
             for (String a: audioList){
                 fullNameList = hashMap.get(a).getFullNameMedia();
-                for (Media m: fullNameList) {
-                    mList.add(m);
-                    duration[0] = Duration.ZERO;
-                    DurationService service = new DurationService();
-                    service.setOnSucceeded(event -> {
-                        fullNameDuration = duration[0];
-                    });
-                    service.start();
-                }
+                mList.addAll(fullNameList);
             }
             playFullName(mList, false);
         }
@@ -293,13 +289,13 @@ public class PracticeMenuController {
 
     //This button plays a single name
     @FXML
-    public void playSingleButtonClicked(MouseEvent event) throws IOException {
+    public void playSingleButtonClicked(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
             playSingleName(false);
         }
     }
 
-    private void playSingleName(boolean isFirstName) throws IOException {
+    private void playSingleName(boolean isFirstName) {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
         }
@@ -326,34 +322,12 @@ public class PracticeMenuController {
             creationName.setText(selectedName);
             //media = hashMap.get(selectedName).getMedia();
             durationList = hashMap.get(selectedName).getFullNameMedia();
-            duration[0] = Duration.ZERO;
-            DurationService service = new DurationService();
-            service.setOnSucceeded(event -> {
-                fullNameDuration = duration[0];
-            });
-            service.start();
             playFullName(durationList, false);
         }
     }
 
-    private class DurationService extends Service<Void> {
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws IOException, InterruptedException {
-                    for (Media file: durationList){
-                        MediaPlayer mediaPlayer = new MediaPlayer(file);
-                        mediaPlayer.setOnReady(() -> duration[0] = duration[0].add(file.getDuration()));
-                    }
-                    return null;
-                }
-            };
-        }
-    }
-
-    private void playFullName(List<Media> mediaList , boolean isStarted) {
-        if  (!(mediaList.size() == 0)) {
+    private void playFullName(List<Media> mediaList, boolean isStarted) {
+        if(!(mediaList.size() == 0)) {
             Media playing = mediaList.remove(0);
             audioPlayer = new MediaPlayer(playing);
             if (!isStarted) {
@@ -376,7 +350,7 @@ public class PracticeMenuController {
             timeline.setCycleCount(1);
             timeline.play();
         } catch (IllegalArgumentException e) {
-            System.err.println(e);
+            System.out.println("Error generating progress bar");
         }
     }
 
@@ -386,7 +360,7 @@ public class PracticeMenuController {
     }
 
     @FXML
-    public void firstNamesListPlayClicked() throws IOException, InterruptedException {
+    public void firstNamesListPlayClicked() {
         playNamesList(true);
     }
 
