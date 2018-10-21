@@ -1,7 +1,9 @@
 package model.resources;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -13,6 +15,7 @@ public class SavePlaylistController extends AbstractController {
 
     @FXML private TextField input;
     @FXML private BorderPane bground;
+    @FXML private Button tickButton;
 
     public void setUp(String name) {
         bground.getStyleClass().add("root-clean");
@@ -35,6 +38,8 @@ public class SavePlaylistController extends AbstractController {
                     writer.write(str + "\n");
                 }
                 writer.close();
+                //Show tool tip when a name has been rated
+                Tooltip customTooltip = new CustomTooltip(stage, tickButton, "Created playlist!", null);
             } catch (IOException e) {
                 System.out.println("Error writing to file");
             }

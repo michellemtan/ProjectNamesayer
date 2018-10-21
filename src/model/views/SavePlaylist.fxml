@@ -29,7 +29,7 @@
       <HBox alignment="TOP_CENTER" spacing="10.0" translateY="-80.0" BorderPane.alignment="TOP_CENTER">
          <children>
             <TextField fx:id="input" onKeyPressed="#enterName" />
-            <Button mnemonicParsing="false" onAction="#tickPressed" text="✓" />
+            <Button fx:id="tickButton" mnemonicParsing="false" onAction="#tickPressed" text="✓" />
          </children>
       </HBox>
    </center>
