@@ -332,21 +332,26 @@ public class CompareMenuController {
             Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number!", null);
         } else if (isNumeric(str)){
             int numRepeats = Integer.parseInt(str);
-            List<Media> audioList = new ArrayList<>();
-            List<Media> fullNameList = new ArrayList<>();
-            String selectedName = textLabel.getText();
-            fullNameList = creation.getFullNameMedia();
-            for (int i=0; i<numRepeats; i++){
-                for (Media m: fullNameList){
-                    audioList.add(m);
+            if (numRepeats <= 5){
+                List<Media> audioList = new ArrayList<>();
+                List<Media> fullNameList = new ArrayList<>();
+                String selectedName = textLabel.getText();
+                fullNameList = creation.getFullNameMedia();
+                for (int i = 0; i < numRepeats; i++) {
+                    for (Media m : fullNameList) {
+                        audioList.add(m);
+                    }
+                    Media media = new Media(new File("./recorded_names/" + fileName + ".wav").toURI().toString());
+                    audioList.add(media);
                 }
-                Media media = new Media(new File("./recorded_names/" + fileName +".wav").toURI().toString());
-                audioList.add(media);
+
+            } else {
+                //Show tool tip when a non-valid integer has been entered
+                Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
             }
-            playFullName(audioList, false);
         } else {
             //Show tool tip when a non-valid integer has been entered
-            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number!", null);
+            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
         }
     }
 
