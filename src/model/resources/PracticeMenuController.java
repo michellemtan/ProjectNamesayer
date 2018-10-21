@@ -196,8 +196,8 @@ public class PracticeMenuController {
             for (String a: audioList){
                 System.out.println(a);
                 mediaList.add(hashMap.get(a).getFirstNameMedia());
-                playMediaTracks(mediaList, audioList, isFirstName);
             }
+            playMediaTracks(mediaList, audioList, isFirstName);
         } else {
             for (String a: audioList){
                 durationList = hashMap.get(a).getFullNameMedia();
