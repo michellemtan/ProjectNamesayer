@@ -17,12 +17,15 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.util.*;
 
 public class PracticeMenuController {
 
     //TODO: DISABLE SHUFFLE AND LIST PLAY BUTTON WHEN THERE IS ONLY ONE NAME
+
+    //TODO: update label to reflect name being said when list is playing
 
     @FXML private Button playPauseButton;
     @FXML private Button playSingleButton;
@@ -47,7 +50,7 @@ public class PracticeMenuController {
     private List<Media> durationList;
     private Duration[] duration = {Duration.ZERO};
 
-    void setUpList(List<String> list) throws IOException {
+    void setUpList(List<String> list) throws IOException, UnsupportedAudioFileException {
 
         //Set up the practice list view
         creationList = list;
@@ -79,6 +82,7 @@ public class PracticeMenuController {
         for (String creationName: creationsListView.getItems()){
             Creation c = new Creation(creationName);
             hashMap.put(creationName, c);
+            System.out.println(creationName);
         }
 
         creationsListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -189,12 +193,11 @@ public class PracticeMenuController {
         }
     }
 
-    private void mediaPlayerCreator(boolean isFirstName) throws IOException, InterruptedException {
+    private void mediaPlayerCreator(boolean isFirstName) throws IOException {
         List<String> audioList = new ArrayList<>(creationsListView.getItems());
         mediaList = FXCollections.observableArrayList();
         if (isFirstName){
             for (String a: audioList){
-                System.out.println(a);
                 mediaList.add(hashMap.get(a).getFirstNameMedia());
             }
             playMediaTracks(mediaList, audioList, isFirstName);
@@ -240,24 +243,23 @@ public class PracticeMenuController {
         audioList.remove(0);
         Media playing = mediaList.remove(0);
         audioPlayer = new MediaPlayer(playing);
-        audioPlayer.play();
         audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
-        audioPlayer.setOnReady(this::progressBar);
-        audioPlayer.setOnEndOfMedia(() -> {
-            playMediaTracks(mediaList, audioList, isFirstName);
-        });
+        audioPlayer.setOnReady(this::progressBarMethod);
+        audioPlayer.setOnEndOfMedia(() -> playMediaTracks(mediaList, audioList, isFirstName));
+        audioPlayer.play();
     }
 
-    private void progressBar() {
+    private void progressBarMethod() {
         try {
             timeline = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
                     new KeyFrame((audioPlayer.getTotalDuration()), new KeyValue(progressBar.progressProperty(), 1))
             );
+            System.out.println(audioPlayer.getTotalDuration());
             timeline.setCycleCount(1);
             timeline.play();
         } catch (IllegalArgumentException e) {
-            System.err.println(e);
+            System.out.println("Error creating progress bar");
         }
     }
 
@@ -319,7 +321,7 @@ public class PracticeMenuController {
             audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
             audioPlayer.play();
             audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
-            audioPlayer.setOnReady(this::progressBar);
+            audioPlayer.setOnReady(this::progressBarMethod);
         } else {
             creationName.setText(selectedName);
             //media = hashMap.get(selectedName).getMedia();
@@ -342,12 +344,7 @@ public class PracticeMenuController {
                 protected Void call() throws IOException, InterruptedException {
                     for (Media file: durationList){
                         MediaPlayer mediaPlayer = new MediaPlayer(file);
-                        mediaPlayer.setOnReady(new Runnable() {
-                            @Override
-                            public void run() {
-                                duration[0] = duration[0].add(file.getDuration());
-                            }
-                        });
+                        mediaPlayer.setOnReady(() -> duration[0] = duration[0].add(file.getDuration()));
                     }
                     return null;
                 }
@@ -359,8 +356,6 @@ public class PracticeMenuController {
         if  (!(mediaList.size() == 0)) {
             Media playing = mediaList.remove(0);
             audioPlayer = new MediaPlayer(playing);
-            audioPlayer.play();
-
             if (!isStarted) {
                 audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
                 audioPlayer.setOnReady(this::fullNameProgressBar);
@@ -368,6 +363,7 @@ public class PracticeMenuController {
             audioPlayer.setOnEndOfMedia(() -> {
                 playFullName(mediaList, true);
             });
+            audioPlayer.play();
         }
     }
 
@@ -375,7 +371,7 @@ public class PracticeMenuController {
         try {
             timeline = new Timeline(
                     new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
-                    new KeyFrame(fullNameDuration, new KeyValue(progressBar.progressProperty(), 1))
+                    new KeyFrame(new Duration(hashMap.get(selectedName).getCreationLength() * 1000), new KeyValue(progressBar.progressProperty(), 1))
             );
             timeline.setCycleCount(1);
             timeline.play();
@@ -394,7 +390,7 @@ public class PracticeMenuController {
         playNamesList(true);
     }
 
-    public HashMap<String,Creation> getHashMap(){
+    HashMap<String,Creation> getHashMap(){
         return hashMap;
     }
 }

@@ -8,6 +8,7 @@ import model.resources.PopupWindow;
 import model.resources.SetUp;
 
 import java.io.File;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -27,8 +28,7 @@ public class Main extends Application {
             SetUp.getInstance().startMenuController.buttonsOff(true);
             SetUp.getInstance().settingsMenuController.disableBack(true);
             PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null);
-        }else if(f.listFiles() != null && f.listFiles().length >0 && f.listFiles()[0].getName().endsWith(".wav")) {
-            System.out.println("need to process");
+        }else if(f.listFiles() != null && Objects.requireNonNull(f.listFiles()).length >0 && Objects.requireNonNull(f.listFiles())[0].getName().endsWith(".wav")) {
             SetUp.getInstance().settingsMenuController.setNeedToProcessDefault(true);
         }
     }

@@ -24,6 +24,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -294,7 +295,7 @@ public class EnterNamesController {
     }
 
     @FXML
-    void practiceButtonClicked() throws IOException, InterruptedException {
+    void practiceButtonClicked() throws IOException, InterruptedException, UnsupportedAudioFileException {
         filteredInput.clear();
         ProcessBuilder removeBuilder = new ProcessBuilder("/bin/bash", "-c", "rm -r ./created_names");
         Process r = removeBuilder.start();
