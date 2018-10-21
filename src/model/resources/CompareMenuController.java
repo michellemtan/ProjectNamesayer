@@ -19,6 +19,7 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.*;
 
 public class CompareMenuController {
 
@@ -84,7 +85,6 @@ public class CompareMenuController {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
         }
-
         String selectedName = textLabel.getText();
 
         durationList = creation.getFullNameMedia();
@@ -229,7 +229,6 @@ public class CompareMenuController {
 
     }
 
-
     @FXML
     void recordButtonClicked() throws IOException {
         if (audioRecorded==0) {
@@ -324,25 +323,36 @@ public class CompareMenuController {
     }
 
     @FXML
-    void repeatButtonClicked() throws IOException {
+    void repeatButtonClicked() throws IOException, ExecutionException, InterruptedException {
         String str = textField.getText();
+        Stage stage = (Stage) repeatButton.getScene().getWindow();
 
-        if (str.equals(null)) {
-
-            //TODO: ERROR MESSAGE
+        if (str.equals("")) {
+            //Show tool tip when nothing has been entered
+            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number!", null);
         } else if (isNumeric(str)){
             int numRepeats = Integer.parseInt(str);
-            for (int i=0; i<numRepeats; i++){
-               repeatLoop();
-            }
-        }
-    }
+            if (numRepeats <= 5){
+                List<Media> audioList = new ArrayList<>();
+                List<Media> fullNameList = new ArrayList<>();
+                String selectedName = textLabel.getText();
+                fullNameList = creation.getFullNameMedia();
+                for (int i = 0; i < numRepeats; i++) {
+                    for (Media m : fullNameList) {
+                        audioList.add(m);
+                    }
+                    Media media = new Media(new File("./recorded_names/" + fileName + ".wav").toURI().toString());
+                    audioList.add(media);
+                }
 
-    private void repeatLoop() throws IOException {
-        synchronized (this){
-            playExistingButtonClicked();
+            } else {
+                //Show tool tip when a non-valid integer has been entered
+                Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
+            }
+        } else {
+            //Show tool tip when a non-valid integer has been entered
+            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
         }
-        playPauseButtonClicked();
     }
 
     private boolean isNumeric(String str)

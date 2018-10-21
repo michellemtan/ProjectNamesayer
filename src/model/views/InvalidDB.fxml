@@ -6,10 +6,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane fx:id="bground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.InvalidDBController">
+<BorderPane fx:id="bground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.InvalidDBController">
    <center>
-      <Label text="The selected folder must only contain folders or files ending in .wav" wrapText="true" BorderPane.alignment="CENTER">
+      <Label text="Selected folder must only contain folders or files ending in .wav" textAlignment="CENTER" wrapText="true" BorderPane.alignment="CENTER">
          <padding>
             <Insets left="20.0" right="10.0" />
          </padding>

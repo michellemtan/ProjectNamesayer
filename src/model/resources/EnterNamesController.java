@@ -44,6 +44,7 @@ public class EnterNamesController {
     private List<String> tempNames;
 
     //TODO: add context menu item: 'Delete all invalid names'
+    //TODO: NAME BAR - TOOL TIP OR ERROR MESSAGE OR STOP WHEN 50 CHARS ARE TYPED
 
     public void initialize() {
         //Cell factory to assign red CSS to selected cells in list view
