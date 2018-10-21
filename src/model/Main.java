@@ -27,6 +27,9 @@ public class Main extends Application {
             SetUp.getInstance().startMenuController.buttonsOff(true);
             SetUp.getInstance().settingsMenuController.disableBack(true);
             PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null);
+        }else if(f.listFiles() != null && f.listFiles().length >0 && f.listFiles()[0].getName().endsWith(".wav")) {
+            System.out.println("need to process");
+            SetUp.getInstance().settingsMenuController.setNeedToProcessDefault(true);
         }
     }
 

@@ -35,6 +35,7 @@ public class SettingsMenuController {
     private String currentTheme;
     private String pathToDB = null;
     private TaskService service = new TaskService();
+    private boolean needToProcessDefault;
     //Themes
     private String themeURL = getClass().getResource("/model/resources/themes/Theme.css").toExternalForm();
     private String dracThemeURL = getClass().getResource("/model/resources/themes/dracTheme.css").toExternalForm();
@@ -240,6 +241,19 @@ public class SettingsMenuController {
         }
     }
 
+    private String getDBPath(boolean isDefault) {
+        if(isDefault) {
+            return System.getProperty("user.dir") + "/names";
+        } else {
+            return chooseDB.getSelectionModel().getSelectedItem();
+        }
+    }
+
+    public void setNeedToProcessDefault(boolean value) {
+        needToProcessDefault = value;
+        service.restart();
+    }
+
     /**
      * Class that creates/runs the task to process the database in the background
      */
@@ -248,10 +262,16 @@ public class SettingsMenuController {
         protected Task<Void> createTask() {
             return new Task<Void>() {
                 @Override
-                protected Void call() throws IOException {
+                protected Void call() {
                     //Instantiate database processor and start processing
-                    DatabaseProcessor processor = new DatabaseProcessor(chooseDB.getSelectionModel().getSelectedItem());
-                    processor.processDB();
+                    if(needToProcessDefault) {
+                        DatabaseProcessor processor = new DatabaseProcessor(getDBPath(true));
+                        processor.processDB();
+                    } else {
+                        DatabaseProcessor processor = new DatabaseProcessor(getDBPath(false));
+                        processor.processDB();
+                    }
+                    needToProcessDefault = false;
                     return null;
                 }
             };
