@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="bground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.SavePlaylistController">
+<BorderPane fx:id="bground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.SavePlaylistController">
    <top>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,7 +28,7 @@
    <center>
       <HBox alignment="TOP_CENTER" spacing="10.0" translateY="-80.0" BorderPane.alignment="TOP_CENTER">
          <children>
-            <TextField fx:id="input" />
+            <TextField fx:id="input" onKeyPressed="#enterName" />
             <Button mnemonicParsing="false" onAction="#tickPressed" text="✓" />
          </children>
       </HBox>
