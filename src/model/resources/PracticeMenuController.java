@@ -199,16 +199,21 @@ public class PracticeMenuController {
             }
             playMediaTracks(mediaList, audioList, isFirstName);
         } else {
+            List<Media> mList = new ArrayList<>();
+            List<Media> fullNameList = new ArrayList<>();
             for (String a: audioList){
-                durationList = hashMap.get(a).getFullNameMedia();
-                duration[0] = Duration.ZERO;
-                DurationService service = new DurationService();
-                service.setOnSucceeded(event -> {
-                    fullNameDuration = duration[0];
-                });
-                service.start();
-                playFullName(durationList, false);
+                fullNameList = hashMap.get(a).getFullNameMedia();
+                for (Media m: fullNameList) {
+                    mList.add(m);
+                    duration[0] = Duration.ZERO;
+                    DurationService service = new DurationService();
+                    service.setOnSucceeded(event -> {
+                        fullNameDuration = duration[0];
+                    });
+                    service.start();
+                }
             }
+            playFullName(mList, false);
         }
     }
 
