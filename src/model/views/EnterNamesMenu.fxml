@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="model.resources.EnterNamesController">
+<AnchorPane fx:id="mainAnchor" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="model.resources.EnterNamesController">
    <children>
       <VBox prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -34,7 +34,7 @@
                         <Insets left="15.0" top="15.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label text="Enter Names" translateX="280.0">
+                  <Label text="Practice List" translateX="280.0">
                      <font>
                         <Font name="Ubuntu Bold" size="39.0" />
                      </font>
