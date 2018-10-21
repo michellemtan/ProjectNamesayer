@@ -34,11 +34,11 @@
                     </items>
                   </ContextMenu>
                </contextMenu></Button>
-            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" onAction="#playSinglePressed" text="Play  ►" translateX="-230.0">
+            <Button fx:id="playSingleButton" alignment="CENTER" mnemonicParsing="false" onAction="#playSingleNamePressed" text="Play  ►" translateX="-230.0">
                <contextMenu>
                   <ContextMenu>
                     <items>
-                      <MenuItem fx:id="firstNamePlay" mnemonicParsing="false" text="First Name" />
+                      <MenuItem fx:id="firstNamePlay" mnemonicParsing="false" onAction="#playSingleFirstNamePressed" text="First Name" />
                     </items>
                   </ContextMenu>
                </contextMenu></Button>

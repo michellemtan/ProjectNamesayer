@@ -19,6 +19,7 @@ public class Creation {
     private String name;
     private List<String> nameList;
     private double creationLength = 0.0;
+    private double firstNameLength = 0.0;
 
     Creation(String n) throws IOException, UnsupportedAudioFileException {
         name = n;
@@ -28,10 +29,10 @@ public class Creation {
         nameList = new ArrayList<>();
         fullNameHashMap = new HashMap<>();
 
-        for (String aSplit : split) {
-            nameList.add(aSplit);
+        for (int i=0; i<split.length; i++) {
+            nameList.add(split[i]);
             //Set up the hash map to contain the default names
-            String folderName = pathToDB + "/" + aSplit + "/";
+            String folderName = pathToDB + "/" + split[i] + "/";
             File[] listFiles = new File(folderName).listFiles();
 
 
@@ -39,11 +40,19 @@ public class Creation {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(listFiles)[0]);
             AudioFormat format = audioInputStream.getFormat();
             long frames = audioInputStream.getFrameLength();
-            creationLength += (frames+0.0) / format.getFrameRate() + 0.1;
+            creationLength += (frames+0.0) / format.getFrameRate() + 0.2; //Add 0.2 to account for running code difference
+            if(i==0) {
+                firstNameLength += (frames+0.0) / format.getFrameRate() + 0.2;
+            }
 
             Media m = new Media(Objects.requireNonNull(listFiles)[0].toURI().toString());
-            fullNameHashMap.put(aSplit, m);
+            fullNameHashMap.put(split[i], m);
         }
+    }
+
+    double getFirstNameLength() {
+
+        return firstNameLength;
     }
 
     double getCreationLength() {

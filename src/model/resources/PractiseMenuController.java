@@ -1,5 +1,7 @@
 package model.resources;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -146,10 +148,37 @@ public class PractiseMenuController {
 
     //Method run when play single button pressed
     @FXML
-    private void playSinglePressed() {
+    private void playSingleNamePressed() {
         //Get list of media from creation object and pass to play list method
+        Creation creation = hashMap.get(creationsListView.getSelectionModel().getSelectedItem());
         List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
         playList(fullNameMedia);
+
+        //Set up timeline to run desired length of time
+        timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                new KeyFrame((new Duration(creation.getCreationLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
+        );
+        timeline.setCycleCount(1);
+        timeline.play();
+
+    }
+
+    @FXML
+    private void playSingleFirstNamePressed() {
+        Creation creation = hashMap.get(creationsListView.getSelectionModel().getSelectedItem());
+        List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
+        List<Media> firstNameOnly = new ArrayList<>();
+        firstNameOnly.add(fullNameMedia.get(0));
+
+        playList(firstNameOnly);
+
+        timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                new KeyFrame((new Duration(creation.getFirstNameLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
+        );
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     //When given a list of media, plays all items consecutively
