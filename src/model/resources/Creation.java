@@ -51,7 +51,6 @@ public class Creation {
     }
 
     double getFirstNameLength() {
-
         return firstNameLength;
     }
 

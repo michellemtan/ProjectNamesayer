@@ -73,7 +73,11 @@ public class RateRecordingController extends AbstractController {
         //Create list of names
         String[] split = name.replaceAll("-", " ").split("[\\s]");
         ObservableList<String> nameChoices = FXCollections.observableArrayList();
-        nameChoices.addAll(Arrays.asList(split));
+        for(String string : split) {
+            if(!string.isEmpty() && !string.equals(" ")) {
+                nameChoices.add(string);
+            }
+        }
 
         //Set the names box with choices
         namesBox.getItems().setAll(nameChoices);

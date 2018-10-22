@@ -178,6 +178,11 @@ public class EnterNamesController {
         if(input != null && input.length() > 51) {
             input = input.substring(0, 50);
         }
+        //If input ends with many hashes
+        while(input.endsWith("-")) {
+            input = input.substring(0, input.length() - 1);
+
+        }
         if(!input.isEmpty()) {
             //Check if added name is available
             String[] split = input.replaceAll("-", "- ").split("[\\s]");
