@@ -282,49 +282,54 @@ public class CompareMenuController {
 
     @FXML
     void repeatButtonClicked() throws IOException {
-        //TODO: check correct input i <= 5
-        List<Media> repeatList = new ArrayList<>();
-        int repeat = Integer.parseInt(textField.getText());
-        double totalLength = (length + creation.getCreationLength()) * repeat;
-        for(int i=0; i<repeat; i++) {
-            repeatList.addAll(creation.getFullNameMedia());
-            repeatList.add(recordedMedia);
+
+        //TODO: add a tooltip/check input it correct before playing
+
+        if(textField.getText() != null && !textField.getText().isEmpty()) {
+            List<Media> repeatList = new ArrayList<>();
+            int repeat = Integer.parseInt(textField.getText());
+            double totalLength = (length + creation.getCreationLength()) * repeat;
+            for(int i=0; i<repeat; i++) {
+                repeatList.addAll(creation.getFullNameMedia());
+                repeatList.add(recordedMedia);
+            }
+
+            //Disable all buttons
+            recordButton.setDisable(true);
+            backButton.setDisable(true);
+            listButton.setDisable(true);
+            playExistingButton.setDisable(true);
+            playPauseButton.setDisable(true);
+            repeatButton.setDisable(true);
+            micButton.setDisable(true);
+
+            SetUp.getInstance().practiceMenuController.playList(repeatList);
+            //Timeline for both progress bars
+            timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                    new KeyFrame((new Duration(totalLength*1000)), new KeyValue(progressBar.progressProperty(), 1))
+            );
+            timeline.setOnFinished(e -> {
+                progressBar.setProgress(0.0);
+                recordButton.setDisable(false);
+                backButton.setDisable(false);
+                listButton.setDisable(false);
+                playExistingButton.setDisable(false);
+                playPauseButton.setDisable(false);
+                repeatButton.setDisable(false);
+                micButton.setDisable(false);
+            });
+            timeline.setCycleCount(1);
+            timeline.play();
+            Timeline timeline2 = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(existingProgressBar.progressProperty(), 0)),
+                    new KeyFrame((new Duration(totalLength*1000)), new KeyValue(existingProgressBar.progressProperty(), 1))
+            );
+            timeline2.setOnFinished(e -> existingProgressBar.setProgress(0.0));
+            timeline2.setCycleCount(1);
+            timeline2.play();
         }
 
-        //Disable all buttons
-        recordButton.setDisable(true);
-        backButton.setDisable(true);
-        listButton.setDisable(true);
-        playExistingButton.setDisable(true);
-        playPauseButton.setDisable(true);
-        repeatButton.setDisable(true);
-        micButton.setDisable(true);
-
-        SetUp.getInstance().practiceMenuController.playList(repeatList);
-        //Timeline for both progress bars
-        timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
-                new KeyFrame((new Duration(totalLength*1000)), new KeyValue(progressBar.progressProperty(), 1))
-        );
-        timeline.setOnFinished(e -> {
-            progressBar.setProgress(0.0);
-            recordButton.setDisable(false);
-            backButton.setDisable(false);
-            listButton.setDisable(false);
-            playExistingButton.setDisable(false);
-            playPauseButton.setDisable(false);
-            repeatButton.setDisable(false);
-            micButton.setDisable(false);
-        });
-        timeline.setCycleCount(1);
-        timeline.play();
-        Timeline timeline2 = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(existingProgressBar.progressProperty(), 0)),
-                new KeyFrame((new Duration(totalLength*1000)), new KeyValue(existingProgressBar.progressProperty(), 1))
-        );
-        timeline2.setOnFinished(e -> existingProgressBar.setProgress(0.0));
-        timeline2.setCycleCount(1);
-        timeline2.play();
     }
 
     @FXML
