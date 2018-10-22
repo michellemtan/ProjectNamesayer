@@ -143,6 +143,7 @@ public class PractiseMenuController {
         Collections.shuffle(creationsListView.getItems());
     }
 
+    //Get hash map helper method
     HashMap<String,Creation> getHashMap(){
         return hashMap;
     }
