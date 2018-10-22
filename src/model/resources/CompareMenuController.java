@@ -89,9 +89,9 @@ public class CompareMenuController {
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
         audioPlayer.play();
 
-        Timeline timeline = new Timeline(
+        timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
-                new KeyFrame(new Duration(length), new KeyValue(progressBar.progressProperty(), 1))
+                new KeyFrame(new Duration(length*1000), new KeyValue(progressBar.progressProperty(), 1))
         );
         timeline.setCycleCount(1);
         timeline.setOnFinished(e -> progressBar.setProgress(0.0));
@@ -116,6 +116,7 @@ public class CompareMenuController {
             recordButton.setDisable(false);
             micButton.setDisable(false);
             playExistingButton.setDisable(false);
+            playPauseButton.setDisable(false);
             existingProgressBar.setProgress(0.0);
         });
         timeline.setCycleCount(1);
