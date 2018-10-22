@@ -176,16 +176,20 @@ public class PractiseMenuController {
 
     }
 
+    //Method called when right click > play first on single name
     @FXML
     private void playSingleFirstNamePressed() {
+        //Disable button while media is playing
         disableAllButtons(true);
+        //Get list of media from creation model
         Creation creation = hashMap.get(creationsListView.getSelectionModel().getSelectedItem());
         List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
+        //Create list containing only first media name & play
         List<Media> firstNameOnly = new ArrayList<>();
         firstNameOnly.add(fullNameMedia.get(0));
 
         playList(firstNameOnly);
-
+        //Timeline that runs the correct length of only the first name
         timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
                 new KeyFrame((new Duration(creation.getFirstNameLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
@@ -195,6 +199,7 @@ public class PractiseMenuController {
         timeline.play();
     }
 
+    //Method invoked when play list is pressed
     @FXML
     private void playListNamesPressed() {
         //Disable clicking things in list while audio is playing
@@ -204,7 +209,7 @@ public class PractiseMenuController {
             }
         });
 
-        //If playing, stop
+        //If playing, stop reset buttons
         if(isPlaying) {
             timeline.stop();
             progressBar.setProgress(0.0);
@@ -216,48 +221,109 @@ public class PractiseMenuController {
             playPauseButton.setText("Stop ■");
             disableMostButtons(true);
             creationsListView.getSelectionModel().selectFirst();
-            //Disable selecting
 
+            //Get media list & invoke play method & timeline
             List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
             playList(fullNameMedia);
-            playListTimeline();
+            playListTimeline(false);
+        }
+    }
+
+    //Method invoked when play list of first name pressed
+    @FXML
+    private void playListFirstPressed() {
+        //If playing, stop & reset buttons
+        if(isPlaying) {
+            timeline.stop();
+            progressBar.setProgress(0.0);
+            audioPlayer.stop();
+            isPlaying = false;
+            playPauseButton.setText("List  ▶");
+            disableMostButtons(false);
+        } else {
+            playPauseButton.setText("Stop ■");
+            disableMostButtons(true);
+            creationsListView.getSelectionModel().selectFirst();
+
+            //Make list of first name media only & call play & timeline methods
+            List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
+            List<Media> firstNameOnly = new ArrayList<>();
+            firstNameOnly.add(fullNameMedia.get(0));
+
+            playList(firstNameOnly);
+            playListTimeline(true);
         }
     }
 
     //Method called by play list names - recursively calls itself until end of list is reached
-    private void playListTimeline() {
+    private void playListTimeline(boolean firstNames) {
         isPlaying = true;
         Creation creation = hashMap.get(creationsListView.getSelectionModel().getSelectedItem());
-        //Set up timeline to run desired length of time
-        timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
-                new KeyFrame((new Duration(creation.getCreationLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
-        );
-        timeline.setOnFinished(e -> {
-            creationsListView.getSelectionModel().selectNext();
-            if(!creationsListView.getSelectionModel().getSelectedItem().equals(creationsListView.getItems().get(creationsListView.getItems().size() - 1))) {
-                playList(hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia());
-                playListTimeline();
-            } else {
-                playLast();
-            }
-        });
+        //Set up timeline to run desired length of time for full names
+        if(!firstNames) {
+            timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                    new KeyFrame((new Duration(creation.getCreationLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
+            );
+            timeline.setOnFinished(e -> {
+                creationsListView.getSelectionModel().selectNext();
+                //Recursively call this method until last item in list reached
+                if(!creationsListView.getSelectionModel().getSelectedItem().equals(creationsListView.getItems().get(creationsListView.getItems().size() - 1))) {
+                    playList(hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia());
+                    playListTimeline(false);
+                //Upon last item invoke play last method
+                } else {
+                    playLast(false);
+                }
+            });
+        //For first names timeline plays a shorter amount of time, code identical otherwise
+        } else {
+            timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                    new KeyFrame((new Duration(creation.getFirstNameLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
+            );
+            timeline.setOnFinished(e -> {
+                creationsListView.getSelectionModel().selectNext();
+                if(!creationsListView.getSelectionModel().getSelectedItem().equals(creationsListView.getItems().get(creationsListView.getItems().size() - 1))) {
+                    //Create list of first name only
+                    List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
+                    List<Media> firstNameOnly = new ArrayList<>();
+                    firstNameOnly.add(fullNameMedia.get(0));
+                    playList(firstNameOnly);
+                    playListTimeline(true);
+                } else {
+                    playLast(true);
+                }
+            });
+        }
         timeline.setCycleCount(1);
         timeline.play();
     }
 
-    //Helper method to play last item in list, invoked by play list timeline
-    private void playLast() {
+    //Helper method to play last full name in list, invoked by playListTimeline
+    private void playLast(boolean firstNames) {
         Creation creation = hashMap.get(creationsListView.getSelectionModel().getSelectedItem());
         List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
-        playList(fullNameMedia);
-        timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
-                new KeyFrame((new Duration(creation.getCreationLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
-        );
+        //If first names is true only play first name
+        if(!firstNames) {
+            playList(fullNameMedia);
+            timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                    new KeyFrame((new Duration(creation.getCreationLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
+            );
+        } else {
+            List<Media> firstNameOnly = new ArrayList<>();
+            firstNameOnly.add(fullNameMedia.get(0));
+            playList(firstNameOnly);
+            timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                    new KeyFrame((new Duration(creation.getFirstNameLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
+            );
+        }
         timeline.setOnFinished(e -> {
             disableAllButtons(false);
             isPlaying = false;
+            playPauseButton.setText("List  ▶");
         });
         timeline.setCycleCount(1);
         timeline.play();

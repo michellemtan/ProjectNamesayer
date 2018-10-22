@@ -30,7 +30,7 @@
                <contextMenu>
                   <ContextMenu>
                     <items>
-                      <MenuItem fx:id="firstNamesListPlay" mnemonicParsing="false" text="First Names" />
+                      <MenuItem fx:id="firstNamesListPlay" mnemonicParsing="false" onAction="#playListFirstPressed" text="First Names" />
                     </items>
                   </ContextMenu>
                </contextMenu></Button>
