@@ -49,6 +49,7 @@ public class CompareMenuController {
     private Creation creation;
     private Media recordedMedia;
     private double length;
+    private boolean recorded;
 
     //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
     void setUp(Creation c) throws IOException {
@@ -64,6 +65,7 @@ public class CompareMenuController {
 
     @FXML
     void backButtonClicked() throws IOException {
+        recorded = false;
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
@@ -116,7 +118,9 @@ public class CompareMenuController {
             recordButton.setDisable(false);
             micButton.setDisable(false);
             playExistingButton.setDisable(false);
-            playPauseButton.setDisable(false);
+            if(recorded) {
+                playPauseButton.setDisable(false);
+            }
             existingProgressBar.setProgress(0.0);
         });
         timeline.setCycleCount(1);
@@ -213,6 +217,7 @@ public class CompareMenuController {
     }
 
     private void trimSilence() throws InterruptedException, IOException, UnsupportedAudioFileException {
+        recorded = true;
         Thread.sleep(400);
         String command = " ffmpeg -y -i recorded_names/"+ fileName +".wav -af silenceremove=0:0:0:-1:0.5:-35dB recorded_names/"+ fileName +"_trim.wav";
         Thread.sleep(400);
