@@ -15,6 +15,10 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.util.*;
 
@@ -105,12 +109,11 @@ public class NamesListController {
 //    }
 
     @FXML
-    void playButtonClicked() {
+    void playButtonClicked() throws IOException, UnsupportedAudioFileException {
         //Stop audio player if there's currently one playing
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
         }
-
         //Get strings of audio file paths
         if (nameListView.getSelectionModel().getSelectedIndex()<0) {
             nameListView.getSelectionModel().selectFirst();
@@ -121,26 +124,30 @@ public class NamesListController {
         String folderName = pathToDB + "/" + nameMenu.getSelectionModel().getSelectedItem() + "/";
         File[] listFiles = new File(folderName).listFiles();
 
+        //Calculate length of audio clip
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(listFiles)[0]);
+        AudioFormat format = audioInputStream.getFormat();
+        long frames = audioInputStream.getFrameLength();
+        double length = (frames+0.0) / format.getFrameRate() + 0.2;
+
+
         //Create and start media player
         Media media = new Media(listFiles[selectedIndex].toURI().toString());
         audioPlayer = new MediaPlayer(media);
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
         audioPlayer.play();
-        //Set progress bar to 0 on start
-        audioPlayer.setOnReady(() -> progressBar.setProgress(0.0));
-        audioPlayer.setOnReady(this::progressBar);
+        //When audio player is ready, play & set progress bar to run the length of the audio clip
+        audioPlayer.setOnReady(() -> {
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                    new KeyFrame(new Duration(length * 1000), new KeyValue(progressBar.progressProperty(), 1))
+            );
+            timeline.setOnFinished(e -> progressBar.setProgress(0.0));
+            timeline.setCycleCount(1);
+            timeline.play();
+        });
 
-    }
-
-    //Creates and starts progress bar for creation playing
-    private void progressBar() {
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
-                new KeyFrame((audioPlayer.getTotalDuration().add(Duration.millis(1000))), new KeyValue(progressBar.progressProperty(), 1))
-        );
-        timeline.setCycleCount(1);
-        timeline.play();
     }
 
     //AudioRunnable is a thread that runs in the background and acts as a listener for the media player to ensure buttons are enabled/disabled correctly
@@ -207,9 +214,8 @@ public class NamesListController {
 
         ObservableList<String> options = FXCollections.observableArrayList();
 
-        for(int i=0; i<split.length; i++) {
-           options.add(split[i]);
-        }
+        //Add split to options list
+        Collections.addAll(options, split);
 
         //Set the combo box with options
         nameMenu.getItems().setAll(options);
@@ -254,7 +260,6 @@ public class NamesListController {
 
             //Set up the default label
             File f = new File(creation.getFullNameHashMap().get(nameMenu.getSelectionModel().getSelectedItem()).getSource());
-            System.out.println(f.getName());
             defaultLabel.setText("Default: " + f.getName());
         }
     }
