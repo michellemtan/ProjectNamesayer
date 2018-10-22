@@ -17,6 +17,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.DatabaseProcessor;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -75,18 +79,31 @@ public class CompareMenuController {
     }
 
     @FXML
-    void playPauseButtonClicked() {
+    void playPauseButtonClicked() throws IOException, UnsupportedAudioFileException {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             audioPlayer.stop();
         }
 
         //Create a new media player instance and set the event handlers to create a thread that listens for when the audio is playing
-        Media media = new Media(new File("./recorded_names/" + fileName +".wav").toURI().toString());
+        Media media = new Media(new File("./recorded_names/" + fileName +"_trim.wav").toURI().toString());
         audioPlayer = new MediaPlayer(media);
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
         audioPlayer.play();
-        progressBar();
+
+        File fileTrim = new File(System.getProperty("user.dir") + "/recorded_names/" + fileName + "_trim.wav");
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(fileTrim));
+        AudioFormat format = audioInputStream.getFormat();
+        long frames = audioInputStream.getFrameLength();
+        double length = (frames+0.0) / format.getFrameRate() + 0.2;
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                new KeyFrame(new Duration(length), new KeyValue(progressBar.progressProperty(), 1))
+        );
+        timeline.setCycleCount(1);
+        timeline.setOnFinished(e -> progressBar.setProgress(0.0));
+        timeline.play();
     }
 
     @FXML
@@ -203,14 +220,10 @@ public class CompareMenuController {
     }
 
     private void trimSilence() throws InterruptedException {
-        Thread.sleep(500);
+        Thread.sleep(400);
         String command = " ffmpeg -y -i recorded_names/"+ fileName +".wav -af silenceremove=0:0:0:-1:0.5:-35dB recorded_names/"+ fileName +"_trim.wav";
-        Thread.sleep(500);
+        Thread.sleep(400);
         File file = new File("recorded_names/" + fileName + ".wav");
-        //file.delete();
-        File fileTrim = new File(System.getProperty("user.dir") + "/recorded_names/" + fileName + "_trim.wav");
-        System.out.println(command);
-        System.out.println(fileTrim.renameTo(new File(System.getProperty("user.dir") + "/recorded_names/" + fileName + ".wav")));
         DatabaseProcessor.trimAudio(command);
     }
 
@@ -267,17 +280,6 @@ public class CompareMenuController {
                 }
             };
         }
-    }
-
-    //Private method that sets the progress bar
-    private void progressBar() {
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
-                new KeyFrame(Duration.seconds(5), new KeyValue(progressBar.progressProperty(), 1))
-        );
-        timeline.setCycleCount(1);
-        timeline.setOnFinished(e -> progressBar.setProgress(0.0));
-        timeline.play();
     }
 
     @FXML
