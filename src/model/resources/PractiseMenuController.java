@@ -3,7 +3,6 @@ package model.resources;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,16 +31,35 @@ public class PractiseMenuController {
     @FXML private ListView<String> creationsListView;
     @FXML private Label creationName;
     @FXML private Button backButton;
-    @FXML private Button ratingsButton;
-    @FXML private ContextMenu ratingsContext;
-    @FXML private MenuItem audioRatings;
-    MediaPlayer audioPlayer;
+    private MediaPlayer audioPlayer;
     private boolean isPlaying;
-    private List<String> creationList;
-    private String pathToDB;
     private Timeline timeline;
     private HashMap<String,Creation> hashMap;
+    private boolean tinyList;
 
+    void setUpList(List<String> list) throws IOException, UnsupportedAudioFileException {
+        //Listener to change label to selected name
+        creationsListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> creationName.setText(creationsListView.getSelectionModel().getSelectedItem()));
+
+        playPauseButton.setDisable(false);
+        if (list.size()<=1){
+            playPauseButton.setDisable(true);
+            shuffleButton.setDisable(true);
+        }
+        //Set the list view with creations
+        creationsListView.getItems().setAll(list);
+        creationsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        hashMap = new HashMap<>();
+        for (String creationName: creationsListView.getItems()){
+            Creation c = new Creation(creationName);
+            hashMap.put(creationName, c);
+        }
+        setUpTitle();
+
+        //Boolean tiny list if the list is only containing 1 item
+        tinyList = list.size() <= 0;
+    }
 
     private void disableAllButtons(boolean value) {
         if(value) {
@@ -55,6 +73,10 @@ public class PractiseMenuController {
             shuffleButton.setDisable(false);
             compareButton.setDisable(false);
         }
+        if(tinyList) {
+            playPauseButton.setDisable(true);
+            shuffleButton.setDisable(true);
+        }
     }
 
     private void disableMostButtons(boolean value) {
@@ -67,43 +89,17 @@ public class PractiseMenuController {
             shuffleButton.setDisable(false);
             compareButton.setDisable(false);
         }
-    }
-
-    void setUpList(List<String> list) throws IOException, UnsupportedAudioFileException {
-        //Listener to change label to selected name
-        creationsListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> {
-            creationName.setText(creationsListView.getSelectionModel().getSelectedItem());
-        });
-
-        //Set up the practice list view
-        creationList = list;
-        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
-
-        playPauseButton.setDisable(false);
-        if (creationList.size()<=1){
+        if(tinyList) {
             playPauseButton.setDisable(true);
             shuffleButton.setDisable(true);
         }
-
-        //Set the list view with creations
-        creationsListView.getItems().setAll(creationList);
-        creationsListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-
-
-        hashMap = new HashMap<>();
-
-        for (String creationName: creationsListView.getItems()){
-            Creation c = new Creation(creationName);
-            hashMap.put(creationName, c);
-        }
-
-        setUpTitle();
     }
 
+    //Helper method to set title to first selected item by default
     private void setUpTitle(){
-        if (creationList!=null){
-            creationsListView.getSelectionModel().select(0);
-            creationName.setText(creationList.get(0));
+        if (creationsListView.getItems()!=null){
+            creationsListView.getSelectionModel().selectFirst();
+            creationName.setText(creationsListView.getSelectionModel().getSelectedItem());
         }
     }
 
@@ -149,7 +145,6 @@ public class PractiseMenuController {
         }
         //Shuffle list
         Collections.shuffle(creationsListView.getItems());
-        creationList = new ArrayList<>(new ArrayList<>(creationsListView.getItems()));
     }
 
     HashMap<String,Creation> getHashMap(){

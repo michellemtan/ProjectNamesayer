@@ -11,16 +11,10 @@ import java.io.IOException;
 
 public class ExitPracticeMenuController {
 
-    @FXML
-    private Button cancelButton;
-
-    @FXML
-    private Button confirmButton;
-
+    @FXML private Button cancelButton;
+    @FXML private Button confirmButton;
+    @FXML BorderPane borderPane;
     private String previousScene = "";
-
-    @FXML
-    BorderPane borderPane;
 
     @FXML
     void cancelButtonClicked() throws IOException {
@@ -33,11 +27,9 @@ public class ExitPracticeMenuController {
     @FXML
     void confirmButtonClicked() throws IOException {
 
-        if (previousScene.equals("enterNamesMenu")) {
-            Scene scene = SetUp.getInstance().enterNamesMenu;
-            Stage window = (Stage) confirmButton.getScene().getWindow();
-            window.setScene(scene);
-        }
+        Scene scene = SetUp.getInstance().enterNamesMenu;
+        Stage window = (Stage) confirmButton.getScene().getWindow();
+        window.setScene(scene);
 
         deleteFromFolder("recorded_names");
     }

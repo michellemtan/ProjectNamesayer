@@ -295,43 +295,25 @@ public class EnterNamesController {
     }
 
     @FXML
-    void practiceButtonClicked() throws IOException, InterruptedException, UnsupportedAudioFileException {
+    void practiceButtonClicked() throws IOException, UnsupportedAudioFileException {
         filteredInput.clear();
-        ProcessBuilder removeBuilder = new ProcessBuilder("/bin/bash", "-c", "rm -r ./created_names");
-        Process r = removeBuilder.start();
-        r.waitFor();
 
         //Send names to practice menu
-        List<String> practiceNames = practiceNamesListView.getItems();
         tempNames = new ArrayList<>();
 
         if (practiceNamesListView.getItems().size() > 0) {
-
             //Don't play names that don't exist
-            for (String name : practiceNames) {
+            for (String name : practiceNamesListView.getItems()) {
                 if (!name.contains("*")) {
                     tempNames.add(name);
                 }
             }
 
-            //Concat names before loading menu
-            //new File("./created_names").mkdir();
-
-//            ConcatService service = new ConcatService();
-//            service.setOnSucceeded(event -> {
-                try {
-                    //Change to practice menu and set the path to have come from the enter names menu
-                    SetUp.getInstance().practiceMenuController.setUpList(tempNames);
-                    SetUp.getInstance().exitPracticeMenuController.setPreviousScene("enterNamesMenu");
-                    Scene scene = SetUp.getInstance().practiceMenu;
-                    Stage window = (Stage) expandButton.getScene().getWindow();
-                    window.setScene(scene);
-                } catch (IOException ignored) {
-                }
-//            });
-//            if(tempNames.size() >= 1) {
-//                service.start();
-//            }
+        //Change to practice menu and set the path to have come from the enter names menu
+        SetUp.getInstance().practiceMenuController.setUpList(tempNames);
+        Scene scene = SetUp.getInstance().practiceMenu;
+        Stage window = (Stage) expandButton.getScene().getWindow();
+        window.setScene(scene);
         }
     }
 
@@ -342,54 +324,6 @@ public class EnterNamesController {
         if(e.getCode() == KeyCode.ESCAPE) {
             filteredInput.clear();
         }
-    }
-
-    //TODO: normalise concatenation
-    private class ConcatService extends Service<Void> {
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws IOException, InterruptedException {
-                    String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
-
-                    int audioNumber = 0;
-                    for (String creation : tempNames) {
-
-                        audioNumber++;
-                        //Split name up and concat audio files
-                        String[] split = creation.replaceAll("-", "").split("[-\\s]");
-                        String concatString;
-
-                        //Make list of audio files to concatenate
-                        for (String aSplit : split) {
-                            String folderName = pathToDB + "/" + aSplit + "/";
-                            File[] listFiles = new File(folderName).listFiles();
-
-                            concatString = listFiles[0].getPath();
-                            addToTextFile(concatString);
-                        }
-
-                        String newName = creation.replaceAll(" ","");
-
-                        //Concatenate the audio file
-                        ProcessBuilder audioBuilder = new ProcessBuilder("/bin/bash", "-c", "ffmpeg -f concat -safe 0 -i ConcatNames.txt -c copy ./created_names/" + audioNumber + "_" + newName +".wav");
-                        Process p = audioBuilder.start();
-                        p.waitFor();
-                        PrintWriter writer = new PrintWriter("ConcatNames.txt", "UTF-8");
-                    }
-                    return null;
-                }
-            };
-        }
-    }
-
-    private void addToTextFile(String name) throws IOException {
-        File f = new File("ConcatNames.txt");
-        BufferedWriter bw = new BufferedWriter(new FileWriter(f, true));
-        bw.append("file '"+name+"'\n");
-        bw.flush();
-        bw.close();
     }
 }
 

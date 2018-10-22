@@ -25,7 +25,7 @@ public class Creation {
         name = n;
 
         String pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
-        String[] split = name.replaceAll("-", "- ").split("[\\s]");
+        String[] split = name.replaceAll("- ", " ").split("[\\s]");
         nameList = new ArrayList<>();
         fullNameHashMap = new HashMap<>();
 
