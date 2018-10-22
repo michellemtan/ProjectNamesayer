@@ -23,8 +23,6 @@ import java.util.concurrent.*;
 
 public class CompareMenuController {
 
-    //TODO: MAYBE CHANGE THIS BACK TO PREVIOUS RECORD BUTTON?
-
     @FXML private Button backButton;
     @FXML private ProgressBar existingProgressBar;
     @FXML private Button listButton;
@@ -48,6 +46,18 @@ public class CompareMenuController {
     private List<Media> durationList;
     private Duration[] duration = {Duration.ZERO};
 
+    //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
+    void setUp(Creation c) throws IOException {
+        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
+        textLabel.setText(c.getFullName());
+        this.creation = c;
+        audioRecorded=0;
+
+        //Disable all buttons until audio is recorded
+        playPauseButton.setDisable(true);
+        repeatButton.setDisable(true);
+    }
+
     @FXML
     void backButtonClicked() throws IOException {
         Scene scene = SetUp.getInstance().practiceMenu;
@@ -61,9 +71,7 @@ public class CompareMenuController {
         Scene scene = SetUp.getInstance().namesListMenu;
         Stage window = (Stage) listButton.getScene().getWindow();
         window.setScene(scene);
-
     }
-
 
     @FXML
     void playPauseButtonClicked() {
@@ -85,71 +93,24 @@ public class CompareMenuController {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING){
             audioPlayer.stop();
         }
-        String selectedName = textLabel.getText();
-
-        durationList = creation.getFullNameMedia();
-        DurationService service = new DurationService();
-        service.setOnSucceeded(event -> {
-            fullNameDuration = duration[0];
+        disablePlaying();
+        SetUp.getInstance().practiceMenuController.playList(creation.getFullNameMedia());
+        //Timeline that runs the correct length of only the first name
+        timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(existingProgressBar.progressProperty(), 0)),
+                new KeyFrame((new Duration(creation.getCreationLength() *1000)), new KeyValue(existingProgressBar.progressProperty(), 1))
+        );
+        timeline.setOnFinished(e -> {
+            backButton.setDisable(false);
+            listButton.setDisable(false);
+            recordButton.setDisable(false);
+            micButton.setDisable(false);
+            playExistingButton.setDisable(false);
+            existingProgressBar.setProgress(0.0);
         });
-        service.start();
-        playFullName(durationList, false);
+        timeline.setCycleCount(1);
+        timeline.play();
     }
-
-    private void playFullName(List<Media> mediaList , boolean isStarted) {
-        if  (!(mediaList.size() == 0)) {
-            Media playing = mediaList.remove(0);
-            audioPlayer = new MediaPlayer(playing);
-            audioPlayer.play();
-            disablePlaying();
-            if (!isStarted) {
-                audioPlayer.setOnReady(() -> existingProgressBar.setProgress(0.0));
-                audioPlayer.setOnReady(this::fullNameProgressBar);
-            }
-            audioPlayer.setOnEndOfMedia(() -> {
-                playFullName(mediaList, true);
-            });
-            //Finished!
-        } else {
-            enableFinished();
-            return;
-        }
-    }
-
-    private void fullNameProgressBar() {
-        try {
-            timeline = new Timeline(
-                    new KeyFrame(Duration.ZERO, new KeyValue(existingProgressBar.progressProperty(), 0)),
-                    new KeyFrame(fullNameDuration, new KeyValue(existingProgressBar.progressProperty(), 1))
-            );
-            timeline.setCycleCount(1);
-            timeline.play();
-        } catch (IllegalArgumentException e) {
-            System.err.println(e);
-        }
-    }
-
-    private class DurationService extends Service<Void> {
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>() {
-                @Override
-                protected Void call() throws IOException, InterruptedException {
-                    for (Media file: durationList){
-                        MediaPlayer mediaPlayer = new MediaPlayer(file);
-                        mediaPlayer.setOnReady(new Runnable() {
-                            @Override
-                            public void run() {
-                                duration[0] = duration[0].add(file.getDuration());
-                            }
-                        });
-                    }
-                    return null;
-                }
-            };
-        }
-    }
-
 
     //AudioRunnable is a thread that runs in the background and acts as a listener for the media player to ensure buttons are enabled/disabled correctly
     private class AudioRunnable implements Runnable {
@@ -180,7 +141,6 @@ public class CompareMenuController {
         recordButton.setDisable(true);
         micButton.setDisable(true);
         repeatButton.setDisable(true);
-
     }
 
     private void enableFinished(){
@@ -193,23 +153,7 @@ public class CompareMenuController {
         playExistingButton.setDisable(false);
         existingProgressBar.setProgress(0.0);
         progressBar.setProgress(0.0);
-        audioPlayer.dispose();
     }
-
-    private void setExistingProgressBar() {
-        try {
-            timeline = new Timeline(
-                    new KeyFrame(Duration.ZERO, new KeyValue(existingProgressBar.progressProperty(), 0)),
-                    new KeyFrame((audioPlayer.getTotalDuration()), new KeyValue(existingProgressBar.progressProperty(), 1))
-            );
-            timeline.setCycleCount(1);
-            timeline.setOnFinished(e -> existingProgressBar.setProgress(0.0));
-            timeline.play();
-        } catch (IllegalArgumentException e) {
-            //WHOOPS
-        }
-    }
-
 
     @FXML
     void ratingButtonClicked(MouseEvent event) throws IOException {
@@ -371,17 +315,4 @@ public class CompareMenuController {
         Stage window = (Stage) micButton.getScene().getWindow();
         window.setScene(scene);
     }
-
-    //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
-    void setUp(Creation c) throws IOException {
-        pathToDB = SetUp.getInstance().settingsMenuController.getPathToDB();
-        textLabel.setText(c.getFullName());
-        this.creation = c;
-        audioRecorded=0;
-
-        //Disable all buttons until audio is recorded
-        playPauseButton.setDisable(true);
-        repeatButton.setDisable(true);
-    }
-
 }

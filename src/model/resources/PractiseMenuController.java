@@ -19,10 +19,6 @@ import java.util.*;
 
 public class PractiseMenuController {
 
-    //TODO: DISABLE SHUFFLE AND LIST PLAY BUTTON WHEN THERE IS ONLY ONE NAME
-
-    //TODO: update label to reflect name being said when list is playing
-
     @FXML private Button playPauseButton;
     @FXML private Button playSingleButton;
     @FXML private Button shuffleButton;
@@ -325,7 +321,7 @@ public class PractiseMenuController {
     }
 
     //When given a list of media, plays all items consecutively
-    private void playList(List<Media> fullNameMedia) {
+    void playList(List<Media> fullNameMedia) {
         audioPlayer = new MediaPlayer(fullNameMedia.get(0));
         audioPlayer.setAutoPlay(true);
         fullNameMedia.remove(0);
