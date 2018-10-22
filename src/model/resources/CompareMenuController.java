@@ -47,9 +47,8 @@ public class CompareMenuController {
     private int audioRecorded;
     private String fileName;
     private Creation creation;
-    private Duration fullNameDuration;
-    private List<Media> durationList;
-    private Duration[] duration = {Duration.ZERO};
+    private Media recordedMedia;
+    private double length;
 
     //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
     void setUp(Creation c) throws IOException {
@@ -79,23 +78,16 @@ public class CompareMenuController {
     }
 
     @FXML
-    void playPauseButtonClicked() throws IOException, UnsupportedAudioFileException {
+    void playPauseButtonClicked() {
         if (audioPlayer != null && audioPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
             audioPlayer.stop();
         }
 
         //Create a new media player instance and set the event handlers to create a thread that listens for when the audio is playing
-        Media media = new Media(new File("./recorded_names/" + fileName +"_trim.wav").toURI().toString());
-        audioPlayer = new MediaPlayer(media);
+        audioPlayer = new MediaPlayer(recordedMedia);
         audioPlayer.setOnPlaying(new AudioRunnable(false));
         audioPlayer.setOnEndOfMedia(new AudioRunnable(true));
         audioPlayer.play();
-
-        File fileTrim = new File(System.getProperty("user.dir") + "/recorded_names/" + fileName + "_trim.wav");
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(fileTrim));
-        AudioFormat format = audioInputStream.getFormat();
-        long frames = audioInputStream.getFrameLength();
-        double length = (frames+0.0) / format.getFrameRate() + 0.2;
 
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
@@ -219,12 +211,18 @@ public class CompareMenuController {
         service.start();
     }
 
-    private void trimSilence() throws InterruptedException {
+    private void trimSilence() throws InterruptedException, IOException, UnsupportedAudioFileException {
         Thread.sleep(400);
         String command = " ffmpeg -y -i recorded_names/"+ fileName +".wav -af silenceremove=0:0:0:-1:0.5:-35dB recorded_names/"+ fileName +"_trim.wav";
         Thread.sleep(400);
         File file = new File("recorded_names/" + fileName + ".wav");
         DatabaseProcessor.trimAudio(command);
+        recordedMedia = new Media(new File("./recorded_names/" + fileName +"_trim.wav").toURI().toString());
+        File fileTrim = new File(System.getProperty("user.dir") + "/recorded_names/" + fileName + "_trim.wav");
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(Objects.requireNonNull(fileTrim));
+        AudioFormat format = audioInputStream.getFormat();
+        long frames = audioInputStream.getFrameLength();
+        length = (frames+0.0) / format.getFrameRate() + 0.2;
     }
 
     private class RecordAudioService extends Service<Void> {
@@ -259,7 +257,7 @@ public class CompareMenuController {
                         delay.setOnFinished(event -> {
                             try {
                                 trimSilence();
-                            } catch (InterruptedException e) {
+                            } catch (InterruptedException | IOException | UnsupportedAudioFileException e) {
                                 System.out.println("Error trimming silence");
                             }
                             //Enable buttons after recording has finished
@@ -283,45 +281,50 @@ public class CompareMenuController {
     }
 
     @FXML
-    void repeatButtonClicked() throws IOException, ExecutionException, InterruptedException {
-        String str = textField.getText();
-        Stage stage = (Stage) repeatButton.getScene().getWindow();
-
-        if (str.equals("")) {
-            //Show tool tip when nothing has been entered
-            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number!", null);
-        } else if (isNumeric(str)){
-            int numRepeats = Integer.parseInt(str);
-            if (numRepeats <= 5){
-                List<Media> audioList = new ArrayList<>();
-                List<Media> fullNameList = new ArrayList<>();
-                String selectedName = textLabel.getText();
-                fullNameList = creation.getFullNameMedia();
-                for (int i = 0; i < numRepeats; i++) {
-                    for (Media m : fullNameList) {
-                        audioList.add(m);
-                    }
-                    Media media = new Media(new File("./recorded_names/" + fileName + ".wav").toURI().toString());
-                    audioList.add(media);
-                }
-
-            } else {
-                //Show tool tip when a non-valid integer has been entered
-                Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
-            }
-        } else {
-            //Show tool tip when a non-valid integer has been entered
-            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
+    void repeatButtonClicked() throws IOException {
+        //TODO: check correct input i <= 5
+        List<Media> repeatList = new ArrayList<>();
+        int repeat = Integer.parseInt(textField.getText());
+        double totalLength = (length + creation.getCreationLength()) * repeat;
+        for(int i=0; i<repeat; i++) {
+            repeatList.addAll(creation.getFullNameMedia());
+            repeatList.add(recordedMedia);
         }
-    }
 
-    private boolean isNumeric(String str)
-    {
-        for (char c : str.toCharArray())
-        {
-            if (!Character.isDigit(c)) return false;
-        }
-        return true;
+        //Disable all buttons
+        recordButton.setDisable(true);
+        backButton.setDisable(true);
+        listButton.setDisable(true);
+        playExistingButton.setDisable(true);
+        playPauseButton.setDisable(true);
+        repeatButton.setDisable(true);
+        micButton.setDisable(true);
+
+        SetUp.getInstance().practiceMenuController.playList(repeatList);
+        //Timeline for both progress bars
+        timeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
+                new KeyFrame((new Duration(totalLength*1000)), new KeyValue(progressBar.progressProperty(), 1))
+        );
+        timeline.setOnFinished(e -> {
+            progressBar.setProgress(0.0);
+            recordButton.setDisable(false);
+            backButton.setDisable(false);
+            listButton.setDisable(false);
+            playExistingButton.setDisable(false);
+            playPauseButton.setDisable(false);
+            repeatButton.setDisable(false);
+            micButton.setDisable(false);
+        });
+        timeline.setCycleCount(1);
+        timeline.play();
+        Timeline timeline2 = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(existingProgressBar.progressProperty(), 0)),
+                new KeyFrame((new Duration(totalLength*1000)), new KeyValue(existingProgressBar.progressProperty(), 1))
+        );
+        timeline2.setOnFinished(e -> existingProgressBar.setProgress(0.0));
+        timeline2.setCycleCount(1);
+        timeline2.play();
     }
 
     @FXML
