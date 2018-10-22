@@ -175,7 +175,10 @@ public class EnterNamesController {
     @FXML
     void addButtonClicked() {
         String input = nameInput.getText();
-        if(input != null && !input.isEmpty()) {
+        if(input != null && input.length() > 51) {
+            input = input.substring(0, 50);
+        }
+        if(!input.isEmpty()) {
             //Check if added name is available
             String[] split = input.replaceAll("-", "- ").split("[\\s]");
             for(int i=0; i<split.length; i++) {
