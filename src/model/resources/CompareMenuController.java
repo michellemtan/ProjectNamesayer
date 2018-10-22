@@ -291,7 +291,15 @@ public class CompareMenuController {
 
         //TODO: add a tooltip/check input it correct before playing
 
-        if(textField.getText() != null && !textField.getText().isEmpty()) {
+        Stage stage = (Stage) repeatButton.getScene().getWindow();
+
+        if (textField.getText().equals("")) {
+            //Show tool tip when nothing has been entered
+            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
+        } else if (!isNumeric(textField.getText())){
+            //Show tool tip when a non-valid integer has been entered
+            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5", null);
+        } else if(textField.getText() != null && !textField.getText().isEmpty()) {
             List<Media> repeatList = new ArrayList<>();
             int repeat = Integer.parseInt(textField.getText());
             double totalLength = (length + creation.getCreationLength()) * repeat;
@@ -344,5 +352,20 @@ public class CompareMenuController {
         Scene scene = SetUp.getInstance().microphoneMenu;
         Stage window = (Stage) micButton.getScene().getWindow();
         window.setScene(scene);
+    }
+
+    private boolean isNumeric(String str)
+    {
+        for (char c : str.toCharArray())
+        {
+            if (!Character.isDigit(c)) return false;
+        }
+
+        if (str.equals("0")){
+            return false;
+        } else if (Integer.parseInt(textField.getText())>5){
+            return false;
+        }
+        return true;
     }
 }
