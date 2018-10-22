@@ -41,6 +41,7 @@ public class RateRecordingController extends AbstractController {
         if (event.getButton() == MouseButton.PRIMARY) {
 
             String name = namesBox.getSelectionModel().selectedItemProperty().get();
+            String pathName;
             String rating = ratingsBox.getSelectionModel().selectedItemProperty().get();
             String ratedName = name.concat(": " + rating + "\n");
             SetUp.getInstance().audioRatingsController.addName(ratedName);

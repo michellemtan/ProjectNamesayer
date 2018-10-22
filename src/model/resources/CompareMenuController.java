@@ -289,8 +289,6 @@ public class CompareMenuController {
     @FXML
     void repeatButtonClicked() throws IOException {
 
-        //TODO: add a tooltip/check input it correct before playing
-
         Stage stage = (Stage) repeatButton.getScene().getWindow();
 
         if (textField.getText().equals("")) {

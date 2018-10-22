@@ -102,7 +102,7 @@
                               <HBox translateY="280.0">
                                  <children>
                                     <Button fx:id="expandButton" mnemonicParsing="false" text="◀ Expand" translateX="50.0" />
-                                    <Button fx:id="practiceButton" mnemonicParsing="false" onMouseClicked="#practiceButtonClicked" text="Practice" translateX="260.0">
+                                    <Button fx:id="practiceButton" mnemonicParsing="false" onMouseClicked="#practiceButtonClicked" text="Practise" translateX="260.0">
                                        <font>
                                           <Font size="20.0" />
                                        </font>

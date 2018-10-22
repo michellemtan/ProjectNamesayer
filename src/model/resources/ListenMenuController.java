@@ -5,10 +5,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -112,7 +109,12 @@ public class ListenMenuController {
         String selectedName = namesListView.getSelectionModel().getSelectedItem();
 
         if (event.getButton() == MouseButton.PRIMARY) {
-            PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);
+            if (selectedName == null){
+                Stage stage = (Stage) ratingsButton.getScene().getWindow();
+                Tooltip customTooltip = new CustomTooltip(stage, ratingsButton, "Please select a name!", null);
+            } else {
+                PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);
+            }
         }
     }
 
