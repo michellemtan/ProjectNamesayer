@@ -15,6 +15,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import model.DatabaseProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -114,13 +115,10 @@ public class CompareMenuController {
 
     //AudioRunnable is a thread that runs in the background and acts as a listener for the media player to ensure buttons are enabled/disabled correctly
     private class AudioRunnable implements Runnable {
-
         private boolean isFinished;
-
         private AudioRunnable(boolean status){
             isFinished = status;
         }
-
         @Override
         public void run() {
             //When the media player has finished, the buttons will be enabled
@@ -201,8 +199,19 @@ public class CompareMenuController {
         service.setOnSucceeded(e -> {
             audioRecorded++;
         });
-
         service.start();
+    }
+
+    private void trimSilence() throws InterruptedException {
+        Thread.sleep(500);
+        String command = " ffmpeg -y -i recorded_names/"+ fileName +".wav -af silenceremove=0:0:0:-1:0.5:-35dB recorded_names/"+ fileName +"_trim.wav";
+        Thread.sleep(500);
+        File file = new File("recorded_names/" + fileName + ".wav");
+        //file.delete();
+        File fileTrim = new File(System.getProperty("user.dir") + "/recorded_names/" + fileName + "_trim.wav");
+        System.out.println(command);
+        System.out.println(fileTrim.renameTo(new File(System.getProperty("user.dir") + "/recorded_names/" + fileName + ".wav")));
+        DatabaseProcessor.trimAudio(command);
     }
 
     private class RecordAudioService extends Service<Void> {
@@ -235,6 +244,11 @@ public class CompareMenuController {
                         PauseTransition delay = new PauseTransition(Duration.seconds(5));
                         delay.play();
                         delay.setOnFinished(event -> {
+                            try {
+                                trimSilence();
+                            } catch (InterruptedException e) {
+                                System.out.println("Error trimming silence");
+                            }
                             //Enable buttons after recording has finished
                             recordButton.setDisable(false);
                             micButton.setDisable(false);
