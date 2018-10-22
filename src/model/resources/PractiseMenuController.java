@@ -41,8 +41,21 @@ public class PractiseMenuController {
     private HashMap<String,Creation> hashMap;
 
 
-    void setUpList(List<String> list) throws IOException, UnsupportedAudioFileException {
+    private void disableButtons(boolean value) {
+        if(value) {
+            playPauseButton.setDisable(true);
+            playSingleButton.setDisable(true);
+            shuffleButton.setDisable(true);
+            compareButton.setDisable(true);
+        } else {
+            playPauseButton.setDisable(false);
+            playSingleButton.setDisable(false);
+            shuffleButton.setDisable(false);
+            compareButton.setDisable(false);
+        }
+    }
 
+    void setUpList(List<String> list) throws IOException, UnsupportedAudioFileException {
         //Listener to change label to selected name
         creationsListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> {
             creationName.setText(creationsListView.getSelectionModel().getSelectedItem());
@@ -149,6 +162,7 @@ public class PractiseMenuController {
     //Method run when play single button pressed
     @FXML
     private void playSingleNamePressed() {
+        disableButtons(true);
         //Get list of media from creation object and pass to play list method
         Creation creation = hashMap.get(creationsListView.getSelectionModel().getSelectedItem());
         List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
@@ -159,6 +173,7 @@ public class PractiseMenuController {
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
                 new KeyFrame((new Duration(creation.getCreationLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
         );
+        timeline.setOnFinished(e -> disableButtons(false));
         timeline.setCycleCount(1);
         timeline.play();
 
@@ -166,6 +181,7 @@ public class PractiseMenuController {
 
     @FXML
     private void playSingleFirstNamePressed() {
+        disableButtons(true);
         Creation creation = hashMap.get(creationsListView.getSelectionModel().getSelectedItem());
         List<Media> fullNameMedia = hashMap.get(creationsListView.getSelectionModel().getSelectedItem()).getFullNameMedia();
         List<Media> firstNameOnly = new ArrayList<>();
@@ -177,8 +193,14 @@ public class PractiseMenuController {
                 new KeyFrame(Duration.ZERO, new KeyValue(progressBar.progressProperty(), 0)),
                 new KeyFrame((new Duration(creation.getFirstNameLength() *1000)), new KeyValue(progressBar.progressProperty(), 1))
         );
+        timeline.setOnFinished(e -> disableButtons(false));
         timeline.setCycleCount(1);
         timeline.play();
+    }
+
+    @FXML
+    private void playListNamesPressed() {
+
     }
 
     //When given a list of media, plays all items consecutively

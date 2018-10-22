@@ -26,7 +26,7 @@
    <bottom>
        <ButtonBar prefHeight="70.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <buttons>
-             <Button fx:id="playPauseButton" alignment="CENTER" mnemonicParsing="false" text="List  ▶ ▍▍" translateX="-270.0">
+             <Button fx:id="playPauseButton" alignment="CENTER" mnemonicParsing="false" onAction="#playListNamesPressed" text="List  ▶ ▍▍" translateX="-270.0">
                <contextMenu>
                   <ContextMenu>
                     <items>
