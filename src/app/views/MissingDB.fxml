@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="400.0" styleClass="root-clean" stylesheets="@../resources/themes/Theme.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.resources.MissingDBController">
+   <center>
+      <Label text="Please move the 'names' database folder to the the same directory as the jar file and restart Name Sayer.&#10;&#10;Alternatively, add a new database from the settings menu." textAlignment="CENTER" translateY="3.0" wrapText="true" BorderPane.alignment="CENTER">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Label>
+   </center>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <left>
+      <Region maxWidth="20.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <right>
+      <Region maxWidth="20.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </right>
+   <top>
+      <Label text="Missing Default Database!" translateY="20.0" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <Button fx:id="okBtn" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#okButtonClicked" text="OK" translateY="-15.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
