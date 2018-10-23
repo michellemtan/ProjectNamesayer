@@ -41,9 +41,7 @@ public class EnterNamesController {
     @FXML private Tooltip listTip;
     private List<String> allNames;
     private List<String> tempNames;
-
-    //TODO: NAME BAR - TOOL TIP OR ERROR MESSAGE OR STOP WHEN 50 CHARS ARE TYPED
-
+    
     public void initialize() {
         //Cell factory to assign red CSS to selected cells in list view
         saveBtn.getStyleClass().add("button-save");

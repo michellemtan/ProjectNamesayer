@@ -33,7 +33,6 @@ public class RateRecordingController extends AbstractController {
         }
     }
 
-    //TODO: IF I HAVE TIME: https://hk.saowen.com/a/814d64541ac24c2abf81f501d843a4d9d161ce6dbf215139e8463b27419b1db1
     @FXML
     void saveButtonClicked(MouseEvent event) throws IOException {
         //Add rated name to audio ratings list / text file

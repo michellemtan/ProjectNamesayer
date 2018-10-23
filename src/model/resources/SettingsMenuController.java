@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-//TODO: if names is unprocessed it doesn't work - need to process
-
 public class SettingsMenuController {
 
     @FXML private Button backBtn;
