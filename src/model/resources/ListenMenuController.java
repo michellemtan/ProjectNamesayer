@@ -113,7 +113,7 @@ public class ListenMenuController {
                 Stage stage = (Stage) ratingsButton.getScene().getWindow();
                 Tooltip customTooltip = new CustomTooltip(stage, ratingsButton, "Please select a name!", null);
             } else {
-                PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName);
+                PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, selectedName, (Stage) backBtn.getScene().getWindow());
             }
         }
     }

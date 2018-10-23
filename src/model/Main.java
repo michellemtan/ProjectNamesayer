@@ -27,12 +27,11 @@ public class Main extends Application {
             //Create stage and scene for small alert regarding missing database
             SetUp.getInstance().startMenuController.buttonsOff(true);
             SetUp.getInstance().settingsMenuController.disableBack(true);
-            PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null);
+            PopupWindow p = new PopupWindow("model/views/MissingDB.fxml", false, null, primaryStage);
         }else if(f.listFiles() != null && Objects.requireNonNull(f.listFiles()).length >0 && Objects.requireNonNull(f.listFiles())[0].getName().endsWith(".wav")) {
             SetUp.getInstance().settingsMenuController.setNeedToProcessDefault(true);
         }
     }
-
 
     public static void main(String[] args) {
         launch(args);

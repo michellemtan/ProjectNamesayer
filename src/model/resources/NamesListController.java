@@ -179,7 +179,7 @@ public class NamesListController {
     @FXML
     void ratingButtonClicked(MouseEvent event) throws IOException {
         if (event.getButton() == MouseButton.PRIMARY) {
-            PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, creation.getFullName());
+            PopupWindow p = new PopupWindow("model/views/RatingsMessage.fxml", true, creation.getFullName(), (Stage) backBtn.getScene().getWindow());
         }
     }
 

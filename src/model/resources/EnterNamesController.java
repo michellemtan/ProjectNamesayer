@@ -10,8 +10,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -267,7 +265,7 @@ public class EnterNamesController {
         File saveDir = new File(System.getProperty("user.dir") + "/saved_playlists");
         saveDir.mkdir();
         if(getNamesList().size() >= 1) {
-            PopupWindow p = new PopupWindow("model/views/SavePlaylist.fxml", true, "");
+            PopupWindow p = new PopupWindow("model/views/SavePlaylist.fxml", true, "", (Stage) practiceButton.getScene().getWindow());
         }
     }
 

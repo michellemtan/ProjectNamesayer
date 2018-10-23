@@ -10,10 +10,10 @@ import java.io.IOException;
 public class PopupWindow {
 
     private AbstractController popupController;
+    private Stage popupStage;
 
-    //TODO: can close main stage and this stage stays open
 
-    public PopupWindow(String fxml, boolean setUpRequired, String name) throws IOException {
+    public PopupWindow(String fxml, boolean setUpRequired, String name, Stage mainStage) throws IOException {
         //Load the popup window and set the controller
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxml));
         Scene scene = null;
@@ -30,8 +30,10 @@ public class PopupWindow {
             popupController.setUp(name);
         }
 
+        mainStage.setOnCloseRequest(e -> popupStage.close());
+
         //Set the style of the popup window controller and give access to the popup stage (to allow the controller to close the stage)
-        Stage popupStage = new Stage();
+        popupStage = new Stage();
         popupStage.initStyle(StageStyle.UNDECORATED);
         popupController.setStage(popupStage);
         popupStage.setScene(scene);
