@@ -216,11 +216,9 @@ public class CompareMenuController {
         service.start();
     }
 
-    private void trimSilence() throws InterruptedException, IOException, UnsupportedAudioFileException {
+    private void trimSilence() throws IOException, UnsupportedAudioFileException {
         recorded = true;
-        Thread.sleep(400);
         String command = " ffmpeg -y -i recorded_names/"+ fileName +".wav -af silenceremove=0:0:0:-1:0.5:-35dB recorded_names/"+ fileName +"_trim.wav";
-        Thread.sleep(400);
         File file = new File("recorded_names/" + fileName + ".wav");
         DatabaseProcessor.trimAudio(command);
         recordedMedia = new Media(new File("./recorded_names/" + fileName +"_trim.wav").toURI().toString());
@@ -263,7 +261,7 @@ public class CompareMenuController {
                         delay.setOnFinished(event -> {
                             try {
                                 trimSilence();
-                            } catch (InterruptedException | IOException | UnsupportedAudioFileException e) {
+                            } catch (IOException | UnsupportedAudioFileException e) {
                                 System.out.println("Error trimming silence");
                             }
                             //Enable buttons after recording has finished
