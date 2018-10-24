@@ -278,6 +278,9 @@ public class EnterNamesController {
         saveDir.mkdir();
         if(getNamesList().size() >= 1) {
             PopupWindow p = new PopupWindow("app/views/SavePlaylist.fxml", true, "");
+        } else {
+            Tooltip customTooltip = new CustomTooltip((Stage) practiceButton.getScene().getWindow(), saveBtn, "No valid names to save!", null);
+
         }
     }
 
@@ -326,11 +329,19 @@ public class EnterNamesController {
                 }
             }
 
-        //Change to practice menu and set the path to have come from the enter names menu
-        SetUp.getInstance().practiceMenuController.setUpList(tempNames);
-        Scene scene = SetUp.getInstance().practiceMenu;
-        Stage window = (Stage) expandButton.getScene().getWindow();
-        window.setScene(scene);
+            if(tempNames.size() < 1) {
+                practiceButton.setDisable(true);
+
+                //Show tool tip when no valid names entered
+                Tooltip customTooltip = new CustomTooltip((Stage) practiceButton.getScene().getWindow(), practiceButton, "Please enter a valid name!", null);
+
+            } else {
+                //Change to practice menu and set the path to have come from the enter names menu
+                SetUp.getInstance().practiceMenuController.setUpList(tempNames);
+                Scene scene = SetUp.getInstance().practiceMenu;
+                Stage window = (Stage) expandButton.getScene().getWindow();
+                window.setScene(scene);
+            }
         }
     }
 

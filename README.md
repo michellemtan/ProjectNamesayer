@@ -1,17 +1,11 @@
-
-                 ___     __            ___  __  
-|\ |  /\   |\/| |__     /__`  /\  \ / |__  |__) 
-| \| /~~\  |  | |___    .__/ /~~\  |  |___ |  \ 
-                                                
-
- Welcome to Name Sayer!
+Welcome to Name Sayer!
 
 Name Sayer is a name pronounciation application designed and created by Rowan Hart and Michelle Tan (Group 24). It has been designed to improve users' pronounciation of difficult names, an important skill in an increasingly multicultural world.
 
 
  *Use*
 -------------------
-- To run Name Sayer, type `java -jar NameSayer.jar` into a terminal
+- To run Name Sayer, type `java -jar ProjectNameSayer.jar` into a terminal
 - For the default names database to work, the 'names' database must be in same working directory as Namesayer.jar file 
 - Bad quality ratings are stored in `AudioRatings.txt` in the current working directory
 - Attempts are stored in the `recorded_names` directory
@@ -25,6 +19,7 @@ Name Sayer is a name pronounciation application designed and created by Rowan Ha
 -------------------
 - Change Themes:       Change to three themes to suit their preference
 - Test Volume:         Test volume from the 'Settings' menu
+- Save Playlist:       Save playlist of entered names to a text file for later use
 - Add Database:        Add a database containing your students' names
 - Expandable Database: Easy to build names from the database
 - Tooltips:            For increased usability
