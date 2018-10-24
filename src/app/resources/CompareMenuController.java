@@ -48,13 +48,14 @@ public class CompareMenuController {
     private Media recordedMedia;
     private double length;
     private boolean recorded;
+    private boolean isStopped;
 
     //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
     void setUp(Creation c) {
         textLabel.setText(c.getFullName());
         this.creation = c;
         audioRecorded=0;
-
+        isStopped = false;
         //Disable all buttons until audio is recorded
         playPauseButton.setDisable(true);
         repeatButton.setDisable(true);
@@ -198,7 +199,7 @@ public class CompareMenuController {
     void recordButtonClicked() throws IOException {
         if (audioRecorded==0) {
             record();
-        } else {
+        } else if(!(isStopped && audioRecorded==1)) {
                 PopupWindow p = new PopupWindow("app/views/OverwriteRecordingMessage.fxml", true,null);
                 if (p.getController().getResult()){
                     record();
@@ -223,16 +224,16 @@ public class CompareMenuController {
 
         //Use a background thread to record audio files to prevent the GUI from freezing
         RecordAudioService service = new RecordAudioService();
-        service.setOnSucceeded(e -> {
-            audioRecorded++;
-        });
         service.start();
 
         //Kill the service
         recordButton.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             service.cancel();
+            audioRecorded++;
+            isStopped = true;
+            System.out.println(audioRecorded);
             recordButton.setText("Record");
-            progressBar.setProgress(1.0);
+            progressBar = new ProgressBar();
         });
     }
 
