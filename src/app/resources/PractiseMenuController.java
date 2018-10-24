@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -35,6 +36,9 @@ public class PractiseMenuController {
 
     //Run on switching to this menu
     void setUpList(List<String> list) throws IOException, UnsupportedAudioFileException {
+        //Create folder for recorded names
+        new File("./recorded_names").mkdir();
+
         //Listener to change label to selected name
         creationsListView.getSelectionModel().selectedItemProperty().addListener((obs, old, newI) -> creationName.setText(creationsListView.getSelectionModel().getSelectedItem()));
 

@@ -277,8 +277,6 @@ public class CompareMenuController {
                 @Override
                 protected Void call() {
 
-                    new File("./recorded_names").mkdir();
-
                     micButton.setDisable(true);
                     backButton.setDisable(true);
 
