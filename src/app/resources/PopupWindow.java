@@ -2,6 +2,7 @@ package app.resources;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -36,6 +37,7 @@ public class PopupWindow {
         popupStage.initStyle(StageStyle.UNDECORATED);
         popupController.setStage(popupStage);
         popupStage.setAlwaysOnTop(true);
+        popupStage.initModality(Modality.APPLICATION_MODAL);
         popupStage.setScene(scene);
         popupStage.showAndWait();
     }
