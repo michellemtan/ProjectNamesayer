@@ -283,11 +283,9 @@ public class EnterNamesController {
 
     //Method called when item in database list view is double clicked
     @FXML
-    private void doubleClicked(MouseEvent click) {
-        if (click.getClickCount() == 2) {
-            nameInput.setText(nameInput.getText() + databaseNamesListView.getSelectionModel().getSelectedItem() + " ");
-            filteredInput.clear();
-        }
+    private void doubleClicked() {
+        nameInput.setText(nameInput.getText() + databaseNamesListView.getSelectionModel().getSelectedItem() + " ");
+        filteredInput.clear();
     }
 
     //Call addButtonClicked if user presses enter from add name text field

@@ -94,6 +94,13 @@ public class ListenMenuController {
         }
     }
 
+    @FXML
+    private void doubleClick(MouseEvent click) throws IOException {
+        if (click.getClickCount() == 2) {
+            playSingleButtonClicked();
+        }
+    }
+
     //Helper method to bind timeline to progress bar
     private void progressBar() {
         try {
