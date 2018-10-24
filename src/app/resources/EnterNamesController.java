@@ -34,6 +34,7 @@ public class EnterNamesController {
     @FXML private SplitPane splitPane;
     @FXML private ListView<String> databaseNamesListView;
     @FXML private ListView<String> practiceNamesListView;
+    @FXML private Button loadFilesBtn;
     @FXML private TextField filteredInput;
     @FXML private Button expandButton;
     @FXML private Button practiceButton;
@@ -269,6 +270,8 @@ public class EnterNamesController {
                     practiceButton.setDisable(false);
                 }
             } catch (IOException ignored) {} //Ain't nobody got time for errors
+        } else {
+            Tooltip customTooltip = new CustomTooltip((Stage) practiceButton.getScene().getWindow(), loadFilesBtn, "Invalid file!", null);
         }
     }
 
