@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.resources.PopupWindow;
-import model.resources.SetUp;
 import app.resources.PopupWindow;
 import app.resources.SetUp;
 
