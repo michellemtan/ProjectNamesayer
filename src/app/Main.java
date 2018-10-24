@@ -27,7 +27,7 @@ public class Main extends Application {
             //Create stage and scene for small alert regarding missing database
             SetUp.getInstance().startMenuController.buttonsOff(true);
             SetUp.getInstance().settingsMenuController.disableBack(true);
-            PopupWindow p = new PopupWindow("app/views/MissingDB.fxml", false, null, primaryStage);
+            PopupWindow p = new PopupWindow("app/views/MissingDB.fxml", false, null);
         }else if(f.listFiles() != null && Objects.requireNonNull(f.listFiles()).length >0 && Objects.requireNonNull(f.listFiles())[0].getName().endsWith(".wav")) {
             SetUp.getInstance().settingsMenuController.setNeedToProcessDefault(true);
         }

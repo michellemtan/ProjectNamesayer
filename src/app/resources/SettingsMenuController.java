@@ -207,7 +207,7 @@ public class SettingsMenuController {
                     }
                 } else {
                     //Simple alert if selected database is invalid
-                    PopupWindow p = new PopupWindow("app/views/InvalidDB.fxml", true, "", (Stage) backBtn.getScene().getWindow());
+                    PopupWindow p = new PopupWindow("app/views/InvalidDB.fxml", true, "");
                 }
             }
         }

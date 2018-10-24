@@ -120,7 +120,7 @@ public class PractiseMenuController {
         String selectedName = creationsListView.getSelectionModel().getSelectedItem();
 
         if (event.getButton() == MouseButton.PRIMARY) {
-            PopupWindow p = new PopupWindow("app/views/RatingsMessage.fxml", true, selectedName, (Stage) backButton.getScene().getWindow());
+            PopupWindow p = new PopupWindow("app/views/RatingsMessage.fxml", true, selectedName);
         }
     }
 

@@ -13,7 +13,7 @@ public class PopupWindow {
     private Stage popupStage;
 
     //Constructor
-    public PopupWindow(String fxml, boolean setUpRequired, String name, Stage mainStage) throws IOException {
+    public PopupWindow(String fxml, boolean setUpRequired, String name) throws IOException {
         //Load the popup window and set the controller
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(fxml));
         Scene scene = null;
@@ -30,8 +30,6 @@ public class PopupWindow {
         if (setUpRequired){
             popupController.setUp(name);
         }
-
-        mainStage.setOnCloseRequest(e -> popupStage.close());
 
         //Set the style of the popup window controller and give access to the popup stage (to allow the controller to close the stage)
         popupStage = new Stage();

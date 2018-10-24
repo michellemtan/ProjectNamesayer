@@ -174,7 +174,7 @@ public class EnterNamesController {
     //Run on add button being pressed
     @FXML
     void addButtonClicked() {
-        String input = nameInput.getText();
+        String input = nameInput.getText().trim();
         if(input != null && input.length() > 51) {
             input = input.substring(0, 50);
         }
@@ -269,7 +269,7 @@ public class EnterNamesController {
         File saveDir = new File(System.getProperty("user.dir") + "/saved_playlists");
         saveDir.mkdir();
         if(getNamesList().size() >= 1) {
-            PopupWindow p = new PopupWindow("app/views/SavePlaylist.fxml", true, "", (Stage) practiceButton.getScene().getWindow());
+            PopupWindow p = new PopupWindow("app/views/SavePlaylist.fxml", true, "");
         }
     }
 
