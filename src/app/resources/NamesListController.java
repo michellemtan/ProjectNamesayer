@@ -165,13 +165,15 @@ public class NamesListController {
 
         String[] split = fullName.replaceAll("-", "- ").split("[\\s]");
 
-        ObservableList<String> options = FXCollections.observableArrayList();
+        List<String> options = new ArrayList<>();
 
         //Add split to options list
         Collections.addAll(options, split);
+        //Linked hash set does not allow duplicates
+        Set<String> set = new LinkedHashSet<>(options);
 
         //Set the combo box with options
-        nameMenu.getItems().setAll(options);
+        nameMenu.getItems().setAll(set);
         nameMenu.getSelectionModel().selectFirst();
 
         //Add listener to listview

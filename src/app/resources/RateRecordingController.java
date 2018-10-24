@@ -12,6 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class RateRecordingController extends AbstractController {
 
@@ -77,8 +79,12 @@ public class RateRecordingController extends AbstractController {
             }
         }
 
+        //Linked hash set does not allow duplicates
+        Set<String> set = new LinkedHashSet<>(nameChoices);
+
+
         //Set the names box with choices
-        namesBox.getItems().setAll(nameChoices);
+        namesBox.getItems().setAll(set);
 
         //Set first item of each box to be default
         namesBox.getSelectionModel().selectFirst();
