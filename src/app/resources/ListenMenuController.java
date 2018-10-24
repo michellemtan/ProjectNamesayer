@@ -94,6 +94,7 @@ public class ListenMenuController {
         }
     }
 
+    //Helper method to play name if double clicked
     @FXML
     private void doubleClick(MouseEvent click) throws IOException {
         if (click.getClickCount() == 2) {
