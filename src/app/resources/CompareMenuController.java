@@ -313,10 +313,10 @@ public class CompareMenuController {
 
         if (textField.getText().equals("")) {
             //Show tool tip when nothing has been entered
-            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5!", null);
+            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 3!", null);
         } else if (!isNumeric(textField.getText())){
             //Show tool tip when a non-valid integer has been entered
-            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 5", null);
+            Tooltip customTooltip = new CustomTooltip(stage, repeatButton, "Please enter a number up to 3", null);
         } else if(textField.getText() != null && !textField.getText().isEmpty()) {
             List<Media> repeatList = new ArrayList<>();
             int repeat = Integer.parseInt(textField.getText());
@@ -383,6 +383,6 @@ public class CompareMenuController {
 
         if (str.equals("0")){
             return false;
-        } else return Integer.parseInt(textField.getText()) <= 5;
+        } else return Integer.parseInt(textField.getText()) <= 3;
     }
 }
