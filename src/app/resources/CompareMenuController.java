@@ -64,6 +64,7 @@ public class CompareMenuController {
     @FXML
     void backButtonClicked() throws IOException {
         recorded = false;
+        progressBar.setProgress(0.0);
         Scene scene = SetUp.getInstance().practiceMenu;
         Stage window = (Stage) backButton.getScene().getWindow();
         window.setScene(scene);
@@ -209,7 +210,6 @@ public class CompareMenuController {
     //Simple helper method to record audio
     private void record() {
         //Disable all buttons
-        recordButton.setDisable(true);
         micButton.setDisable(true);
         backButton.setDisable(true);
         listButton.setDisable(true);
@@ -217,12 +217,23 @@ public class CompareMenuController {
         playPauseButton.setDisable(true);
         repeatButton.setDisable(true);
         ratingButton.setDisable(true);
+
+        //Set record button ready to be stopped
+        recordButton.setText("Stop ◼");
+
         //Use a background thread to record audio files to prevent the GUI from freezing
         RecordAudioService service = new RecordAudioService();
         service.setOnSucceeded(e -> {
             audioRecorded++;
         });
         service.start();
+
+        //Kill the service
+        recordButton.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
+            service.cancel();
+            recordButton.setText("Record");
+            progressBar.setProgress(1.0);
+        });
     }
 
     //Trim silence method called upon audio being recorded
@@ -257,7 +268,6 @@ public class CompareMenuController {
 
                     new File("./recorded_names").mkdir();
 
-                    recordButton.setDisable(true);
                     micButton.setDisable(true);
                     backButton.setDisable(true);
 
@@ -276,7 +286,6 @@ public class CompareMenuController {
                                 System.out.println("Error trimming silence");
                             }
                             //Enable buttons after recording has finished
-                            recordButton.setDisable(false);
                             micButton.setDisable(false);
                             backButton.setDisable(false);
                             listButton.setDisable(false);
@@ -284,6 +293,7 @@ public class CompareMenuController {
                             playPauseButton.setDisable(false);
                             repeatButton.setDisable(false);
                             ratingButton.setDisable(false);
+                            recordButton.setText("Record");
                         });
 
                     } catch (IOException e) {
