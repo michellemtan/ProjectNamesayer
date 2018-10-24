@@ -6,6 +6,8 @@ import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -72,6 +74,16 @@ public class EnterNamesController {
             });
             cell.textProperty().bind(cell.itemProperty());
             return cell;
+        });
+
+        //Set character limit on name input text field
+        nameInput.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (nameInput.getText().length() > 50) {
+                    nameInput.setText(nameInput.getText().substring(0,50));
+                }
+            }
         });
 
         //Disable tooltip when list is empty
@@ -296,9 +308,6 @@ public class EnterNamesController {
     private void enterName(KeyEvent e) {
         if(e.getCode() == KeyCode.ENTER) {
             addButtonClicked();
-        } else if(nameInput.getText().length() >= 50) {
-            //50 character limit (of sorts)
-            nameInput.setText(nameInput.getText().substring(0, Math.min(nameInput.getText().length(), 50)));
         }
     }
 
