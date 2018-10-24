@@ -220,7 +220,7 @@ public class CompareMenuController {
         playPauseButton.setDisable(true);
         repeatButton.setDisable(true);
         ratingButton.setDisable(true);
-        
+
         //Disable buttons and start progress bar via timeline
         timelineRecord = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(recordProgressBar.progressProperty(), 0)),
