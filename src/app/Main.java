@@ -2,13 +2,9 @@ package app;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import model.resources.PopupWindow;
-import model.resources.SetUp;
 import app.resources.PopupWindow;
 import app.resources.SetUp;
 
@@ -18,7 +14,7 @@ import java.util.Objects;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
         Scene scene = SetUp.getInstance().startMenu; //Load menu scene
         primaryStage.setTitle("Name Sayer");
         primaryStage.getIcons().add(new Image("/app/resources/images/icon.png"));
@@ -38,12 +34,9 @@ public class Main extends Application {
         }
 
         //If main stage is closed, close all other pop ups
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                Platform.exit();
-                System.exit(0);
-            }
+        primaryStage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
         });
         primaryStage.show();
     }
