@@ -46,6 +46,8 @@ public class CompareMenuController {
     private String fileName;
     private Creation creation;
     private Media recordedMedia;
+    private RecordAudioService service;
+    private Timeline timelineRecord;
     private double length;
     private boolean recorded;
 
@@ -199,10 +201,10 @@ public class CompareMenuController {
         if (audioRecorded==0) {
             record();
         } else {
-                PopupWindow p = new PopupWindow("app/views/OverwriteRecordingMessage.fxml", true,null);
-                if (p.getController().getResult()){
-                    record();
-                }
+            PopupWindow p = new PopupWindow("app/views/OverwriteRecordingMessage.fxml", true,null);
+            if (p.getController().getResult()){
+                record();
+            }
             }
         backButton.setDisable(true);
     }
@@ -210,6 +212,7 @@ public class CompareMenuController {
     //Simple helper method to record audio
     private void record() {
         //Disable all buttons
+        recordButton.setDisable(true);
         micButton.setDisable(true);
         backButton.setDisable(true);
         listButton.setDisable(true);
@@ -218,22 +221,22 @@ public class CompareMenuController {
         repeatButton.setDisable(true);
         ratingButton.setDisable(true);
 
-        //Set record button ready to be stopped
-        recordButton.setText("Stop ◼");
-
+        //Disable buttons and start progress bar via timeline
+        timelineRecord = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(recordProgressBar.progressProperty(), 0)),
+                new KeyFrame(Duration.seconds(5), new KeyValue(recordProgressBar.progressProperty(), 1))
+        );
         //Use a background thread to record audio files to prevent the GUI from freezing
-        RecordAudioService service = new RecordAudioService();
+        service = new RecordAudioService();
         service.setOnSucceeded(e -> {
             audioRecorded++;
         });
         service.start();
 
-        //Kill the service
-        recordButton.addEventHandler(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
-            service.cancel();
-            recordButton.setText("Record");
-            progressBar.setProgress(1.0);
-        });
+        //Play timeline
+        timelineRecord.setCycleCount(1);
+        timelineRecord.play();
+
     }
 
     //Trim silence method called upon audio being recorded
@@ -258,13 +261,6 @@ public class CompareMenuController {
             return new Task<Void>() {
                 @Override
                 protected Void call() {
-                    //Disable buttons and start progress bar via timeline
-                    Timeline timeline = new Timeline(
-                            new KeyFrame(Duration.ZERO, new KeyValue(recordProgressBar.progressProperty(), 0)),
-                            new KeyFrame(Duration.seconds(5), new KeyValue(recordProgressBar.progressProperty(), 1))
-                    );
-                    timeline.setCycleCount(1);
-                    timeline.play();
 
                     new File("./recorded_names").mkdir();
 
@@ -290,10 +286,10 @@ public class CompareMenuController {
                             backButton.setDisable(false);
                             listButton.setDisable(false);
                             playExistingButton.setDisable(false);
+                            recordButton.setDisable(false);
                             playPauseButton.setDisable(false);
                             repeatButton.setDisable(false);
                             ratingButton.setDisable(false);
-                            recordButton.setText("Record");
                         });
 
                     } catch (IOException e) {

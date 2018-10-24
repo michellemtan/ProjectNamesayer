@@ -175,7 +175,7 @@ public class EnterNamesController {
     @FXML
     void addButtonClicked() {
         String input = nameInput.getText().trim().replaceAll(" +", " ");
-        if(input != null && input.length() > 51) {
+        if(input.length() > 51) {
             input = input.substring(0, 50);
         }
         //If input ends with many hashes
