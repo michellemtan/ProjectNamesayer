@@ -34,7 +34,7 @@
                         <Insets left="15.0" top="15.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label text="Practice List" translateX="280.0">
+                  <Label text="Create Practice List" translateX="240.0">
                      <font>
                         <Font name="Ubuntu Bold" size="39.0" />
                      </font>

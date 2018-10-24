@@ -188,9 +188,8 @@ public class NamesListController {
         });
 
         //Add listener to combo option box
-        nameMenu.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (nameMenu.getSelectionModel().getSelectedIndex()<0){
-                playButton.setDisable(true);
+        nameListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (nameListView.getItems().size()==1){
                 setDefaultBtn.setDisable(true);
             } else {
                 playButton.setDisable(false);

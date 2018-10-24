@@ -219,9 +219,11 @@ public class CompareMenuController {
             PopupWindow p = new PopupWindow("app/views/OverwriteRecordingMessage.fxml", true,null);
             if (p.getController().getResult()){
                 record();
+                backButton.setDisable(true);
+            } else {
+                backButton.setDisable(false);
             }
-            }
-        backButton.setDisable(true);
+        }
     }
 
     //Simple helper method to record audio
