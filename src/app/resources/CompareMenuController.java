@@ -11,6 +11,8 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -311,6 +313,14 @@ public class CompareMenuController {
                     return null;
                 }
             };
+        }
+    }
+
+    //Call repeat button clicked if user presses enter from add name text field
+    @FXML
+    private void enterName(KeyEvent e) throws IOException {
+        if(e.getCode() == KeyCode.ENTER) {
+            repeatButtonClicked();
         }
     }
 

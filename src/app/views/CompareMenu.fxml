@@ -99,7 +99,7 @@
                      </children>
                   </StackPane>
                   <Button fx:id="repeatButton" mnemonicParsing="false" onMouseClicked="#repeatButtonClicked" prefHeight="35.0" prefWidth="84.0" text="Repeat ↺" translateX="-53.0" translateY="-20.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-                  <TextField fx:id="textField" maxWidth="39.0" minHeight="18.0" minWidth="10.0" prefHeight="35.0" prefWidth="39.0" promptText="3" translateX="-15.0" translateY="-20.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+                  <TextField fx:id="textField" maxWidth="39.0" minHeight="18.0" minWidth="10.0" onKeyPressed="#enterName" prefHeight="35.0" prefWidth="39.0" promptText="3" translateX="-15.0" translateY="-20.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
                </children>
             </GridPane>
          </children>
