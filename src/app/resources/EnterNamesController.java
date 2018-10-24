@@ -174,7 +174,7 @@ public class EnterNamesController {
     //Run on add button being pressed
     @FXML
     void addButtonClicked() {
-        String input = nameInput.getText().trim();
+        String input = nameInput.getText().trim().replaceAll(" +", " ");
         if(input != null && input.length() > 51) {
             input = input.substring(0, 50);
         }
@@ -186,6 +186,14 @@ public class EnterNamesController {
         if(!input.isEmpty()) {
             //Check if added name is available
             String[] split = input.replaceAll("-", "- ").split("[\\s]");
+            List<String> listNames = new ArrayList<>();
+            for(String string : split) {
+                if(!string.equals("")) {
+                    listNames.add(string);
+                }
+            }
+            split = listNames.toArray(new String[0]);
+
             for(int i=0; i<split.length; i++) {
                 split[i] = split[i].substring(0, 1).toUpperCase() + split[i].substring(1).toLowerCase();
                 if(!allNames.contains(split[i].replaceAll("-", ""))) {
