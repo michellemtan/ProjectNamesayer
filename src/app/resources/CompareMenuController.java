@@ -4,6 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -54,6 +56,17 @@ public class CompareMenuController {
     //Method invoked whenever this scene is switched to, fills list with existing files that can be compared to
     void setUp(Creation c) {
         textLabel.setText(c.getFullName());
+
+        //Add character limit to text field
+        textField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(final ObservableValue<? extends String> ov, final String oldValue, final String newValue) {
+                if (textField.getText().length() > 1) {
+                    textField.setText(textField.getText().substring(0,1));
+                }
+            }
+        });
+
         this.creation = c;
         audioRecorded=0;
 
