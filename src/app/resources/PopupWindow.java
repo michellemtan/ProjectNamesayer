@@ -35,6 +35,7 @@ public class PopupWindow {
         popupStage = new Stage();
         popupStage.initStyle(StageStyle.UNDECORATED);
         popupController.setStage(popupStage);
+        popupStage.setAlwaysOnTop(true);
         popupStage.setScene(scene);
         popupStage.showAndWait();
     }
