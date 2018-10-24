@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchor" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="app.resources.EnterNamesController">
+<AnchorPane fx:id="mainAnchor" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.resources.EnterNamesController">
    <children>
       <VBox prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -48,7 +48,7 @@
                         <TextField fx:id="filteredInput" layoutX="35.0" layoutY="46.0" onKeyPressed="#clearTextField" prefHeight="26.0" prefWidth="223.0" promptText="Search..." translateY="-10.0" />
                         <ListView fx:id="databaseNamesListView" layoutX="35.0" layoutY="62.0" onKeyPressed="#enterName" onMouseClicked="#doubleClicked" prefHeight="331.0" prefWidth="223.0">
                            <tooltip>
-                              <Tooltip text="Double-click a name to build!" wrapText="true" />
+                              <Tooltip text="Click a name to build!" wrapText="true" />
                            </tooltip></ListView>
                         <Label fx:id="dbName" layoutX="35.0" layoutY="22.0" text="names_db" translateY="-10.0">
                            <font>
